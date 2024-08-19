@@ -1,4 +1,8 @@
 {
   "name": "RNAdmob",
-  "displayName": "RNAdmob"
+  "displayName": "RNAdmob",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
+    "ios_app_id": "ca-app-pub-3781511156022357~6306999147"
+  }
 }

@@ -15,8 +15,10 @@ if linkage != nil
 end
 
 target 'RNAdmob' do
-  config = use_native_modules!
+  # Use the version required by RNGoogleMobileAds
+  pod 'Google-Mobile-Ads-SDK', '= 11.7.0'
 
+  config = use_native_modules!
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
