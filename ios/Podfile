@@ -16,7 +16,17 @@ end
 
 target 'RNAdmob' do
   # Use the version required by RNGoogleMobileAds
-  pod 'Google-Mobile-Ads-SDK', '= 11.7.0'
+  pod 'Google-Mobile-Ads-SDK', '= 11.5.0'
+
+  # Specify the compatible version for GoogleUserMessagingPlatform
+  pod 'GoogleUserMessagingPlatform', '2.4.0'
+
+  # Adding Pkg RNIap
+  pod 'RNIap', :path => '../node_modules/react-native-iap'
+
+  # Adding Pkg rn-fetch-blob
+  pod 'react-native-blob-util',
+    :path => '../node_modules/react-native-blob-util'
 
   config = use_native_modules!
   use_react_native!(
