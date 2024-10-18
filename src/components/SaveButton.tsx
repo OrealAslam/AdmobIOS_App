@@ -2,11 +2,12 @@ import {
   TouchableOpacity,
   Vibration,
   Dimensions,
-  ToastAndroid,
   ActivityIndicator,
   Text,
+  Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   REPORT_TYPES,
   add_report,
@@ -29,6 +30,7 @@ export default function SaveButton(props: any) {
   };
 
   const saveRecord = async () => {
+
     setloader(true);
     if (props.screenname == 'BloodPressure') {
       // if ((props.systolicpressure < props.diastolicpressure) || (props.systolicpressure == props.diastolicpressure)) {
@@ -41,33 +43,36 @@ export default function SaveButton(props: any) {
       //     ToastAndroid.CENTER,
       //   );
       // } else {
-        props.setmessage(false);
-        let choosenDate =
-          props.selectedDate == '' ? props.today : props.selectedDate;
-        let datetime =
-          choosenDate + ' ' + moment(props.time).format('HH:mm:ss');
+      props.setmessage(false);
+      let choosenDate =
+        props.selectedDate == '' ? props.today : props.selectedDate;
+      let datetime =
+        choosenDate + ' ' + moment(props.time).format('HH:mm:ss');
 
-        let data = {
-          report_type: REPORT_TYPES.bp,
-          systolic_pressure: props.systolicpressure,
-          diastolic_pressure: props.diastolicpressure,
-          pulse: props.pulse,
-          note: props.note,
-          datetime: datetime,
-          status: props.pressurelevel,
-        };
-        let response = await add_report(data);
-        if (response) {
-          await set_async_data('record_entry', 'record_entered');
-          let sys = props.systolicpressure.toString();
-          let dis = props.diastolicpressure.toString();
-          let saveData = sys + `/` + dis;
+      let data = {
+        report_type: REPORT_TYPES.bp,
+        systolic_pressure: props.systolicpressure,
+        diastolic_pressure: props.diastolicpressure,
+        pulse: props.pulse,
+        note: props.note,
+        datetime: datetime,
+        status: props.pressurelevel,
+      };
+      let response = await add_report(data);
+      if (response) {
+        await set_async_data('record_entry', 'record_entered');
+        let sys = props.systolicpressure.toString();
+        let dis = props.diastolicpressure.toString();
+        let saveData = sys + `/` + dis;
+        await set_async_data('record_bp', saveData.toString());
+        setloader(false);
+        if (props.hidead.toString() == 'false') {
           props.setsave(true);
-          await set_async_data('record_bp', saveData.toString());
-          setloader(false);
         } else {
-          props.setsave(true);
+          props.setsave(false);
+          await props._continue();
         }
+      }
       // }
     }
     if (props.screenname == 'BloodSugar') {
@@ -86,10 +91,15 @@ export default function SaveButton(props: any) {
       };
       let response = await add_report(data);
       if (response) {
-        props.setsave(true);
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_bs', props.sugarconcentration.toString());
         setloader(false);
+        if (props.hidead.toString() == 'false') {
+          props.setsave(true);
+        } else {
+          props.setsave(false);
+          await props._continue();
+        }
       }
     }
     if (props.screenname == 'Temperature') {
@@ -102,10 +112,8 @@ export default function SaveButton(props: any) {
         // props.setloader(true);
         if (props.tempunit == '°C') {
           if (props.temperature > 38 || props.temperature < 36) {
-            ToastAndroid.showWithGravity(
+            Alert.alert(
               'Must be within 36.1 ~ 38',
-              ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
             );
             // props.setloader(false);
             setloader(false);
@@ -123,21 +131,24 @@ export default function SaveButton(props: any) {
 
             let response = await add_report(data);
             if (response) {
-              // props.setloader(false);
               setloader(false);
-              props.setsave(true);
               let e = props.temperature + props.tempunit;
               await set_async_data('record_temp', e.toString());
-              props.return.navigate('TemperatureResultScreen');
+              setloader(false);
+              if (props.hidead.toString() == 'false') {
+                props.setsave(true);
+              } else {
+                props.setsave(false);
+                await props._continue();
+              }
+              // props.return.navigate('TemperatureResultScreen');
             }
           }
         }
         if (props.tempunit == '°F') {
           if (props.temperature > 104 || props.temperature < 96) {
-            ToastAndroid.showWithGravity(
-              'Must be within 96 ~ 104',
-              ToastAndroid.SHORT,
-              ToastAndroid.CENTER,
+            Alert.alert(
+              'Must be within 96 ~ 104'
             );
             // props.setloader(false);
             setloader(false);
@@ -157,10 +168,16 @@ export default function SaveButton(props: any) {
             if (response) {
               // props.setloader(false);
               setloader(false);
-              props.setsave(true);
               let e = props.temperature + props.tempunit;
               await set_async_data('record_temp', e.toString());
-              props.return.navigate('TemperatureResultScreen');
+              setloader(false);
+              if (props.hidead.toString() == 'false') {
+                props.setsave(true);
+              } else {
+                props.setsave(false);
+                await props._continue();
+              }
+              // props.return.navigate('TemperatureResultScreen');
             }
           }
         }
@@ -179,10 +196,41 @@ export default function SaveButton(props: any) {
       };
       let response = await add_report(data);
       if (response) {
-        props.setsave(true);
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_bmi', props.bmi.toString());
         setloader(false);
+        if (props.hidead.toString() == 'false') {
+          props.setsave(true);
+        } else {
+          props.setsave(false);
+          await props._continue();
+        }
+      }
+    }
+    if (props.screenname == 'HeartRate') {
+      props.setmessage(false);
+      // props.setloader(true);
+      let choosenDate =
+        props.selectedDate == '' ? props.today : props.selectedDate;
+      let datetime = choosenDate + ' ' + moment(props.time).format('HH:mm:ss');
+      let data = {
+        report_type: REPORT_TYPES.heartRate,
+        heartRate: props.heartRate,
+        datetime: datetime,
+        status: props.result,
+      };
+
+      let response = await add_report(data);
+      if (response) {
+        setloader(false);
+        await set_async_data('record_entry', 'record_entered');
+        await set_async_data('record_heart_rate', props.heartRate.toString());
+        if (props.hidead.toString() == 'false') {
+          props.setsave(true);
+        } else {
+          props.setsave(false);
+          await props._continue();
+        }
       }
     }
   };
@@ -196,24 +244,20 @@ export default function SaveButton(props: any) {
           style={{ marginTop: 40 }}
         />
       ) : (
-        <TouchableOpacity
-          disabled={props.disablesavebtn}
-          onPress={saveRecord}
-          style={{
-            width: btnWidth,
-            height: 200 * btnratio,
-            alignSelf: 'center',
-            position: 'absolute',
-            bottom: '10%',
-            backgroundColor: '#009f8b',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 6,
-          }}>
-          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-            {props.langstr.main.save}
-          </Text>
-        </TouchableOpacity>
+        <LinearGradient onTouchEnd={saveRecord} colors={['#7ADC57', '#5DC983']} style={{
+          width: '80%',
+          height: 220 * btnratio,
+          alignSelf: 'center',
+          position: 'absolute',
+          bottom: '7%',
+          backgroundColor: '#009f8b',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 36,
+        }} start={{ x: 0, y: 0 }}
+          end={{ x: 2, y: 2 }}>
+          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Bold', color: '#fff', fontWeight: '700' }}>{props.langstr.main.save}</Text>
+        </LinearGradient>
       )}
     </>
   );

@@ -1,5 +1,6 @@
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as RNIap from 'react-native-iap';
 //import messaging from '@react-native-firebase/messaging';
 export const APPID = 3; // TEST APPID=3, LIVE APPID=4
 export const AWS_S3_URL = 'https://cvmakeruserimages.s3.amazonaws.com/blogs/';
@@ -128,6 +129,24 @@ export const get_report = async (reportType: string) => {
       });
       return reportData;
     }
+
+    if (reportType == 'temperature') {
+      storedData.map((data: any, index: any) => {
+        if (data.report_type == 'temperature') {
+          reportData.push(data);
+        }
+      });
+      return reportData;
+    }
+
+    if (reportType == 'heart_rate') {
+      storedData.map((data: any, index: any) => {
+        if (data.report_type == 'heart_rate') {
+          reportData.push(data);
+        }
+      });
+      return reportData;
+    }
   }
   return reportData;
 };
@@ -229,6 +248,10 @@ const arrange_data_for_graph = (record: any, reportType: any) => {
   let label: any = [];
   let result: any = [];
   let bmi: any = [];
+  let temperature: any = [];
+  let heart_rate: any = [];
+
+  console.log(record);
 
   if (reportType == 'bp') {
     record.forEach((entry: any) => {
@@ -265,6 +288,30 @@ const arrange_data_for_graph = (record: any, reportType: any) => {
     data['data'] = bmi;
     data['label'] = label;
     data['result'] = result;
+    return data;
+  }
+  if (reportType == 'temperature') {
+    record.forEach((entry: any) => {
+      if (entry.report_type == 'temperature') {
+        temperature.push(entry.temperature);
+        label.push(entry.datetime);
+        result.push(entry.status);
+      }
+    });
+    data['data'] = temperature;
+    data['label'] = label;
+    data['result'] = result;
+    return data;
+  }
+  if (reportType == 'heartRate') {
+    record.forEach((entry: any) => {
+      if (entry.report_type == 'heart_rate') {
+        heart_rate.push(entry.heartRate);
+        label.push(entry.datetime);
+      }
+    });
+    data['data'] = heart_rate;
+    data['label'] = label;
     return data;
   }
 }
@@ -389,6 +436,7 @@ export const errorMessage = () => {
 };
 
 export const remarks = (systolicpressure: any, diastolicpressure: any) => {
+
   if (systolicpressure != '' && diastolicpressure != '') {
     return;
   }
@@ -533,28 +581,77 @@ export const subMonth = (month: any) => {
   }
 };
 
+export const generate_table_as_pdf = async () => {
+  let bpData = await get_report('bp');
+  let sugarData = await get_report('sugar');
+  let bmiData = await get_report('bmi');
 
+  return [bpData, sugarData, bmiData];
+}
 
+//---------------------------------------------- AVAILABLE PURCHASE ---------------------------------------------
 
-// Function to handle the purchase process
-// const handlePurchase = async (productId) => {
-//   try {
-//     const purchase = await requestPurchase(productId);
+export const fetchAvailablePurchases = async (isConnected:any) => {
+  if(!isConnected) {
+    let subscription = [];
+    subscription = await get_async_data('subscription');
+    if(subscription == null || subscription == undefined) {
+      await set_async_data('subscription', []);
+    }
+    return subscription;
+  } else {
+    try {
+      // Initialize the IAP connection
+      await RNIap.initConnection();
+      // Get all available purchases
+      const availablePurchases = await RNIap.getAvailablePurchases();
+      set_async_data('subscription', availablePurchases);
+      await RNIap.endConnection();
+      return availablePurchases;
+    } catch (error) {
+      console.error('Error fetching available purchases:', error);
+      Alert.alert('Error', 'Could not retrieve available purchases');
+    } finally {
+      // End the IAP connection after completing the process
+      console.log('ending connection here');
+      await RNIap.endConnection();
+    }
+  }
+};
 
-//     // Complete the transaction (important!)
-//     if (Platform.OS === 'android') {
-//       await finishTransaction(purchase, true);
-//     } else if (Platform.OS === 'ios') {
-//       await finishTransaction(purchase);
+export const disableAds = async () => {
+  let purchase = await get_async_data('subscription');
+  console.log(purchase);
+  if(parseInt(purchase.length) > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// const checkSubscriptionStatus = async () => {
+//   const { isConnected } = useNetInfo();
+//   if (!isConnected) {
+//     // Device is offline, check the stored subscription data
+//     const subscription = await get_async_data('subscription');
+//     if (subscription && subscription.expiryDate) {
+//       const currentDate = new Date();
+//       const expiryDate = new Date(subscription.expiryDate);
+      
+//       if (expiryDate > currentDate) {
+//         console.log('Subscription is active.');
+//         return true; // Subscription is active
+//       } else {
+//         console.log('Subscription has expired.');
+//         return false; // Subscription has expired
+//       }
+//     } else {
+//       console.log('No subscription data found.');
+//       return false; // No subscription data found
 //     }
-
-//     Alert.alert('Purchase Success', `You have successfully purchased ${productId}`);
-//   } catch (error) {
-//     console.error('Purchase error', error);
-//     Alert.alert('Purchase Error', 'Failed to make the purchase. Please try again.');
+//   } else {
+//     console.log('Device is online. Perform normal subscription validation.');
+//     // Device is online, perform usual subscription validation with react-native-iap
+//     // For example, fetch available purchases
 //   }
 // };
-
-// if (loading) {
-//   return <Text>Loading products...</Text>;
-// }

@@ -3,23 +3,21 @@ import React from 'react';
 const { width } = Dimensions.get('screen');
 
 const CalorieButton = ({ data, navigate }) => {
-    
+
     const _renderButton = () => {
         if (data.length > 0) {
             let jsx = data.map((item, index) => {
                 return (
-                    <View style={styles.button} key={index}>
+                    <TouchableOpacity onPress={() => navigate(item.type)} style={styles.button} key={index}>
                         <View style={styles.column}>
-                            <Text>{item.type}</Text>
+                            <Text style={{ color: '#5E9368', fontSize: 14, fontWeight: '700' }}>{item.type}</Text>
                         </View>
 
                         <View style={[styles.column, styles.column2]}>
                             <Text>{item.calorie} kcal</Text>
-                            <TouchableOpacity onPress={()=>navigate(item.type)}>
-                                <Image style={{ width: 28, height: 28 }} source={require('../assets/icons/add_calorie.png')} />
-                            </TouchableOpacity>
+                            <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/add_calorie.png')} />
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 )
             });
             return jsx;
@@ -41,11 +39,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         alignSelf: 'center',
-        backgroundColor: '#F3F3F3',
-        borderRadius: 5,
+        backgroundColor: '#ffffff',
+        borderRadius: 10,
         paddingVertical: 10,
         paddingHorizontal: 15,
         marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#C9E9BC'
     },
     column: {
         width: '60%',

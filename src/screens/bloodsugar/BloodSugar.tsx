@@ -5,15 +5,15 @@ import {
   View,
   Text,
   Dimensions,
-  Image,
   ScrollView,
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  BackHandler,
   SafeAreaView,
+  Image
 } from 'react-native';
 import {
+  disableAds,
   duration,
   errorMessage,
   roundNearestAfterDecimal,
@@ -39,6 +39,7 @@ const iconWidth = width - width * 0.7;
 const iconRatio = iconWidth / 372;
 
 export default function BloodSugar({navigation}: {navigation: any}) {
+  const [hidead, sethidead] = useState(true);
   const today = moment(new Date()).format('YYYY-MM-DD');
   const {container, form, label} = addFormStyle;
   const [selectedDate, setSelectedDate] = useState('');
@@ -56,7 +57,6 @@ export default function BloodSugar({navigation}: {navigation: any}) {
   const [result, setresult] = useState('Normal');
   const [chartPercentage, setchartPercentage] = useState(36);
   // const [loader, setloader] = useState(false);
-  const [closeloader, setcloseloader] = useState(false);
   const [disablesavebtn, setdisablesavebtn] = useState(false);
   const [show, setshow] = useState(false);
   const [save, setsave] = useState(false);
@@ -115,17 +115,6 @@ export default function BloodSugar({navigation}: {navigation: any}) {
     },
   });
 
-  const backAction = () => {
-    setcloseloader(true);
-    // navigation.navigate('HomeScreen', {tab: 'home'});
-    return true;
-  };
-
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
-
   const onChangeTime = (event: DateTimePickerEvent, value: any) => {
     const {type} = event;
     setTimePicker(false);
@@ -139,6 +128,8 @@ export default function BloodSugar({navigation}: {navigation: any}) {
       try {
         // await analytics().logEvent('add_blood_sugar_screen');
         let lan = await lang();
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -227,24 +218,25 @@ export default function BloodSugar({navigation}: {navigation: any}) {
 
   const _continue = async () => {
     try {
-      setcloseloader(false);
       if(save == true) {
         setsave(false);
         navigation.navigate('ResultScreen');
       } else{ // press on close btn
-        navigation.navigate('HomeScreen', {tab: 'home'});
+        navigation.navigate('ResultScreen');
       }
     } catch(e) {
       console.log('catch error', e);
       return ;
     }
   };
+  
   return (
     <>
       <SafeAreaView style={container}>
         <PageHeader
           screenTitle={langstr.dashobard.bs}
-          setcloseloader={setcloseloader}     
+          navigation={navigation}   
+          hidead={hidead} 
         />
     
         <DateTimeComponent
@@ -301,7 +293,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
             <View
               style={{
                 marginBottom: 20,
-                backgroundColor: '#F4F5F6',
+                backgroundColor: '#F0FEF0',
                 paddingVertical: 15,
                 borderRadius: 12,
               }}>
@@ -338,7 +330,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
             <TouchableOpacity
               onPress={() => setshow(true)}
               style={styles.selectBox}>
-              <Text>{selectedTime}</Text>
+              <Text style={{color: '#5E9368', fontSize: 16}}>{selectedTime}</Text>
               <Image
                 style={{
                   width: 10.57,
@@ -362,14 +354,15 @@ export default function BloodSugar({navigation}: {navigation: any}) {
           notes={unit}
           today={today}
           time={time}
-          // setloader={setloader}
+          _continue={_continue}
+          hidead={hidead}
           setsave={setsave}
           result={result}
           disablesavebtn={disablesavebtn}
           langstr={langstr}
         />
       </SafeAreaView>
-      <Banner />
+      {hidead.toString() == 'false' ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
 
       {show && (
@@ -382,7 +375,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
         />
       )}
 
-      {closeloader == true|| save == true ? (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID}/>) : (<></>)}
+      {save == true ? (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID}/>) : (<></>)}
     </>
   );
 }
@@ -390,7 +383,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
 const styles = StyleSheet.create({
   inputContainar: {
     borderBottomWidth: 3,
-    borderBottomColor: '#000',
+    borderBottomColor: '#2A5B1B',
     width: width * 0.8,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -398,7 +391,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    color: '#2E2E2E',
+    color: '#2A5B1B',
     fontSize: 55,
     fontFamily: 'Montserrat-Bold',
     paddingHorizontal: 15,
@@ -414,8 +407,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: '#F4F5F6',
+    backgroundColor: '#F0FEF0',
+    borderWidth: 1,
+    borderColor: '#c9e9bc',
     borderRadius: 8,
     padding: 12,
+    paddingVertical: 15
   },
 });

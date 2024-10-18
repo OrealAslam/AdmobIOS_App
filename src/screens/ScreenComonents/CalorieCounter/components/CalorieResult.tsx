@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { PieChart } from "react-native-gifted-charts";
+import LinearGradient from 'react-native-linear-gradient';
 const { width } = Dimensions.get('screen');
 
 const CalorieResult = (props: any) => {
@@ -33,25 +34,24 @@ const CalorieResult = (props: any) => {
         if (props.apires.length > 0) {
             jsx = props.apires.map((item: any, index: any) => {
                 return (
-                    <View key={index} style={{width: width * 0.90, alignSelf: 'center', marginBottom: 15}}>
+                    <View key={index} style={{ width: width * 0.90, alignSelf: 'center', marginBottom: 15 }}>
                         <Text style={styles.item}>{item.name}</Text>
-
-                        <View style={[styles.row, {marginBottom: 0}]}>
-                            <View style={styles.thead}>
+                        <View style={[styles.row, { marginBottom: 0 }]}>
+                            <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.thead} start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}>
                                 <Text style={[styles.title, { color: '#fff', fontWeight: '800', fontSize: 14, marginLeft: '12%' }]}>Fats</Text>
-                            </View>
+                            </LinearGradient>
 
-                            <View style={styles.thead}>
+                            <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.thead} start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}>
                                 <Text style={[styles.title, { color: '#fff', fontWeight: '800', fontSize: 14 }]}>Carbs</Text>
-                            </View>
+                            </LinearGradient>
 
-                            <View style={styles.thead}>
+                            <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.thead} start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}>
                                 <Text style={[styles.title, { color: '#fff', fontWeight: '800', fontSize: 14 }]}>Protein</Text>
-                            </View>
+                            </LinearGradient>
 
-                            <View style={styles.thead}>
+                            <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.thead} start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}>
                                 <Text style={[styles.title, { color: '#fff', fontWeight: '800', fontSize: 14 }]}>Calories</Text>
-                            </View>
+                            </LinearGradient>
                         </View>
 
                         <View style={styles.row}>
@@ -81,22 +81,15 @@ const CalorieResult = (props: any) => {
     return (
         <View>
             <View style={styles.headerContainer}>
-                <TouchableOpacity
-                    style={{ paddingHorizontal: 5 }}
-                    accessibilityLabel="Back"
-                    onPress={() => { props.setresultview(false) }}>
-                    <Image
-                        style={{ width: 14, height: 14 }}
-                        source={require('../../../../assets/images/dashboard_icons/navigate_back_new.png')}
-                    />
+                <TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
+                    <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../../assets/images/premium.png')} />
                 </TouchableOpacity>
-                <Text style={styles.heading}>{props.title}</Text>
             </View>
             <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical>
                 <View style={styles.pieChartContainer}>
                     <PieChart
                         data={pieData}
-                        radius={80}          
+                        radius={80}
                         donut
                         textColor="black"
                         strokeWidth={0}
@@ -111,10 +104,6 @@ const CalorieResult = (props: any) => {
                         <Text style={{ textAlign: 'center', fontSize: 13, fontWeight: '400' }}>Total Kcal</Text>
                     </View>
                 </View>
-                {/* <View style={styles.titlecontainer}>
-                    <Text style={styles.pageTitle}>Today You have {`\n`}comsumed <Text style={{ color: '#069C8B', fontSize: 20 }}>{props.dataset.calories.toFixed(2)} cal</Text></Text>
-                </View> */}
-
                 <View style={styles.tableContainer}>
                     {displayTable()}
                 </View>
@@ -128,7 +117,7 @@ const styles = StyleSheet.create({
         width: width,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-end',
         paddingHorizontal: 20,
         paddingVertical: 25,
     },
@@ -154,12 +143,14 @@ const styles = StyleSheet.create({
     pieChartContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: width
+        width: width,
     },
     tableContainer: {
         width: width * 0.96,
         alignSelf: 'center',
         flexDirection: 'column',
+        height: width,
+        marginTop: 30
     },
     row: {
         flexDirection: 'row',
@@ -172,7 +163,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textTransform: 'capitalize',
         marginBottom: 12,
-        fontWeight: '700'
+        fontWeight: '700',
+        color: '#2A5B1B'
     },
     thead: {
         flexDirection: 'row',
@@ -198,9 +190,10 @@ const styles = StyleSheet.create({
         borderRadius: 50
     },
     title: {
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'Roboto',
         fontWeight: '400',
+        color: '#5E9368'
     }
 });
 export default CalorieResult;

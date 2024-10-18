@@ -6,28 +6,23 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 export default function PageHeader(props: any) {
   const navigateToHome = async () => {
-    props.return.navigate(props.screenname, {tab: 'tracker'});
+    props.return.navigate(props.screenname, { tab: 'tracker' });
   };
 
   return (
     <View style={styles.headerContainer}>
-      <TouchableOpacity
-        style={{paddingVertical: 25, paddingHorizontal: 20}}
-        accessibilityLabel="Back"
-        onPress={navigateToHome}>
-        <Image
-          style={{width: 14, height: 14}}
-          source={require('../../../assets/images/dashboard_icons/navigate_back_new.png')}
-        />
-      </TouchableOpacity>
-
-      <Text style={styles.heading}>{props.screenTitle}</Text>
+      {
+        props.hidead.toString() == 'false' ?
+          <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
+            <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
+          </TouchableOpacity> : <></>
+      }
     </View>
   );
 }
@@ -37,9 +32,9 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
-    // paddingHorizontal: 20,
-    // paddingVertical: 25,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 13,
+    paddingVertical: 20,
   },
   heading: {
     color: '#2E2E2E',

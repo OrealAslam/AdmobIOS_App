@@ -26,9 +26,13 @@ const PieChartAdComponent = (props: any) => {
   useEffect(() => {
     (async () => {
       try {
-        if (props.loader == false) {
-          let adSeen = await get_async_data('pie_chart_bp_ad');
-          setadSeen(adSeen);
+        if(props.hidead.toString() == 'false') {
+          if (props.loader == false) {
+            let adSeen = await get_async_data('pie_chart_bp_ad');
+            setadSeen(adSeen);
+          }
+        } else{
+          setadSeen('seen');
         }
       } catch (e) {
         console.log(e);
@@ -44,16 +48,7 @@ const PieChartAdComponent = (props: any) => {
             <PieChartComponent />
           </View>
           <TouchableOpacity
-            style={[
-              styles.btn,
-              {
-                backgroundColor: '#009F8B',
-                marginBottom: 10,
-                borderRadius: 8,
-                justifyContent: 'center',
-                alignItems: 'center',
-              },
-            ]}
+            style={[styles.btn, { backgroundColor: '#7ADC57', marginBottom: 10, borderRadius:32, justifyContent: 'center', alignItems: 'center' }]}
             onPress={() => {
               props.navigation.navigate('BloodPressure');
             }}>
@@ -63,7 +58,7 @@ const PieChartAdComponent = (props: any) => {
       ) : (
         <ImageBackground
           style={styles.adImage}
-          source={require('../../../assets/icons/bp_pie_chart.png')}>
+          source={require('../../../assets/icons/bp_line_chart.png')}>
           <View style={styles.descriptionContainer}>
             <Text style={styles.btnText}>
               {props.langstr.tracker.bpChartText}
@@ -76,17 +71,17 @@ const PieChartAdComponent = (props: any) => {
             />
           </View>
           <TouchableOpacity
+            onPress={()=>props.showAd('pie')}
             style={[
               styles.btn,
               {
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#009F8B',
-                borderRadius: 6,
+                backgroundColor: '#ffffff',
+                borderRadius: 32,
               },
-            ]}
-            onPress={() => props.showAd('pie')}>
-            <Text style={{color: '#fff', fontSize: 15, fontFamily: 'Raleway-Medium',}}>
+            ]}>
+            <Text style={{color: '#5E9368', fontSize: 16, fontFamily: 'Raleway-Medium',fontWeight:'600'}}>
               {props.langstr.main.unlock}
             </Text>
           </TouchableOpacity>
@@ -99,15 +94,15 @@ const PieChartAdComponent = (props: any) => {
 const styles = StyleSheet.create({
   adImage: {
     width: adImgWidth,
-    height: 1236 * adImgRatio,
+    height: 848 * adImgRatio,
     alignSelf: 'center',
     marginVertical: 20,
     justifyContent: 'space-between',
     paddingVertical: 15,
   },
   NativeAd: {
-    width: 323,
-    height: 245,
+    width: adImgWidth,
+    height: 848 * adImgRatio,
     backgroundColor: `rgba(0,0,0,0.3)`,
     alignSelf: 'center',
   },
@@ -138,8 +133,10 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
     marginBottom: 20,
     paddingVertical: 10,
-    backgroundColor: '#f4f5f6',
+    backgroundColor: '#F0FEF0',
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#C9E9BC'
   },
 });
 export default PieChartAdComponent;

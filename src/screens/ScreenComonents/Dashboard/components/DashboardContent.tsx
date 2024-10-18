@@ -90,14 +90,14 @@ const DashboardContent = (props: any) => {
       <View
         style={[
           styles.dashboardCard,
-          { backgroundColor: '#FBE0E3', borderRadius: 20 },
+          { backgroundColor: '#FFEBED', borderRadius: 20 },
         ]}>
         <Image style={styles.heartImage} source={require('../../../../assets/images/dashboard_icons_new/heartrate2.png')} />
 
         <TouchableOpacity
           style={styles.measurebtn}
-          onPress={() => {}}>
-          <Text style={{ fontSize: 16, color: '#2E2E2E', fontFamily: 'Montserrat-Bold' }}>
+          onPress={() => props.navigate('RecordHeartRate')}>
+          <Text style={{ fontSize: 14, color: '#ffffff', fontFamily: 'Montserrat-Bold' }}>
             {measure}
           </Text>
         </TouchableOpacity>
@@ -160,6 +160,7 @@ const DashboardContent = (props: any) => {
 
       <View style={styles.multipleCardContainer}>
         <View style={{backgroundColor: '#D0F3F9', borderRadius: 12}}>
+          {/* <TouchableOpacity onPress={() => props.navigate('TemperatureResultScreen')}> */}
           <TouchableOpacity onPress={() => props.navigate('TemperatureScreen')}>
             <ImageBackground
               style={styles.colCard}
@@ -281,11 +282,11 @@ const styles = StyleSheet.create({
   },
   measurebtn: {
     position: 'absolute',
-    right: '10%',
-    top: '30%',
+    right: '5%',
+    top: '50%',
     width: '42%',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FF4B5F',
     borderRadius: 50,
     paddingVertical: 12,
     elevation: 2,

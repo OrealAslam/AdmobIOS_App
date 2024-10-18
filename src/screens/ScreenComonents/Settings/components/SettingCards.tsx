@@ -5,30 +5,33 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Image,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import LandingScreen from '../../../LandingScreen';
 import { useIsFocused } from '@react-navigation/native';
 import { lang } from '../../../../../global';
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width - 50;
 const RATIO = ITEM_WIDTH / 1256;
 
 const SettingCards = (props: any) => {
   const isFocused = useIsFocused();
-  const [language, setlanguage] = useState({setting: {
-    language: '',
-    condition: '',
-    heartRate: '',
-    bloodSugar: '',
-    unit: '',
-    remind: '',
-    disclaimer: '',
-    rate: '',
-    share: '',
-    feedback: '',
-    about: '',
-  }});
+  const [language, setlanguage] = useState({
+    setting: {
+      language: '',
+      condition: '',
+      heartRate: '',
+      bloodSugar: '',
+      unit: '',
+      remind: '',
+      disclaimer: '',
+      rate: '',
+      share: '',
+      feedback: '',
+      about: '',
+    }
+  });
   const [lan, setlan] = useState('Language');
   const [meaure, setmeaure] = useState('How to measure heart rate');
   const [disc, setdisc] = useState('Discliamer');
@@ -38,7 +41,7 @@ const SettingCards = (props: any) => {
   const [about, setabout] = useState('About');
 
   useEffect(() => {
-    (async()=>{
+    (async () => {
       let lan = await lang();
       setlanguage(lan);
     })()
@@ -79,100 +82,72 @@ const SettingCards = (props: any) => {
   return (
     <>
       <TouchableOpacity
+        style={styles.card}
         activeOpacity={0.9}
         onPress={() => navigateScreen('ChangeLanguageScreen')}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/language.png')}>
-          <Text style={styles.cardText}>{lan}</Text>
-        </ImageBackground>
+        <Image
+          style={styles.img}
+          source={require('../../../../assets/settings/language.png')}
+        />
+        <Text style={styles.cardText}>{lan}</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity activeOpacity={0.9}>
-        <Image
-          style={styles.card}
-          source={require('../../../../assets/settings/conditions.png')}
-        />
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity
-        activeOpacity={0.9}
-        onPress={() => navigateScreen('BoardingHeartRate1')}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/heart_rate.png')}>
-          <Text style={styles.cardText}>{meaure}</Text>
-        </ImageBackground>
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity activeOpacity={0.9}>
-        <Image
-          style={styles.card}
-          source={require('../../../../assets/settings/sugar__target.png')}
-        />
-      </TouchableOpacity */}
-      {/* <TouchableOpacity activeOpacity={0.9}>
-        <Image
-          style={styles.card}
-          source={require('../../../../assets/settings/sugar_unit.png')}
-        />
-      </TouchableOpacity> */}
-      {/* <TouchableOpacity>
-        <Image
-          style={styles.card}
-          source={require('../../../../assets/settings/remind.png')}
-        />
-      </TouchableOpacity> */}
+
       <TouchableOpacity
+        style={styles.card}
         activeOpacity={0.9}
         onPress={() => navigateScreen('DisclaimerScreen')}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/disclaimer.png')}>
-          <Text style={styles.cardText}>{disc}</Text>
-        </ImageBackground>
+        <Image
+          style={styles.img}
+          source={require('../../../../assets/settings/disclaimer.png')} />
+        <Text style={styles.cardText}>{disc}</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
+        style={styles.card}
         activeOpacity={0.9}
         onPress={() => props.showrate(true)}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/rateus.png')}>
-          <Text style={styles.cardText}>{rate}</Text>
-        </ImageBackground>
+        <Image
+          style={styles.img}
+          source={require('../../../../assets/settings/rateus.png')} />
+        <Text style={styles.cardText}>{rate}</Text>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.9} onPress={onShare}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/share.png')}>
-          <Text style={styles.cardText}>{share}</Text>
-        </ImageBackground>
+
+      <TouchableOpacity style={styles.card} activeOpacity={0.9} onPress={onShare}>
+        <Image
+          style={styles.img}
+          source={require('../../../../assets/settings/share.png')} />
+        <Text style={styles.cardText}>{share}</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
+        style={styles.card}
         activeOpacity={0.9}
         onPress={() => navigateScreen('FeedBackScreen')}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/feedback.png')}>
-          <Text style={styles.cardText}>{feedback}</Text>
-        </ImageBackground>
+        <Image
+          style={styles.img}
+          source={require('../../../../assets/settings/feedback.png')} />
+        <Text style={styles.cardText}>{feedback}</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
+        style={styles.card}
         activeOpacity={0.9}
         onPress={() => navigateScreen('AboutUs')}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/about.png')}>
-          <Text style={styles.cardText}>{about}</Text>
-        </ImageBackground>
+        <Image
+          style={styles.img}
+          source={require('../../../../assets/settings/about.png')} />
+        <Text style={styles.cardText}>{about}</Text>
       </TouchableOpacity>
-      
+
       {/* SUBSCRIPTION TAB */}
       <TouchableOpacity
+        style={styles.card}
         activeOpacity={0.9}
         onPress={() => navigateScreen('Subscription')}>
-        <ImageBackground
-          style={styles.card}
-          source={require('../../../../assets/settings/subscription.png')}>
-          <Text style={styles.cardText}>Subscription</Text>
-        </ImageBackground>
+        <Image
+          style={styles.img}
+          source={require('../../../../assets/settings/subscription.png')} />
+        <Text style={styles.cardText}>Subscription</Text>
       </TouchableOpacity>
     </>
   );
@@ -180,16 +155,23 @@ const SettingCards = (props: any) => {
 const styles = StyleSheet.create({
   card: {
     width: ITEM_WIDTH,
-    height: 208 * RATIO,
+    height: 198 * RATIO,
+    flexDirection: 'row',
     alignSelf: 'center',
-    marginVertical: 5,
-    justifyContent: 'center'
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    backgroundColor: '#F8FFF8'
+  },
+  img: {
+    width: 24,
+    height: 24,
   },
   cardText: {
     color: '#515151',
     fontSize: 14,
     fontFamily: 'Raleway-Medium',
-    marginLeft: '16%',
+    marginLeft: '6%',
   },
 });
 

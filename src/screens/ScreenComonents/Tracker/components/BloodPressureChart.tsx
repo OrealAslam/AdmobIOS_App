@@ -17,6 +17,7 @@ import {
   set_async_data,
 } from '../../../../Helper/AppHelper';
 import { useIsFocused } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 const { width } = Dimensions.get('window');
 
 const adImgWidth = width - 50;
@@ -25,11 +26,11 @@ const adImgRatio = adImgWidth / 1260;
 const btnWidth = width - 100;
 const btnRatio = btnWidth / 1256;
 
-const LineChartAdComponent = (props: any) => {
+const BloodPressureChart = (props: any) => {
   const isFocused = useIsFocused();
   const chartRef = useRef(); // Ref for the chart component
   const [chartImage, setChartImage] = useState(null); // Store the base64 chart image
-  const [adSeen, setadSeen] = useState('seen');
+  const [adSeen, setadSeen] = useState('');
   const [btnType, setbtnType] = useState('Add');
   const [stackData, setstackData] = useState([
     {
@@ -52,7 +53,13 @@ const LineChartAdComponent = (props: any) => {
           // record added already
           setbtnType('Unlock');
         }
-        let adSeen = await get_async_data('line_chart_bp_ad');
+        if (props.hidead.toString() == 'false') {
+          let adSeen = await get_async_data('line_chart_bp_ad');
+          setadSeen(adSeen);
+        } else {
+          await set_async_data('line_chart_bp_ad', 'seen');
+          setadSeen('seen');
+        }
         let chartData = await get_chart_data('bp');
         let dataArr = [];
         let limit =
@@ -118,7 +125,6 @@ const LineChartAdComponent = (props: any) => {
           dataArr.push(stack);
         }
         setstackData(dataArr.reverse());
-        // setadSeen(adSeen);
       } catch (e) {
         console.log('error', e);
       }
@@ -148,8 +154,9 @@ const LineChartAdComponent = (props: any) => {
               stackData={stackData}
               showXAxisIndices
               xAxisThickness={1}
-              xAxisIndicesColor={'#000'}
-              xAxisColor={'#DCDCDC'}
+              xAxisIndicesColor={'#0BA5A4'}
+              yAxisColor={"#0BA5A4"}
+              xAxisColor={"#0BA5A4"}
               xAxisIndicesHeight={6}
               xAxisIndicesWidth={1}
               yAxisThickness={0}
@@ -161,15 +168,11 @@ const LineChartAdComponent = (props: any) => {
               dashGap={2}
             />
           </View>
-          {/* <View style={styles.btnContainer}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                props.navigation.navigate('AddNewBloodPressureScreen'); //AddBloodPressure
-              }}>
+          <View style={styles.btnContainer}>
+            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodPressure') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}>
               <Text style={styles.addbtnText}>{props.langstr.main.add}</Text>
-            </TouchableOpacity>
-          </View> */}
+            </LinearGradient>
+          </View>
         </>
       ) : (
         <ImageBackground
@@ -196,25 +199,27 @@ const LineChartAdComponent = (props: any) => {
             )}
           </View>
           {btnType == 'Add' ? (
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => props.navigation.navigate('BloodPressure')}>
+            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodPressure') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.btnText}>
                 {props.langstr.main.add}
               </Text>
-            </TouchableOpacity>
+            </LinearGradient>
+
           ) : (
-            <TouchableOpacity style={styles.btn} onPress={props.showAd}>
+            <LinearGradient onTouchEnd={props.showAd} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.btnText}>
                 {props.langstr.main.unlock}
               </Text>
-            </TouchableOpacity>
+            </LinearGradient>
+
           )}
         </ImageBackground>
       )}
@@ -249,10 +254,10 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: btnWidth,
-    height: 176 * btnRatio,
+    height: 186 * btnRatio,
     alignSelf: 'center',
     backgroundColor: `rgba(0, 159,139, 1)`,
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
     verticalAlign: 'bottom',
@@ -274,15 +279,16 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
     marginBottom: 20,
     paddingVertical: 10,
-    backgroundColor: '#F4F5F6',
+    backgroundColor: '#F0FEF0',
     borderRadius: 10,
   },
   horizontialTextStyle: {
     fontSize: 12,
+    color: '#2A5B1B'
   },
   labeltext: {
     fontSize: 9,
-    color: '#363636',
+    color: '#2A5B1B',
   },
   xBorder: {
     borderWidth: 1,
@@ -298,4 +304,4 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-export default LineChartAdComponent;
+export default BloodPressureChart;

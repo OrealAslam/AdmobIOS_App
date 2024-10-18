@@ -8,29 +8,30 @@ import {
   ActivityIndicator,
   SafeAreaView
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { generateFCM, set_async_data } from '../Helper/AppHelper';
+import { disableAds, generateFCM, set_async_data } from '../Helper/AppHelper';
 import { INTERSITIAL_AD_ID } from '../Helper/AdManager';
 import DisplayAd from '../components/DisplayAd';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 // import analytics from '@react-native-firebase/analytics';
 
 const { width, height } = Dimensions.get('screen');
-const btnWidth = width - 60;
-const btnRatio = btnWidth / 1016;
 
-const VECTOR_WIDTH = width;
-const VECTOR_RATIO = VECTOR_WIDTH / 1444;
+const VECTOR_WIDTH = width - 120;
+const VECTOR_RATIO = VECTOR_WIDTH / 1064;
 
 const BoardingDesclaimer = ({ navigation }: { navigation: any }) => {
   const route = useRoute();
   const [loader, setloader] = useState(false);
+  const [hidead, sethidead] = useState(true);
 
   useEffect(() => {
     (async () => {
       const barColor = await SystemNavigationBar.setBarMode('dark');
-      console.log('barColor', barColor)
+      let res = await disableAds();
+      sethidead(res);
       // await analytics().logEvent('boarding_disclaimer_screen');
     })();
   }, []);
@@ -58,10 +59,9 @@ const BoardingDesclaimer = ({ navigation }: { navigation: any }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FFF8' }}>
       <View style={{ width: width, height: height * 0.45, justifyContent: 'center' }}>
-        <Image style={{ width: VECTOR_WIDTH, height: 1488 * VECTOR_RATIO }} source={require('../assets/icons/disclaimerVector.png')} />
-        <Image style={{ width: 238, height: 243.06, position: 'absolute', alignSelf: 'center' }} resizeMode='contain' source={require('../assets/icons/warning.png')} />
+        <Image style={{ width: VECTOR_WIDTH, height: 1260 * VECTOR_RATIO, position: 'absolute', alignSelf: 'center' }} resizeMode='contain' source={require('../assets/icons/warning.png')} />
       </View>
 
       <Text
@@ -79,48 +79,50 @@ const BoardingDesclaimer = ({ navigation }: { navigation: any }) => {
           style={{ alignSelf: 'center', top: 15 }}
         />
       ) : (
-        <TouchableOpacity
-          onPress={() => {
-            setloader(true);
-          }}
-          style={styles.btn}>
-          <Text style={styles.text}>
-            {route.params?.lang.boarding.letsgo}
-          </Text>
-        </TouchableOpacity>
+        <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+          end={{ x: 2, y: 2 }}>
+          <TouchableOpacity onPress={() => {
+            if(hidead.toString() == 'false') {
+              setloader(true);
+            } else{
+              _continue(); 
+            }
+            console.log(hidead)
+          }}>
+            <Text style={styles.text}>{route.params?.lang.boarding.letsgo}</Text>
+          </TouchableOpacity>
+        </LinearGradient>
       )}
       {loader && <DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />}
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   heading: {
-    color: '#2E2E2E',
+    color: '#2A5B1A',
     fontSize: 26,
     fontFamily: 'Montserrat-Bold',
     fontStyle: 'normal',
     top: 20
   },
   disclaimerText: {
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'Raleway-Medium',
     lineHeight: 18,
-    color: '#868686',
+    color: '#5f9369',
     textAlign: 'center',
     maxWidth: '90%',
     alignSelf: 'center',
     top: 32
   },
   btn: {
-    width: btnWidth,
-    height: 191 * btnRatio,
-    backgroundColor: '#009F8B',
-    justifyContent: 'center',
+    width: width * 0.8,
+    paddingVertical: 20,
+    borderRadius: 35,
     alignSelf: 'center',
-    position: 'relative',
-    top: '12%',
-    borderRadius: 40,
+    position: 'absolute',
+    bottom: '5%'
   },
   text: {
     color: '#fff',

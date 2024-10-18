@@ -5,29 +5,33 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardContent from './components/DashboardContent';
 import Recomandations from '../../../components/Recomandations';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 // import analytics from '@react-native-firebase/analytics';
-const {width, height} = Dimensions.get('screen');
-import {lang} from '../../../../global';
+const { width, height } = Dimensions.get('screen');
+import { lang } from '../../../../global';
+import { disableAds } from '../../../Helper/AppHelper';
 // import CalorieButton from '../../../components/CalorieButton';
 // import { calorieButtonArray } from '../../../Helper/AppHelper';
 
 const Dashboard = (props: any) => {
   const isFocused = useIsFocused();
-
+  const [hidead, sethidead] = useState(false);
   const [selectedmenu, setselectedmenu] = useState('home');
-  const [language, setlanguage] = useState({main: {homeTitle: ''}});
-  const [langstr, setlangstr] = useState({main: {homeTitle: ''}});
+  const [language, setlanguage] = useState({ main: { homeTitle: '' } });
+  const [langstr, setlangstr] = useState({ main: { homeTitle: '' } });
 
   useEffect(() => {
     (async () => {
       try {
         // await analytics().logEvent('home_tab');
         let lan = await lang();
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
         setselectedmenu('home');
       } catch (e) {
@@ -48,10 +52,15 @@ const Dashboard = (props: any) => {
       decelerationRate={'fast'}
       showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
-        {/* <Text style={styles.heading}>{langstr?.main.homeTitle}</Text> */}
+        <Text style={styles.heading}>{langstr?.main.homeTitle}</Text>
+        {
+          hidead.toString() == 'false' ? 
+        <TouchableOpacity onPress={() => props.navigateScreen('Subscription')}>
+          <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
+        </TouchableOpacity> : (<></>)
+        }
       </View>
       <DashboardContent navigate={props.navigateScreen} />
-      {/* <CalorieButton data={calorieButtonArray} active={()=>{}} /> */}
       <Recomandations setselectedmenu={props.setselectedmenu} putScreen={''} />
     </ScrollView>
   );
@@ -60,18 +69,20 @@ const styles = StyleSheet.create({
   header: {
     width: width,
     padding: 10,
+    paddingVertical: 25,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     alignContent: 'center',
   },
   heading: {
-    color: '#2E2E2E',
+    color: '#241B5B',
     fontSize: 26,
     left: '20%',
     marginTop: 0,
     marginBottom: 15,
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    fontWeight: '600'
   },
   cloudImg: {
     width: 30.51,

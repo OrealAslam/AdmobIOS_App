@@ -7,7 +7,7 @@ import {
   Text,
 } from 'react-native';
 import React from 'react';
-import GenderModal from './GenderModal';
+import LinearGradient from 'react-native-linear-gradient';
 const {width, height} = Dimensions.get('window');
 
 const StateModal = (props: any) => {
@@ -78,7 +78,7 @@ const StateModal = (props: any) => {
           onPress={() => props.setoption(item.title)}
           style={[
             styles.button,
-            props.option == title ? {backgroundColor: '#5F45FE'} : {},
+            props.option == title ? {backgroundColor: '#2A5B1B'} : {},
           ]}
           key={index}>
           <View style={styles.col1}>
@@ -87,7 +87,7 @@ const StateModal = (props: any) => {
           <View style={styles.col2}>
             <Text
               style={
-                props.option == title ? {color: '#fff', fontWeight: '600'} : {}
+                [styles.btnText, props.option == title ? {color: '#fff', fontWeight: '600'} : {}]
               }>
               {item.title}
             </Text>
@@ -102,26 +102,40 @@ const StateModal = (props: any) => {
     <View style={styles.container}>
       <View style={styles.modalContainer}>
         <View style={styles.header}>
-          {/* <TouchableOpacity
-            onPress={() => {
-              props.setstate(false);
-            }}>
-            <Image
-              style={{width: 14, height: 14}}
-              source={require('../../../assets/images/dashboard_icons/navigate_back_new.png')}
-            />
-          </TouchableOpacity> */}
           <Text style={styles.heading}>What is your Current State?</Text>
         </View>
         {displayOptions()}
 
-        <TouchableOpacity
-          onPress={()=>props.setshowmodal('')}
-          style={[styles.bottomButton, {backgroundColor: '#5F45FE'}]}>
-          <Text style={{textAlign: 'center', color: '#fff', fontWeight: '500'}}>
-            Ok
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.bottomButton, { backgroundColor: '#C9E9BC' }]}
+            onPress={() => props.setshow(false)}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: 'Raleway-Medium',
+                color: '#5E9368',
+                fontSize: 14
+              }}>
+              {props.langstr.main.cancel}
+            </Text>
+          </TouchableOpacity>
+
+          <LinearGradient colors={['#7ADC57', '#5DC983']} style={[styles.bottomButton, { backgroundColor: '#009F8B' }]} start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 2 }}>
+            <TouchableOpacity
+              onPress={() => {
+                props.setshow(false);
+                props.setshow(false);
+              }}
+            >
+              <Text
+                style={{ textAlign: 'center', color: '#fff', fontFamily: 'Raleway-Medium', }}>
+                {props.langstr.main.okay}
+              </Text>
+            </TouchableOpacity>
+          </LinearGradient>
+        </View>
       </View>
     </View>
   );
@@ -138,13 +152,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContainer: {
-    width: width * 0.88,
-    alignItems: 'center',
-    alignSelf: 'center',
+    width: width * 0.92,
+    padding: 15,
     backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 10,
-    paddingHorizontal: 15,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    bottom: 50,
   },
   header: {
     width: '100%',
@@ -156,18 +171,23 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   heading: {
-    color: '#2E2E2E',
+    color: '#2A5B1B',
     fontWeight: '700',
-    fontSize: 17,
+    fontSize: 18,
   },
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F0EEF9',
+    backgroundColor: '#F0FEF0',
     marginBottom: 7,
     paddingVertical: 15,
     paddingHorizontal: 7,
     borderRadius: 8,
+  },
+  btnText: {
+    color: '#5E9368',
+    fontFamily: 'Raleway-Medium',
+    fontSize: 14,
   },
   col1: {
     width: '19%',
@@ -181,14 +201,20 @@ const styles = StyleSheet.create({
     width: '81%',
     paddingLeft: 10,
   },
-  bottomButton: {
-    width: '100%',
-    alignSelf: 'center',
-    borderRadius: 7,
-    backgroundColor: '#5F45FE',
+  buttonContainer: {
+    width: '90%',
+    marginTop: 15,
     paddingHorizontal: 5,
-    paddingVertical: 15,
-    marginVertical: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  bottomButton: {
+    width: '30%',
+    alignSelf: 'center',
+    borderRadius: 27,
+    paddingHorizontal: 5,
+    paddingVertical: 14,
+    marginBottom: 10,
   },
 });
 export default StateModal;

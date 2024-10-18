@@ -11,43 +11,46 @@ import {
   SafeAreaView,
 } from 'react-native';
 // import analytics from '@react-native-firebase/analytics';
-import React, {useState, useEffect} from 'react';
-import {REPORT_TYPES, get_report, set_async_data} from '../../Helper/AppHelper';
+import React, { useState, useEffect } from 'react';
+import { REPORT_TYPES, disableAds, get_report, set_async_data } from '../../Helper/AppHelper';
 import PageHeader from './components/PageHeader';
-import {NativeAd150} from '../../Helper/NativeAd150';
+import { NativeAd150 } from '../../Helper/NativeAd150';
 import LineChartAdComponent from './components/LineChartAdComponent';
 import PieChartAdComponent from './components/PieChartAdComponent';
 import Recomandations from '../../components/Recomandations';
-import {useIsFocused} from '@react-navigation/native';
-import {lang} from '../../../global';
+import { useIsFocused } from '@react-navigation/native';
+import { lang } from '../../../global';
 import {
+  INTERSITIAL_AD_ID,
   NATIVE_AD_ID_ONE,
   NATIVE_AD_ID_TWO,
   REWARED_AD_ID,
 } from '../../Helper/AdManager';
 import DisplayRewardedAd from '../../components/DisplayRewardedAd';
+import DisplayAd from '../../components/DisplayAd';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
-const BmiResultScreen = ({navigation}: {navigation: any}) => {
+const BmiResultScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
+  const [hidead, sethidead] = useState(true);
   const [chartPercentage, setchartPercentage] = useState(72);
   const [pressurelevel, setpressurelevel] = useState('Normal');
   const [data, setdata] = useState(77.9);
   const [loader, setloader] = useState(false);
   const [language, setlanguage] = useState({
-    dashobard: {bmi: '', bmirestitle: ''},
-    main: {add: '', unlock: ''},
+    dashobard: { bmi: '', bmirestitle: '' },
+    main: { add: '', unlock: '' },
     tracker: {
       bmiChartText: '',
       bmiCharAddtText: '',
     },
   });
   const [langstr, setlangstr] = useState({
-    dashobard: {bmi: '', bmirestitle: ''},
-    main: {add: '', unlock: ''},
+    dashobard: { bmi: '', bmirestitle: '' },
+    main: { add: '', unlock: '' },
     tracker: {
       bmiChartText: '',
       bmiCharAddtText: '',
@@ -85,6 +88,8 @@ const BmiResultScreen = ({navigation}: {navigation: any}) => {
       try {
         // await analytics().logEvent('bmi_result_screen');
         let lan = await lang();
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
         let response = await get_report(REPORT_TYPES.bmi);
         if (response) {
@@ -106,7 +111,7 @@ const BmiResultScreen = ({navigation}: {navigation: any}) => {
   }, [language]);
 
   const backAction = () => {
-    return navigation.navigate('HomeScreen', {tab: 'tracker'});
+    return navigation.navigate('HomeScreen', { tab: 'tracker' });
   };
 
   const backHandler = BackHandler.addEventListener(
@@ -115,7 +120,7 @@ const BmiResultScreen = ({navigation}: {navigation: any}) => {
   );
 
   const navigateScreen = (screenName: any) => {
-    navigation.navigate(screenName, {tab: 'insight'});
+    navigation.navigate(screenName, { tab: 'insight' });
   };
   const _continue = async () => {
     setloader(false);
@@ -138,8 +143,10 @@ const BmiResultScreen = ({navigation}: {navigation: any}) => {
           return={navigation}
           screenname={'HomeScreen'}
           screenTitle={langstr.dashobard.bmi}
+          navigation={navigation}
+          hidead={hidead}
         />
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{ flex: 1 }}>
           <View style={styles.colouredBg}>
             <TouchableOpacity
               style={styles.ibutton}
@@ -147,12 +154,12 @@ const BmiResultScreen = ({navigation}: {navigation: any}) => {
                 Linking.openURL('https://medlineplus.gov/vitalsigns.html')
               }>
               <Image
-                style={{width: 25, height: 20}}
+                style={{ width: 25, height: 20 }}
                 source={require('../../assets/images/ibutton.png')}
               />
             </TouchableOpacity>
             <Text style={styles.title}>{langstr.dashobard.bmirestitle}</Text>
-            <View style={{marginVertical: 25}}>
+            <View style={{ marginVertical: 25 }}>
               <Text
                 style={{
                   textAlign: 'center',
@@ -190,20 +197,19 @@ const BmiResultScreen = ({navigation}: {navigation: any}) => {
             langstr={langstr}
             showAd={showAd}
             loader={loader}
+            hidead={hidead}
           />
           <View style={styles.NativeAd}>
-            <NativeAd150 adId={NATIVE_AD_ID_ONE} />
+            {hidead.toString() == 'false' ? <NativeAd150 /> : <></>}
           </View>
           <PieChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
+            hidead={hidead}
           />
 
-          <View style={[styles.NativeAd]}>
-            <NativeAd150 adId={NATIVE_AD_ID_TWO} />
-          </View>
           <View style={styles.recomandation}>
             <Recomandations
               putScreen={'HomeScreen'}
@@ -213,7 +219,7 @@ const BmiResultScreen = ({navigation}: {navigation: any}) => {
         </ScrollView>
       </SafeAreaView>
       {loader && (
-        <DisplayRewardedAd _continue={_continue} adId={REWARED_AD_ID} />
+        <DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />
       )}
     </>
   );
@@ -227,10 +233,12 @@ const styles = StyleSheet.create({
   colouredBg: {
     width: width * 0.87,
     alignSelf: 'center',
-    backgroundColor: '#F4F5F6',
+    backgroundColor: '#F0FEF0',
     borderRadius: 12,
     paddingTop: 10,
     marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#C9E9BC'
   },
   title: {
     alignSelf: 'center',
@@ -239,11 +247,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Raleway-Medium',
   },
   NativeAd: {
-    width: width * 0.86,
+    width: width * 0.87,
     alignSelf: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#F0FEF0',
     borderRadius: 12,
     elevation: 2,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#C9E9BC'
   },
   recomandation: {
     width: width,

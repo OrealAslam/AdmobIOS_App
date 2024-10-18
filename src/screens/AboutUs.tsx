@@ -9,19 +9,19 @@ import {
   BackHandler,
   SafeAreaView,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 // import analytics from '@react-native-firebase/analytics';
-import {lang} from '../../global';
-import {useIsFocused} from '@react-navigation/native';
-const {width,height} = Dimensions.get('window');
+import { lang } from '../../global';
+import { useIsFocused } from '@react-navigation/native';
+const { width, height } = Dimensions.get('window');
 const ITEM_WIDTH = width - 150;
 const RATIO = ITEM_WIDTH / 192;
 
-const AboutUs = ({navigation}: {navigation: any}) => {
+const AboutUs = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
   const [feedback, setfeedback] = useState('');
   const [language, setlanguage] = useState({
-    setting: {about: '', suggestion: '', privacy: '', terms: ''},
+    setting: { about: '', suggestion: '', privacy: '', terms: '' },
   });
   const [title, settitle] = useState('');
   const [term, setterm] = useState('');
@@ -55,20 +55,23 @@ const AboutUs = ({navigation}: {navigation: any}) => {
   );
 
   return (
-    <SafeAreaView style={{width: width, height:height}}>
+    <SafeAreaView style={{ width: width, height: height, backgroundColor: '#F8FFF8' }}>
       <View style={styles.header}>
-        <View style={styles.col}>
+        {/* <View style={styles.col}>
           <TouchableOpacity
-            style={{paddingHorizontal: 8, paddingVertical: 5}}
-            onPress={() => navigation.navigate('HomeScreen', {tab: 'setting'})}
+            style={{ paddingHorizontal: 8, paddingVertical: 5 }}
+            onPress={() => navigation.navigate('HomeScreen', { tab: 'setting' })}
             accessibilityLabel="Back">
             <Image
-              style={{width: 14, height: 14}}
+              style={{ width: 14, height: 14 }}
               source={require('../assets/images/dashboard_icons/navigate_back_new.png')}
             />
           </TouchableOpacity>
+        </View> */}
           <Text style={styles.heading}>{title}</Text>
-        </View>
+          <TouchableOpacity onPress={()=>navigation.navigate('Subscription')}>
+            <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../assets/images/premium.png')} />
+          </TouchableOpacity>
       </View>
       <View style={styles.inputContainer}>
         <Image
@@ -93,7 +96,7 @@ const AboutUs = ({navigation}: {navigation: any}) => {
             'https://plancare.pk/care/drinking-water-privacy-policy/',
           )
         }
-        style={[styles.btn, {bottom: 50}]}>
+        style={[styles.btn, { bottom: 50 }]}>
         <Text style={styles.ts}>{term}</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -110,8 +113,8 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   heading: {
-    color: '#2E2E2E',
-    fontSize: 20,
+    color: '#241B5B',
+    fontSize: 26,
     fontFamily: 'Montserrat-Bold',
     marginLeft: 15,
   },
@@ -132,12 +135,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   pp: {
-    color: '#5F45FE',
+    color: '#5E9368',
     textDecorationLine: 'underline',
     fontFamily: 'Raleway-Medium',
   },
   ts: {
-    color: '#5F45FE',
+    color: '#5E9368',
     textDecorationLine: 'underline',
     fontFamily: 'Raleway-Medium',
   },

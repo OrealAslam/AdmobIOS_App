@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CalorieButton from '../../../components/CalorieButton';
-import { get_async_data } from '../../../Helper/AppHelper';
+import { disableAds, get_async_data } from '../../../Helper/AppHelper';
 import ProgressIndicator from './components/ProgressIndicator';
 import { lang } from '../../../../global';
 const { width, height } = Dimensions.get('screen');
 
 const CalorieTab = (props: any) => {
+    const [hidead, sethidead] = useState(true);
     const [language, setlanguage] = useState({
         calDesc: {
             title: '',
@@ -25,6 +26,8 @@ const CalorieTab = (props: any) => {
     useEffect(() => {
         (async () => {
             let lan = await lang();
+            let res = await disableAds();
+            sethidead(res);
             setlanguage(lan);
             let record = await get_async_data('diet_report');
             let newCalories = total_calorie_data(record);
@@ -45,7 +48,7 @@ const CalorieTab = (props: any) => {
             Snacks: 0
         };
 
-        if (record.length > 1) {
+        if (record && record.length > 1) {
             record.map((item: any, index: any) => {
                 try {
                     if (item.hasOwnProperty('intake') && item.hasOwnProperty('calories')) {
@@ -86,15 +89,21 @@ const CalorieTab = (props: any) => {
     }
 
     return (
-        <SafeAreaView style={{ width: width, height:height }}>
+        <SafeAreaView style={{ width: width, height: height }}>
             {/* HEADER */}
             <View style={styles.headerContainer}>
                 <Text style={styles.heading}>{language.main.calorieTitle}</Text>
+                {
+                    hidead.toString() == 'false' ?
+                        <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
+                            <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
+                        </TouchableOpacity> : <></>
+                }
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
-                    <Text style={styles.pageTitle}>{language.main.calorieTabTitle}{`\n`} <Text style={{ color: '#069C8B' }}>{calorieCount} cal</Text> {language.main.total}</Text>
+                    <Text style={styles.pageTitle}>{language.main.calorieTabTitle}{`\n`} <Text style={{ color: '#7ADC57' }}>{calorieCount} cal</Text> {language.main.total}</Text>
                 </View>
 
                 <View style={styles.ProgressIndicatorContainer}>
@@ -119,18 +128,18 @@ const styles = StyleSheet.create({
         width: width,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         paddingHorizontal: 20,
         paddingVertical: 25,
     },
     heading: {
-        color: '#2E2E2E',
-        fontSize: 20,
+        color: '#2A5B1B',
+        fontSize: 26,
         fontStyle: 'normal',
         fontFamily: 'Montserrat-Bold'
     },
     pageTitle: {
-        color: '#2E2E2E',
+        color: '#5E9368',
         fontSize: 22,
         fontStyle: 'normal',
         fontFamily: 'Montserrat-Bold',

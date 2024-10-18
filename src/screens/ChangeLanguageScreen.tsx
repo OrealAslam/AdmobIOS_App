@@ -11,19 +11,22 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { NativeAd150 } from '../Helper/NativeAd150';
-import { languageAssets, set_async_data } from '../Helper/AppHelper';
+import { disableAds, languageAssets, set_async_data } from '../Helper/AppHelper';
 import { lang } from '../../global';
 import { LANGUAGE_NATIVE_AD_ID } from '../Helper/AdManager';
 const { width } = Dimensions.get('screen');
 
 const ChangeLanguageScreen = ({ navigation }: { navigation: any }) => {
   const [selectedLang, setselectedLang] = useState('en');
+  const [hidead, sethidead] = useState(true);
   const [title, settitle] = useState('Language');
   const [language, setlanguage] = useState({ setting: { language: '' } });
 
   useEffect(() => {
     (async () => {
       let lan = await lang();
+      let res = await disableAds();
+      sethidead(res);
       setlanguage(lan);
     })();
   }, []);
@@ -41,8 +44,8 @@ const ChangeLanguageScreen = ({ navigation }: { navigation: any }) => {
           style={[
             styles.languageBox,
             selectedLang == item.type
-              ? { backgroundColor: '#009F8B' }
-              : { backgroundColor: '#EBEBEC' },
+              ? { backgroundColor: '#6BD459' }
+              : { backgroundColor: '#F0FEF0' }
           ]}>
           <Image style={styles.icon} source={item.icon} />
           <Text
@@ -58,36 +61,15 @@ const ChangeLanguageScreen = ({ navigation }: { navigation: any }) => {
     return language;
   };
 
-  const backAction = () => {
-    navigation.navigate('HomeScreen');
-    return true;
-  };
-
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
-
   const navigate = async () => {
     await set_async_data('selected_lang', selectedLang);
     navigation.navigate('HomeScreen', { tab: 'setting' });
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FFF8' }}>
       <View style={styles.header}>
-        <View style={styles.col}>
-          <TouchableOpacity
-            style={{ paddingHorizontal: 10, paddingVertical: 5 }}
-            onPress={() => navigation.navigate('HomeScreen', { tab: 'setting' })}
-            accessibilityLabel="Back">
-            <Image
-              style={{ width: 14, height: 14 }}
-              source={require('../assets/images/dashboard_icons/navigate_back_new.png')}
-            />
-          </TouchableOpacity>
-          <Text style={styles.heading}>{title}</Text>
-        </View>
+        <Text style={styles.heading}>{title}</Text>
         <TouchableOpacity onPress={navigate}>
           <Image
             style={{ width: 38, height: 34 }}
@@ -99,9 +81,9 @@ const ChangeLanguageScreen = ({ navigation }: { navigation: any }) => {
       <ScrollView style={{ width: width, height: width, overflow: 'scroll' }}>
         <View style={styles.languageContainer}>{displayLanguages()}</View>
       </ScrollView>
-      <View style={styles.nativeAd}>
-        <NativeAd150 adId={LANGUAGE_NATIVE_AD_ID} />
-      </View>
+      {hidead.toString() == 'false' ? <View style={styles.nativeAd}>
+        <NativeAd150 />
+      </View> : (<></>)}
     </SafeAreaView>
   );
 };
@@ -111,19 +93,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     verticalAlign: 'middle',
-    paddingTop: 25,
-    paddingHorizontal: 20,
-    paddingBottom: 15,
-  },
-  col: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 25
   },
   heading: {
-    color: '#2E2E2E',
-    fontSize: 20,
+    color: '#241B5B',
+    fontSize: 26,
     fontFamily: 'Montserrat-Bold',
-    marginLeft: 10,
+    textAlign: 'left'
   },
   languageContainer: {
     width: width,
@@ -135,31 +112,35 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   languageBox: {
-    width: (width - 40) / 2,
+    width: (width - 50) / 2,
+    height: width / 3,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
     marginBottom: 20,
-    borderRadius: 8,
+    borderRadius: 14,
+    borderColor: '#C9E9BC',
+    borderWidth: 2.5
   },
   icon: {
-    width: 19,
-    height: 19
+    width: 52,
+    height: 34,
+    alignSelf: 'flex-start'
   },
   language: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Raleway-Medium',
-    textAlign: 'center',
-    marginLeft: 15
+    alignSelf: 'flex-end',
+    marginLeft: 'auto'
   },
   nativeAd: {
     width: width * 0.895,
     alignSelf: 'center',
-    backgroundColor: '#e6e6e6',
-    top: '8%',
-    elevation: 2,
+    backgroundColor: '#F0FEF0',
     borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#C9E9BC'
   },
 });
 export default ChangeLanguageScreen;

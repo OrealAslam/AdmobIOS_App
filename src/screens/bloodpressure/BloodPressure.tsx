@@ -1,39 +1,38 @@
-import React, {useState, useEffect} from 'react';
-import {DateTimePickerEvent} from '@react-native-community/datetimepicker';
+import React, { useState, useEffect } from 'react';
+import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import {errorMessage, get_async_data} from '../../Helper/AppHelper';
+import { disableAds, errorMessage, get_async_data } from '../../Helper/AppHelper';
 import {
   View,
   Text,
   Dimensions,
   Image,
   StyleSheet,
-  BackHandler,
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
 // import analytics from '@react-native-firebase/analytics';
-import {addFormStyle} from '../../Helper/StyleHelper';
-import {Banner, INTERSITIAL_AD_ID} from '../../Helper/AdManager';
+import { addFormStyle } from '../../Helper/StyleHelper';
+import { Banner, INTERSITIAL_AD_ID } from '../../Helper/AdManager';
 import DateTimeComponent from '../../components/DateTimeComponent';
 import SaveButton from '../../components/SaveButton';
 import SystolicComponent from './components/SystolicComponent';
 import PageHeader from './components/PageHeader';
 // import LoadingAnimation from '../../components/LoadingAnimation';
 import NotesPopup from './components/NotesPopup';
-import {useIsFocused} from '@react-navigation/native';
-import {lang} from '../../../global';
+import { useIsFocused } from '@react-navigation/native';
+import { lang } from '../../../global';
 import DisplayAd from '../../components/DisplayAd';
 import ExitModel from './components/ExitModel';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const today = moment(new Date()).format('YYYY-MM-DD');
 const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
-export default function BloodPressure({navigation}: {navigation: any}) {
+export default function BloodPressure({ navigation }: { navigation: any }) {
   const isFocused = useIsFocused();
-  const {container, form} = addFormStyle;
+  const { container, form } = addFormStyle;
   const [selectedDate, setSelectedDate] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [systolicpressure, setSystolicPressure] = useState('99');
@@ -47,10 +46,10 @@ export default function BloodPressure({navigation}: {navigation: any}) {
   const [note, setnote] = useState('');
   const [showremarksmodal, setshowremarksmodal] = useState(false);
   // const [loader, setloader] = useState(false);
-  const [closeloader, setcloseloader] = useState(false);
   const [save, setsave] = useState(false);
+  const [hidead, sethidead] = useState(true);
   const [language, setlanguage] = useState({
-    dashobard: {bp: ''},
+    dashobard: { bp: '' },
     main: {
       date: '',
       time: '',
@@ -80,7 +79,7 @@ export default function BloodPressure({navigation}: {navigation: any}) {
     },
   });
   const [langstr, setlangstr] = useState({
-    dashobard: {bp: ''},
+    dashobard: { bp: '' },
     main: {
       date: '',
       time: '',
@@ -115,6 +114,8 @@ export default function BloodPressure({navigation}: {navigation: any}) {
       try {
         // await analytics().logEvent('add_bp_screen');
         let lan = await lang();
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -131,7 +132,7 @@ export default function BloodPressure({navigation}: {navigation: any}) {
   }, [language]);
 
   const onChangeTime = (event: DateTimePickerEvent, value: any) => {
-    const {type} = event;
+    const { type } = event;
     setTimePicker(false);
     if (type === 'set') {
       setTime(value);
@@ -170,36 +171,25 @@ export default function BloodPressure({navigation}: {navigation: any}) {
     }
   };
 
-  const backAction = () => {
-    // navigation.navigate('HomeScreen');
-    setcloseloader(true);
-    return true;
-  };
-
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
   const _continue = async () => {
     try {
-      setcloseloader(false);
-      if(save == true) {
+      if (save == true) {
         setsave(false);
         navigation.navigate('BpResultScreen');
-      } else{
-        navigation.navigate('HomeScreen', {tab: 'home'});
+      } else {
+        navigation.navigate('BpResultScreen');
       }
-    } catch(e) {
+    } catch (e) {
       console.log('catch error', e);
-      return ;
+      return;
     }
   };
   return (
     <>
       <SafeAreaView style={container}>
         <PageHeader
-          setcloseloader={setcloseloader}
           screenTitle={langstr.dashobard.bp}
+          navigation={navigation}
         />
 
         <DateTimeComponent
@@ -221,9 +211,12 @@ export default function BloodPressure({navigation}: {navigation: any}) {
           style={[
             form,
             {
-              backgroundColor: '#F5F8FF',
+              backgroundColor: '#f0fef0',
               borderRadius: 10,
-              width: (92 / 100) * width,
+              borderWidth: 1,
+              borderColor: '#C9E9BC',
+              paddingVertical: 45,
+              width: (88 / 100) * width,
               alignSelf: 'center',
             },
           ]}>
@@ -236,14 +229,14 @@ export default function BloodPressure({navigation}: {navigation: any}) {
             />
           </View>
 
-          <View style={{marginTop: 20}}>
+          <View style={{ marginTop: 20 }}>
             <Text style={styles.pressurelevel}>{pressurelevel}</Text>
             <Image
               style={styles.scale}
               source={require('../../assets/images/barchart.png')}
             />
             <Image
-              style={[styles.pointerIndicator, {left: `${chartPercentage}%`}]}
+              style={[styles.pointerIndicator, { left: `${chartPercentage}%` }]}
               source={require('../../assets/images/polygon.png')}
             />
           </View>
@@ -254,13 +247,13 @@ export default function BloodPressure({navigation}: {navigation: any}) {
           <Text
             style={[
               styles.title,
-              {fontWeight: '300', fontSize: 13, alignSelf: 'center', textTransform: 'lowercase'},
+              { fontWeight: '300', fontSize: 13, alignSelf: 'center', textTransform: 'lowercase' },
             ]}>
             {note != '' ? `1 ${langstr.main.note}` : ''}
           </Text>
           <TouchableOpacity onPress={() => setshowremarksmodal(true)}>
             <Image
-              style={{width: 32, height: 32}}
+              style={{ width: 32, height: 32 }}
               source={require('../../assets/images/add_btn_new.png')}
             />
           </TouchableOpacity>
@@ -279,12 +272,13 @@ export default function BloodPressure({navigation}: {navigation: any}) {
           time={time}
           note={note}
           pressurelevel={pressurelevel}
-          // setloader={setloader}
+          _continue={_continue}
+          hidead={hidead}
           setsave={setsave}
           langstr={langstr}
         />
       </SafeAreaView>
-      <Banner />
+      {hidead.toString() == 'false' ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
 
       {showremarksmodal && (
@@ -295,15 +289,15 @@ export default function BloodPressure({navigation}: {navigation: any}) {
         />
       )}
 
-    {save && (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID}/>)}
-    {closeloader && (<ExitModel setcloseloader={setcloseloader} navigation={navigation} />)}
+      {save && (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />)}
+      {/* {closeloader && (<ExitModel setcloseloader={setcloseloader} navigation={navigation} />)} */}
     </>
   );
 }
 
 const styles = StyleSheet.create({
   noteContainer: {
-    backgroundColor: '#F4F5F6',
+    backgroundColor: '#ffffff',
     width: width - 40,
     padding: 15,
     alignSelf: 'center',
@@ -311,11 +305,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderRadius: 9,
     marginVertical: 15,
+    borderWidth: 1,
+    borderColor: '#C9E9BC'
   },
   title: {
-    color: '#2E2E2E',
+    color: '#2A5B1B',
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   pressurelevel: {
     textAlign: 'center',

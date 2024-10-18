@@ -5,15 +5,15 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {lang} from '../../../../../global';
-import {useIsFocused} from '@react-navigation/native';
-const {width} = Dimensions.get('window');
+import React, { useState, useEffect } from 'react';
+import { lang } from '../../../../../global';
+import { useIsFocused } from '@react-navigation/native';
+const { width } = Dimensions.get('window');
 
 const TabManu = (props: any) => {
   const isFocused = useIsFocused();
   const [language, setlanguage] = useState({
-    dashobard: {bp: '', bs: '', heartRate: ''},
+    dashobard: { bp: '', bs: '', heartRate: '' },
   });
   const [card1, setcard1] = useState('');
   const [card2, setcard2] = useState('');
@@ -42,12 +42,12 @@ const TabManu = (props: any) => {
         onPress={() => props.setcategory('bp')}
         style={[
           styles.button,
-          props.category == 'bp' ? {backgroundColor: `rgba(0, 159,139, 0.7)`} : {},
+          props.category == 'bp' ? { backgroundColor: '#7ADC57' } : {},
         ]}>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
-          style={[styles.text, props.category == 'bp' ? {color: '#FFF'} : {}]}>
+          style={[styles.text, props.category == 'bp' ? { color: '#FFF' } : {}]}>
           {card1}
         </Text>
       </TouchableOpacity>
@@ -56,12 +56,12 @@ const TabManu = (props: any) => {
         onPress={() => props.setcategory('bs')}
         style={[
           styles.button,
-          props.category == 'bs' ? {backgroundColor: `rgba(0, 159,139, 0.7)`,} : {},
+          props.category == 'bs' ? { backgroundColor: '#7ADC57' } : {},
         ]}>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
-          style={[styles.text, props.category == 'bs' ? {color: '#FFF'} : {}]}>
+          style={[styles.text, props.category == 'bs' ? { color: '#FFF' } : {}]}>
           {card2}
         </Text>
       </TouchableOpacity>
@@ -70,14 +70,14 @@ const TabManu = (props: any) => {
         onPress={() => props.setcategory('heart')}
         style={[
           styles.button,
-          props.category == 'heart' ? {backgroundColor: `rgba(0, 159,139, 0.7)`} : {},
+          props.category == 'heart' ? { backgroundColor: '#7ADC57' } : {},
         ]}>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
           style={[
             styles.text,
-            props.category == 'heart' ? {color: '#FFF'} : {},
+            props.category == 'heart' ? { color: '#FFF' } : {},
           ]}>
           {card3}
         </Text>
@@ -91,10 +91,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 20,
-    backgroundColor: '#F4F4FE',
+    backgroundColor: '#fff',
   },
   text: {
-    color: '#A6A6A6',
+    color: '#5E9368',
     fontSize: 12,
     fontFamily: 'Montserrat-Bold',
     textAlign: 'center',

@@ -5,7 +5,7 @@ import ZoomAnimation from './ZoomAnimation';
 // import analytics from '@react-native-firebase/analytics';
 import { set_async_data } from '../Helper/AppHelper';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const DisplayAd = (props: any) => {
   const [adLoadStatus, setadLoadStatus] = useState(false);
@@ -39,7 +39,7 @@ const DisplayAd = (props: any) => {
     <View
       style={{
         width: width,
-        height: '100%',
+        height: height,
         backgroundColor: 'rgba(0,0,0,0.3)',
         position: 'absolute',
         justifyContent: 'center',

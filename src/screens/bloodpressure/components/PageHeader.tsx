@@ -7,12 +7,12 @@ import {
   Dimensions,
 } from 'react-native';
 import React from 'react';
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 export default function PageHeader(props: any) {
   return (
     <View style={styles.headerContainer}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{paddingHorizontal: 5}}
         accessibilityLabel="Back"
         onPress={()=>props.setcloseloader(true)}>
@@ -21,7 +21,10 @@ export default function PageHeader(props: any) {
           source={require('../../../assets/images/dashboard_icons/navigate_back_new.png')}
         />
       </TouchableOpacity>
-      <Text style={styles.heading}>{props.screenTitle}</Text>
+      <Text style={styles.heading}>{props.screenTitle}</Text> */}
+      <TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
+        <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     paddingHorizontal: 20,
     paddingVertical: 25,
   },

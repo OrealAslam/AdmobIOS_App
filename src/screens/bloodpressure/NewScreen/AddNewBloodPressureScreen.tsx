@@ -75,7 +75,7 @@ const AddNewBloodPressureScreen = ({navigation}: {navigation: any}) => {
         setcard(displayCard(filterdata?.avg_24));
         break;
       case 'Average':
-        console.log('avg sleted', filterdata)
+        // console.log('avg sleted', filterdata)
         setcarddata(filterdata.Average);
         setcard(displayCard(filterdata?.Average));
         break;

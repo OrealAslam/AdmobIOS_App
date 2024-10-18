@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   nativeAd: {
     width: width * 0.80,
     alignSelf: 'center',
-    backgroundColor: '#e6e6e6',
+    backgroundColor: '#C9E9BC',
     elevation: 2,
     borderRadius: 12,
   },

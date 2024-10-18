@@ -18,20 +18,21 @@ const DateTimeComponent = (props: any) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           marginBottom: 5,
-          width: '98%',
+          width: '80%',
           alignSelf: 'center',
+          
         }}>
         <View style={{width: '45%'}}>
           <Text
             style={[
               label,
-              {textAlign: 'left', marginLeft: 20, marginBottom: 6},
+              {textAlign: 'center', marginLeft: 20},
             ]}>
             {props.langstr?.main.date}
           </Text>
         </View>
         <View style={{width: '45%'}}>
-          <Text style={[label, {textAlign: 'left', marginLeft: 10}]}>{props.langstr?.main.time}</Text>
+          <Text style={[label, {textAlign: 'center', marginLeft: 10}]}>{props.langstr?.main.time}</Text>
         </View>
       </View>
 
@@ -43,10 +44,12 @@ const DateTimeComponent = (props: any) => {
           style={[
             col1,
             {
-              backgroundColor: '#F4F5F6',
+              backgroundColor: '#ffffff',
               alignItems: 'center',
-              borderRadius: 6,
+              borderRadius: 12,
               width: '46%',
+              borderWidth: 1,
+              borderColor: '#C9E9BC'
             },
           ]}
           accessibilityLabel="PickDate">
@@ -58,7 +61,7 @@ const DateTimeComponent = (props: any) => {
             style={{
               width: 1.5,
               height: 32,
-              backgroundColor: '#D9D9D9',
+              backgroundColor: '#C9E9BC',
               left: 7,
               zIndex: 1
             }}>
@@ -66,7 +69,7 @@ const DateTimeComponent = (props: any) => {
           </View>
           <Text
             style={{
-              color: '#2E2E2E',
+              color: '#5E9368',
               marginLeft: 10,
               alignSelf: 'center',
               fontSize: 14,
@@ -111,10 +114,12 @@ const DateTimeComponent = (props: any) => {
           style={[
             col1,
             {
-              backgroundColor: '#F4F5F6',
+              backgroundColor: '#ffffff',
               alignItems: 'center',
-              borderRadius: 6,
+              borderRadius: 12,
               width: '46%',
+              borderWidth: 1,
+              borderColor: '#C9E9BC'
             },
           ]}>
           <Image
@@ -125,14 +130,14 @@ const DateTimeComponent = (props: any) => {
             style={{
               width: 1.5,
               height: 32,
-              backgroundColor: '#D9D9D9',
+              backgroundColor: '#C9E9BC',
               left: 7,
             }}>
             <Text> </Text>
           </View>
           <Text
             style={{
-              color: '#2E2E2E',
+              color: '#5E9368',
               marginLeft: 10,
               alignSelf: 'center',
               left: 5,

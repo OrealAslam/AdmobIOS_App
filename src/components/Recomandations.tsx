@@ -7,15 +7,16 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {lang} from '../../global';
-import {useIsFocused} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
+import { lang } from '../../global';
+import { useIsFocused } from '@react-navigation/native';
 // import {NativeAd150} from '../Helper/NativeAd150';
-import {NATIVE_AD_ID_TWO} from '../Helper/AdManager';
-const {width} = Dimensions.get('window');
+import { NATIVE_AD_ID_TWO } from '../Helper/AdManager';
+const { width } = Dimensions.get('window');
 
-const cardWidth = width - 30;
-const cardRatio = cardWidth / 1256;
+const cardWidth = width - 50;
+const cardRatio = cardWidth / 1504;
 
 const btnWidth = width - 30;
 const btnRatio = btnWidth / 1256;
@@ -23,14 +24,14 @@ const btnRatio = btnWidth / 1256;
 const Recomandations = (props: any) => {
   const isFocused = useIsFocused();
   const [language, setlanguage] = useState({
-    dashobard: {recommended: ''},
-    recommended: {heartDisease: '', BloodGlucose: '', heartDiseaseTypes: ''},
-    main: {more: ''},
+    dashobard: { recommended: '' },
+    recommended: { heartDisease: '', BloodGlucose: '', heartDiseaseTypes: '' },
+    main: { more: '' },
   });
   const [str, setstr] = useState({
-    dashobard: {recommended: ''},
-    recommended: {heartDisease: '', BloodGlucose: '', heartDiseaseTypes: ''},
-    main: {more: ''},
+    dashobard: { recommended: '' },
+    recommended: { heartDisease: '', BloodGlucose: '', heartDiseaseTypes: '' },
+    main: { more: '' },
   });
 
   const myFunction = (screen: any) => {
@@ -63,7 +64,7 @@ const Recomandations = (props: any) => {
           style={styles.icon}
           source={require('../assets/icons/recomandations.png')}
         />
-        <Text style={[styles.title, {fontSize: 18, fontWeight: '700'}]}>{str.dashobard.recommended}</Text>
+        <Text style={[styles.title, { fontSize: 18, fontWeight: '700' }]}>{str.dashobard.recommended}</Text>
       </View>
 
       <View style={styles.articleContainer}>
@@ -74,7 +75,7 @@ const Recomandations = (props: any) => {
             <Text
               numberOfLines={2}
               ellipsizeMode="tail"
-              style={[styles.title, {maxWidth: '60%', fontFamily: 'Raleway-Regular'}]}>
+              style={[styles.title, { maxWidth: '60%', fontFamily: 'Raleway-Regular', marginLeft: 0, fontWeight: '500' }]}>
               {str.recommended.heartDisease}
             </Text>
           </ImageBackground>
@@ -87,7 +88,7 @@ const Recomandations = (props: any) => {
             <Text
               numberOfLines={2}
               ellipsizeMode="tail"
-              style={[styles.title, {maxWidth: '60%',fontFamily: 'Raleway-Regular'}]}>
+              style={[styles.title, { maxWidth: '60%', fontFamily: 'Raleway-Regular', fontWeight: '500' }]}>
               {str.recommended.BloodGlucose}
             </Text>
           </ImageBackground>
@@ -104,30 +105,18 @@ const Recomandations = (props: any) => {
             <Text
               numberOfLines={2}
               ellipsizeMode="tail"
-              style={[styles.title, {maxWidth: '60%',fontFamily: 'Raleway-Regular'}]}>
+              style={[styles.title, { maxWidth: '60%', fontFamily: 'Raleway-Regular', fontWeight: '500' }]}>
               {str.recommended.heartDiseaseTypes}
             </Text>
           </ImageBackground>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => myFunction(props.putScreen)}
-          style={{
-            alignSelf: 'center',
-            width: btnWidth,
-            height: 176 * btnRatio,
-            backgroundColor: '#009f8b',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 8,
-          }}>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={{color: '#fff', fontSize: 16, fontFamily: 'Raleway-ExtraBold'}}>
-            {str.main.more}
-          </Text>
-        </TouchableOpacity>
+        <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+          end={{ x: 2, y: 2 }}>
+          <TouchableOpacity onPress={() => myFunction(props.putScreen)}>
+            <Text style={styles.buttonText}>{str.main.more}</Text>
+          </TouchableOpacity>
+        </LinearGradient>
       </View>
     </>
   );
@@ -147,22 +136,21 @@ const styles = StyleSheet.create({
     marginLeft: 0,
   },
   title: {
-    color: '#2E2E2E',
+    color: '#2A5B1B',
     fontSize: 16,
     fontFamily: 'Roboto',
     marginLeft: 10,
-    marginVertical: 15,
+    marginVertical: 15
   },
   articleContainer: {
     width: width * 0.88,
     flexDirection: 'column',
     paddingBottom: 30,
-    alignSelf: 'center',
-    // backgroundColor: 'yellow'
+    alignSelf: 'center'
   },
   articleCard: {
     width: cardWidth,
-    height: 288 * cardRatio,
+    height: 336 * cardRatio,
     alignSelf: 'center',
     marginBottom: 15,
     justifyContent: 'center',
@@ -171,6 +159,15 @@ const styles = StyleSheet.create({
   nativeContainer: {
     width: width * 0.88,
     alignSelf: 'center',
+  },
+  btn: {
+    width: width * 0.92,
+    paddingVertical: 20,
+    borderRadius: 35,
+    alignSelf: 'center',
+  },
+  buttonText: {
+    color: '#fff', fontSize: 16, fontFamily: 'Raleway-ExtraBold',textAlign: 'center'
   },
 });
 

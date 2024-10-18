@@ -9,41 +9,41 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Recomandations from '../../components/Recomandations';
-import {REPORT_TYPES, get_report, set_async_data} from '../../Helper/AppHelper';
+import { REPORT_TYPES, disableAds, get_report, set_async_data } from '../../Helper/AppHelper';
 import LineChartAdComponent from './components/LineChartAdComponent';
 import PieChartAdComponent from './components/PieChartAdComponent';
 // import analytics from '@react-native-firebase/analytics';
-import {lang} from '../../../global';
-import PageHeader from './components/PageHeader';
-import {NativeAd150} from '../../Helper/NativeAd150';
-import DisplayRewardedAd from '../../components/DisplayRewardedAd';
-import {NATIVE_AD_ID_ONE, NATIVE_AD_ID_TWO, REWARED_AD_ID} from '../../Helper/AdManager';
+import { lang } from '../../../global';
+import { NativeAd150 } from '../../Helper/NativeAd150';
+import { INTERSITIAL_AD_ID, NATIVE_AD_ID_ONE } from '../../Helper/AdManager';
+import DisplayAd from '../../components/DisplayAd';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
-const TemperatureResultScreen = ({navigation}: {navigation: any}) => {
+const TemperatureResultScreen = ({ navigation }: { navigation: any }) => {
+  const [hidead, sethidead] = useState(true);
   const [loader, setloader] = useState(false);
   const [language, setlanguage] = useState({
-    dashobard: {temperature: '', bsrestitle: '', recommended: ''},
-    main: {add: '', unlock: ''},
+    dashobard: { temperature: '', bsrestitle: '', recommended: '' },
+    main: { add: '', unlock: '' },
     tracker: {
       bsChartText: '',
       bsCharAddtText: '',
     },
-    article: {articledata: {}},
+    article: { articledata: {} },
   });
   const [langstr, setlangstr] = useState({
-    dashobard: {temperature: '', bsrestitle: '', recommended: ''},
-    main: {add: '', unlock: ''},
+    dashobard: { temperature: '', bsrestitle: '', recommended: '' },
+    main: { add: '', unlock: '' },
     tracker: {
       bsChartText: '',
       bsCharAddtText: '',
     },
-    article: {articledata: {}},
+    article: { articledata: {} },
   });
   const [data, setdata] = useState(['', '']);
 
@@ -52,6 +52,8 @@ const TemperatureResultScreen = ({navigation}: {navigation: any}) => {
       try {
         // await analytics().logEvent('temperature_result_screen');
         let lan = await lang();
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
         let response = await get_report(REPORT_TYPES.temperature);
         if (response) {
@@ -70,15 +72,6 @@ const TemperatureResultScreen = ({navigation}: {navigation: any}) => {
   useEffect(() => {
     setlangstr(language);
   }, [language]);
-
-  const backAction = () => {
-    return navigation.navigate('HomeScreen', {tab: 'tracker'});
-  };
-
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
 
   const navigateScreen = (screenName: any) => {
     navigation.navigate(screenName, {
@@ -103,37 +96,33 @@ const TemperatureResultScreen = ({navigation}: {navigation: any}) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          <TouchableOpacity
-            style={{paddingHorizontal: 5}}
-            accessibilityLabel="Back"
-            onPress={() => navigation.navigate('HomeScreen', {tab: 'tracker'})}>
-            <Image
-              style={{width: 14, height: 14}}
-              source={require('../../assets/images/dashboard_icons/navigate_back_new.png')}
-            />
-          </TouchableOpacity>
-
-          <Text style={styles.heading}>{langstr.dashobard.temperature}</Text>
+          {hidead.toString() == 'false' ?
+            <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
+              <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
+            </TouchableOpacity> : <></>
+          }
         </View>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{ flex: 1 }}>
           <LineChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
+            hidead={hidead}
           />
           <View style={styles.NativeAd}>
-            <NativeAd150 adId={NATIVE_AD_ID_ONE} />
+            {hidead.toString() == 'false' ? <NativeAd150 /> : <></>}
           </View>
           <PieChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
+            hidead={hidead}
           />
-          <View style={[styles.NativeAd, {marginTop: 20}]}>
+          {/* <View style={[styles.NativeAd, { marginTop: 20 }]}>
             <NativeAd150 adId={NATIVE_AD_ID_TWO} />
-          </View>
+          </View> */}
           <View style={styles.recomandation}>
             <Recomandations
               putScreen={'HomeScreen'}
@@ -143,7 +132,7 @@ const TemperatureResultScreen = ({navigation}: {navigation: any}) => {
         </ScrollView>
       </SafeAreaView>
       {loader && (
-        <DisplayRewardedAd _continue={_continue} adId={REWARED_AD_ID} />
+        <DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />
       )}
     </>
   );
@@ -158,7 +147,7 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     paddingHorizontal: 20,
     paddingVertical: 25,
   },
@@ -185,9 +174,12 @@ const styles = StyleSheet.create({
   NativeAd: {
     width: width * 0.87,
     alignSelf: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#F0FEF0',
     borderRadius: 12,
     elevation: 2,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#C9E9BC'
   },
   recomandation: {
     width: width,

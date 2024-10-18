@@ -9,7 +9,7 @@ import { StatusBar } from 'react-native';
 const Stack = createNativeStackNavigator();
 
 StatusBar.setHidden(true);
-export default function Route() {
+export default function Route(props) {
   return (
     <Stack.Navigator>
       <Stack.Screen

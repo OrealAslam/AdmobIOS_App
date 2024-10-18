@@ -71,10 +71,10 @@ const PieChartComponent = () => {
         }}
       />
 
-      {/* <Image
+      <Image
         style={styles.measure_chart}
         source={require('../../../assets/images/measure_chart_bs.png')}
-      /> */}
+      />
     </View>
   );
 };

@@ -5,7 +5,7 @@ export const CalenderDateStyle = StyleSheet.create({
   container: {
     width: '85%',
     borderWidth: 1,
-    borderColor: '#D2D1D1',
+    borderColor: '#5DC983',
     alignSelf: 'center',
     marginTop: 13,
     borderRadius: 24,

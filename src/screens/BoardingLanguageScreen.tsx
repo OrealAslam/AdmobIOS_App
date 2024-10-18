@@ -5,18 +5,18 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  ToastAndroid,
+  Alert,
   ScrollView,
   SafeAreaView,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import { set_async_data, languageAssets } from '../Helper/AppHelper';
-import { NativeAd150 } from '../Helper/NativeAd150';
+// import { NativeAd150 } from '../Helper/NativeAd150';
 // import analytics from '@react-native-firebase/analytics';
 const { width, height } = Dimensions.get('screen');
 import { lang as language } from '../../global';
 import { translation } from '../../locales/translation';
-import { LANGUAGE_NATIVE_AD_ID } from '../Helper/AdManager';
 
 const BoardingLanguageScreen = ({ navigation }: { navigation: any }) => {
   const [selectedLang, setselectedLang] = useState('');
@@ -26,7 +26,7 @@ const BoardingLanguageScreen = ({ navigation }: { navigation: any }) => {
     (async () => {
       // await analytics().logEvent('boarding_language_screen');
       let l = await language();
-      if(l == undefined) {
+      if (l == undefined) {
         setselectedLang('');
       }
       await set_async_data('line_chart_bp_ad', 'unseen');
@@ -40,6 +40,9 @@ const BoardingLanguageScreen = ({ navigation }: { navigation: any }) => {
 
       await set_async_data('line_chart_temp_ad', 'unseen');
       await set_async_data('pie_chart_temp_ad', 'unseen');
+
+      await set_async_data('line_chart_heart_ad', 'unseen');
+      await set_async_data('pie_chart_heart_ad', 'unseen');
     })();
   }, []);
 
@@ -52,10 +55,8 @@ const BoardingLanguageScreen = ({ navigation }: { navigation: any }) => {
 
   const navigate = async () => {
     if (selectedLang == '' || selectedLang == undefined) {
-      ToastAndroid.showWithGravity(
-        'Select a Language',
-        ToastAndroid.SHORT,
-        ToastAndroid.CENTER,
+      Alert.alert(
+        'Select a Language first'
       );
     } else {
       await set_async_data('selected_lang', selectedLang);
@@ -73,14 +74,14 @@ const BoardingLanguageScreen = ({ navigation }: { navigation: any }) => {
           style={[
             styles.languageBox,
             selectedLang == item.type
-              ? { backgroundColor: '#009F8B' }
-              : { backgroundColor: '#EBEBEC' },
+              ? { backgroundColor: '#6BD459' }
+              : { backgroundColor: '#F0FEF0' },
           ]}>
           <Image style={styles.icon} source={item.icon} />
           <Text
             style={[
               styles.language,
-              selectedLang == item.type ? { color: '#fff' } : { color: '#000' },
+              selectedLang == item.type ? { color: '#fff' } : { color: '#5F9368' },
             ]}>
             {item.name}
           </Text>
@@ -91,21 +92,16 @@ const BoardingLanguageScreen = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <SafeAreaView style={{ width: width, height: height, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ width: width, height: height, backgroundColor: '#F8FFF8', }}>
       <View style={styles.header}>
-        <Text style={styles.heading}>Select Language</Text>
-        {selectedLang ? (<TouchableOpacity style={{ padding: 8 }} onPress={navigate}>
-          <Image
-            style={{ width: 38, height: 34 }}
-            source={require('../assets/icons/tickbtn.png')}
-          />
-        </TouchableOpacity>) : (<></>)}
+        <Text style={styles.heading}>Select {`\n`}Language</Text>
       </View>
 
-      <View style={{ width: width, height: width + 10, marginTop: '5%' }}>
+      <View style={{ width: width, marginBottom: 'auto' }}>
         <ScrollView
           style={{
             width: width,
+            height: 68 / 100 * height
           }}>
           <View style={styles.languageContainer}>
             {displayLanguages()}
@@ -113,9 +109,12 @@ const BoardingLanguageScreen = ({ navigation }: { navigation: any }) => {
         </ScrollView>
       </View>
 
-      <View style={styles.bannerAd}>
-        <NativeAd150 adId={LANGUAGE_NATIVE_AD_ID} />
-      </View>
+      <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+        end={{ x: 2, y: 2 }}>
+        <TouchableOpacity onPress={navigate}>
+          <Text style={styles.buttonText}>Select</Text>
+        </TouchableOpacity>
+      </LinearGradient>
     </SafeAreaView>
   );
 };
@@ -126,14 +125,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     verticalAlign: 'middle',
-    paddingTop: 25,
-    paddingHorizontal: 20,
-    paddingBottom: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 25
   },
   heading: {
-    color: '#2E2E2E',
-    fontSize: 20,
+    color: '#2A5B1A',
+    fontSize: 26,
     fontFamily: 'Montserrat-Bold',
+    textAlign: 'left'
   },
   languageContainer: {
     width: width,
@@ -145,23 +144,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   languageBox: {
-    width: (width - 40) / 2,
+    width: (width - 50) / 2,
+    height: width / 3,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 15,
     marginBottom: 20,
-    borderRadius: 8,
+    borderRadius: 14,
+    borderColor: '#C9E9BC',
+    borderWidth: 2.5
   },
   icon: {
-    width: 19,
-    height: 19
+    width: 52,
+    height: 34,
+    alignSelf: 'flex-start'
   },
   language: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Raleway-Medium',
-    textAlign: 'center',
-    marginLeft: 15
+    alignSelf: 'flex-end',
+    marginLeft: 'auto'
   },
   bannerAd: {
     width: width * 0.88,
@@ -172,6 +175,18 @@ const styles = StyleSheet.create({
     borderColor: '#EBEBEC',
     borderWidth: 1,
     borderRadius: 10
+  },
+  btn: {
+    width: width * 0.8,
+    paddingVertical: 20,
+    borderRadius: 35,
+    alignSelf: 'center',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    color: '#ffffff',
   },
 });
 export default BoardingLanguageScreen;

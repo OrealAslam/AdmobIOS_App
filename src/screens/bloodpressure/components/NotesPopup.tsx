@@ -7,8 +7,9 @@ import {
   BackHandler,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
-const {width, height} = Dimensions.get('screen');
+import LinearGradient from 'react-native-linear-gradient';
+import React, { useState } from 'react';
+const { width, height } = Dimensions.get('screen');
 
 const NotesPopup = (props: any) => {
   const [selectedopt, setselectedopt] = useState('');
@@ -28,13 +29,13 @@ const NotesPopup = (props: any) => {
           key={index}
           style={[
             styles.button,
-            selectedopt == item ? {backgroundColor: '#009F8B'} : {},
+            selectedopt == item ? { backgroundColor: '#009F8B' } : {},
           ]}
           onPress={() => setselectedopt(item)}>
           <Text
             style={[
               styles.btnText,
-              selectedopt == item ? {color: '#fff'} : {},
+              selectedopt == item ? { color: '#fff' } : {},
             ]}>
             {item}
           </Text>
@@ -48,26 +49,20 @@ const NotesPopup = (props: any) => {
     <View style={styles.overlayContainer}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.heading}></Text>
-          <TouchableOpacity onPress={() => props.setshowremarksmodal(false)}>
-            <Image
-              style={{width: 14, height: 14}}
-              source={require('../../../assets/images/dashboard_icons/navigate_back_new.png')}
-            />
-          </TouchableOpacity>
+          <Text style={styles.heading}>BP Notes</Text>
         </View>
 
         <View style={styles.mainArea}>
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'After Meal' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'After Meal' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('After Meal')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'After Meal' ? {color: '#fff'} : {},
+                selectedopt == 'After Meal' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.AfterMeal}
             </Text>
@@ -76,13 +71,13 @@ const NotesPopup = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Before Meal' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Before Meal' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Before Meal')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Before Meal' ? {color: '#fff'} : {},
+                selectedopt == 'Before Meal' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.BeforeMeal}
             </Text>
@@ -91,13 +86,13 @@ const NotesPopup = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Medication' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Medication' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Medication')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Medication' ? {color: '#fff'} : {},
+                selectedopt == 'Medication' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.medication}
             </Text>
@@ -106,13 +101,13 @@ const NotesPopup = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Sitting' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Sitting' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Sitting')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Sitting' ? {color: '#fff'} : {},
+                selectedopt == 'Sitting' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.Sitting}
             </Text>
@@ -121,13 +116,13 @@ const NotesPopup = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Peroid' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Peroid' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Peroid')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Peroid' ? {color: '#fff'} : {},
+                selectedopt == 'Peroid' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.Peroid}
             </Text>
@@ -136,13 +131,13 @@ const NotesPopup = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Walking' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Walking' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Walking')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Walking' ? {color: '#fff'} : {},
+                selectedopt == 'Walking' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.Walking}
             </Text>
@@ -151,13 +146,13 @@ const NotesPopup = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Lying' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Lying' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Lying')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Lying' ? {color: '#fff'} : {},
+                selectedopt == 'Lying' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.Lying}
             </Text>
@@ -166,28 +161,33 @@ const NotesPopup = (props: any) => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.bottomButton}
+            style={[styles.bottomButton, { backgroundColor: '#C9E9BC' }]}
             onPress={() => props.setshowremarksmodal(false)}>
             <Text
               style={{
                 textAlign: 'center',
                 fontFamily: 'Raleway-Medium',
-                color: '#5B5B5B',
+                color: '#5E9368',
+                fontSize: 14
               }}>
               {props.langstr.main.cancel}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              props.setnote(selectedopt);
-              props.setshowremarksmodal(false);
-            }}
-            style={[styles.bottomButton, {backgroundColor: '#009F8B'}]}>
-            <Text
-              style={{textAlign: 'center', color: '#fff', fontFamily: 'Raleway-Medium',}}>
-              {props.langstr.main.okay}
-            </Text>
-          </TouchableOpacity>
+
+          <LinearGradient colors={['#7ADC57', '#5DC983']} style={[styles.bottomButton, { backgroundColor: '#009F8B' }]} start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 2 }}>
+            <TouchableOpacity
+              onPress={() => {
+                props.setnote(selectedopt);
+                props.setshowremarksmodal(false);
+              }}
+            >
+              <Text
+                style={{ textAlign: 'center', color: '#fff', fontFamily: 'Raleway-Medium', }}>
+                {props.langstr.main.okay}
+              </Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </View>
     </View>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 15,
     bottom: 50,
   },
   header: {
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   heading: {
-    color: '#2E2E2E',
+    color: '#2A5B1B',
     fontWeight: '700',
     fontSize: 21,
   },
@@ -232,34 +232,33 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   button: {
-    width: '100%',
+    width: '95%',
     alignSelf: 'center',
     borderRadius: 7,
-    backgroundColor: '#F4F5F6',
+    backgroundColor: '#F0FEF0',
     paddingHorizontal: 5,
     paddingVertical: 15,
     marginBottom: 10,
   },
   btnText: {
     textAlign: 'center',
-    color: '#5B5B5B',
+    color: '#5E9368',
     fontFamily: 'Raleway-Medium',
     fontSize: 16,
   },
   buttonContainer: {
-    width: '100%',
+    width: '90%',
     marginTop: 15,
     paddingHorizontal: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   bottomButton: {
-    width: '45%',
+    width: '30%',
     alignSelf: 'center',
-    borderRadius: 7,
-    backgroundColor: '#F4F5F6',
+    borderRadius: 27,
     paddingHorizontal: 5,
-    paddingVertical: 15,
+    paddingVertical: 14,
     marginBottom: 10,
   },
 });

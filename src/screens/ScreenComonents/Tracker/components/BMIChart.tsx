@@ -8,18 +8,19 @@ import {
   Image,
 } from 'react-native';
 // import analytics from '@react-native-firebase/analytics';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   get_async_data,
   get_chart_data,
   set_async_data,
 } from '../../../../Helper/AppHelper';
 import moment from 'moment';
-import {BarChart, yAxisSides} from 'react-native-gifted-charts';
+import { BarChart, yAxisSides } from 'react-native-gifted-charts';
 
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const adImgWidth = width - 50;
 const adImgRatio = adImgWidth / 1260;
@@ -29,7 +30,7 @@ const btnRatio = btnWidth / 1256;
 
 const BMIChart = (props: any) => {
   const isFocused = useIsFocused();
-  const [adSeen, setadSeen] = useState('seen');
+  const [adSeen, setadSeen] = useState('');
   const [btnType, setbtnType] = useState('Add');
   const [stackData, setstackData] = useState([
     {
@@ -43,10 +44,14 @@ const BMIChart = (props: any) => {
     (async () => {
       try {
         // let adSeen = await get_async_data('line_chart_bmi_ad');
-        // setadSeen(adSeen);
-        // if (adSeen == 'unseen') {
-        //   load();
-        // } else {
+        if (props.hidead.toString() == 'false') {
+          let adSeen = await get_async_data('line_chart_bmi_ad');
+          setadSeen(adSeen);
+        } else {
+          await set_async_data('line_chart_bmi_ad', 'seen');
+          setadSeen('seen');
+        }
+
         let chartData = await get_chart_data('bmi');
         let dataArr = [];
         let limit = chartData.data.length > 5 ? 5 : chartData.data.length;
@@ -110,8 +115,8 @@ const BMIChart = (props: any) => {
               data={stackData}
               showXAxisIndices
               xAxisThickness={1}
-              xAxisIndicesColor={'#000'}
-              xAxisColor={'#DCDCDC'}
+              xAxisIndicesColor={'#C9E9BC'}
+              xAxisColor={'#C9E9BC'}
               xAxisIndicesHeight={6}
               xAxisIndicesWidth={1}
               yAxisThickness={0}
@@ -121,17 +126,14 @@ const BMIChart = (props: any) => {
               yAxisTextStyle={styles.labeltext}
               xAxisLabelTextStyle={styles.labeltext}
               dashGap={2}
+              dashWidth={10}
             />
           </View>
-          {/* <View style={styles.btnContainer}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                props.navigation.navigate('BmiRecordScreen');
-              }}>
+          <View style={styles.btnContainer}>
+            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BmiRecordScreen') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}>
               <Text style={styles.addbtnText}>{props.langstr.main.add}</Text>
-            </TouchableOpacity>
-          </View> */}
+            </LinearGradient>
+          </View>
         </>
       ) : (
         <ImageBackground
@@ -158,27 +160,27 @@ const BMIChart = (props: any) => {
             )}
           </View>
           {btnType == 'Add' ? (
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => props.navigation.navigate('BmiRecordScreen')}>
+            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BmiRecordScreen') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.btnText}>
                 {props.langstr.main.add}
               </Text>
-            </TouchableOpacity>
+            </LinearGradient>
           ) : (
-            <TouchableOpacity style={styles.btn} onPress={props.showAd}>
+            <LinearGradient onTouchEnd={props.showAd} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.btnText}>
                 {props.langstr.main.unlock}
               </Text>
-            </TouchableOpacity>
+            </LinearGradient>
           )}
-        </ImageBackground>
+        </ImageBackground >
       )}
     </>
   );
@@ -210,10 +212,10 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: btnWidth,
-    height: 176 * btnRatio,
+    height: 186 * btnRatio,
     alignSelf: 'center',
     backgroundColor: `rgba(0, 159,139, 0.7)`,
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -234,15 +236,15 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
     marginBottom: 20,
     paddingVertical: 10,
-    backgroundColor: '#f4f5f6',
+    backgroundColor: '#F0FEF0',
     borderRadius: 10,
   },
   horizontialTextStyle: {
-    fontSize: 12,
+    fontSize: 12
   },
   labeltext: {
     fontSize: 9,
-    color: '#363636',
+    color: '#2A5B1B',
   },
   xBorder: {
     borderWidth: 1,

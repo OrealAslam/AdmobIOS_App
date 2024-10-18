@@ -7,8 +7,9 @@ import {
   BackHandler,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
-const {width, height} = Dimensions.get('screen');
+import React, { useState } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
+const { width, height } = Dimensions.get('screen');
 const DropDownSelection = (props: any) => {
   const [selectedopt, setselectedopt] = useState('');
   const options = [
@@ -26,13 +27,13 @@ const DropDownSelection = (props: any) => {
           key={index}
           style={[
             styles.button,
-            selectedopt == item ? {backgroundColor: '#009F8B'} : {},
+            selectedopt == item ? { backgroundColor: '#2A5B1B' } : {},
           ]}
           onPress={() => setselectedopt(item)}>
           <Text
             style={[
               styles.btnText,
-              selectedopt == item ? {color: '#fff'} : {},
+              selectedopt == item ? { color: '#fff' } : {},
             ]}>
             {item}
           </Text>
@@ -47,25 +48,19 @@ const DropDownSelection = (props: any) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.heading}>{props.langstr.main.note}</Text>
-          <TouchableOpacity onPress={() => props.setshow(false)}>
-            <Image
-              style={{width: 14, height: 14}}
-              source={require('../../../assets/images/dashboard_icons/navigate_back_new.png')}
-            />
-          </TouchableOpacity>
         </View>
 
         <View style={styles.mainArea}>
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'After meal' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'After meal' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('After meal')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'After meal' ? {color: '#fff'} : {},
+                selectedopt == 'After meal' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.AfterMeal}
             </Text>
@@ -74,13 +69,13 @@ const DropDownSelection = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Before meal' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Before meal' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Before meal')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Before meal' ? {color: '#fff'} : {},
+                selectedopt == 'Before meal' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.BeforeMeal}
             </Text>
@@ -89,13 +84,13 @@ const DropDownSelection = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'After sleep' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'After sleep' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('After sleep')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'After sleep' ? {color: '#fff'} : {},
+                selectedopt == 'After sleep' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.AfterSleep}
             </Text>
@@ -104,13 +99,13 @@ const DropDownSelection = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Fasting' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Fasting' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Fasting')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Fasting' ? {color: '#fff'} : {},
+                selectedopt == 'Fasting' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.Fasting}
             </Text>
@@ -119,13 +114,13 @@ const DropDownSelection = (props: any) => {
           <TouchableOpacity
             style={[
               styles.button,
-              selectedopt == 'Other' ? {backgroundColor: '#009F8B'} : {},
+              selectedopt == 'Other' ? { backgroundColor: '#2A5B1B' } : {},
             ]}
             onPress={() => setselectedopt('Other')}>
             <Text
               style={[
                 styles.btnText,
-                selectedopt == 'Other' ? {color: '#fff'} : {},
+                selectedopt == 'Other' ? { color: '#fff' } : {},
               ]}>
               {props.langstr.options.Other}
             </Text>
@@ -134,28 +129,33 @@ const DropDownSelection = (props: any) => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.bottomButton}
+            style={[styles.bottomButton, { backgroundColor: '#C9E9BC' }]}
             onPress={() => props.setshow(false)}>
             <Text
               style={{
                 textAlign: 'center',
-                fontFamily: 'Montserrat-Bold',
-                color: '#5B5B5B',
+                fontFamily: 'Raleway-Medium',
+                color: '#5E9368',
+                fontSize: 14
               }}>
               {props.langstr.main.cancel}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              props.setSelectedTime(selectedopt);
-              props.setshow(false);
-            }}
-            style={[styles.bottomButton, {backgroundColor: '#009F8B'}]}>
-            <Text
-              style={{textAlign: 'center', color: '#fff', fontFamily: 'Montserrat-Bold',}}>
-              {props.langstr.main.okay}
-            </Text>
-          </TouchableOpacity>
+
+          <LinearGradient colors={['#7ADC57', '#5DC983']} style={[styles.bottomButton, { backgroundColor: '#009F8B' }]} start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 2 }}>
+            <TouchableOpacity
+              onPress={() => {
+                props.setSelectedTime(selectedopt);
+                props.setshow(false);
+              }}
+            >
+              <Text
+                style={{ textAlign: 'center', color: '#fff', fontFamily: 'Raleway-Medium', }}>
+                {props.langstr.main.okay}
+              </Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </View>
     </View>
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
+    borderRadius: 15,
     bottom: 50,
   },
   header: {
@@ -190,8 +190,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   heading: {
-    color: '#2E2E2E',
-    fontFamily: 'Montserrat-Bold',
+    color: '#2A5B1B',
+    fontWeight: '700',
     fontSize: 21,
   },
   mainArea: {
@@ -200,34 +200,33 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   button: {
-    width: '100%',
+    width: '95%',
     alignSelf: 'center',
     borderRadius: 7,
-    backgroundColor: '#F4F5F6',
+    backgroundColor: '#F0FEF0',
     paddingHorizontal: 5,
     paddingVertical: 15,
     marginBottom: 10,
   },
   btnText: {
     textAlign: 'center',
-    color: '#5B5B5B',
-    fontSize: 16,
+    color: '#5E9368',
     fontFamily: 'Raleway-Medium',
+    fontSize: 16,
   },
   buttonContainer: {
-    width: '100%',
+    width: '90%',
     marginTop: 15,
     paddingHorizontal: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   bottomButton: {
-    width: '45%',
+    width: '30%',
     alignSelf: 'center',
-    borderRadius: 7,
-    backgroundColor: '#F4F5F6',
+    borderRadius: 27,
     paddingHorizontal: 5,
-    paddingVertical: 15,
+    paddingVertical: 14,
     marginBottom: 10,
   },
 });

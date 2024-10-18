@@ -24,7 +24,7 @@ const DateComponent = (props: any) => {
   const printDays = () => {
     let jsx = data.map((item, index) => {
       return (
-        <TouchableOpacity onPress={() => { props.setdatepressed(item) }} style={[CalenderDateStyle.date, props.datepressed == item ? { backgroundColor: '#5F45FE' } : {}]} key={index}>
+        <TouchableOpacity onPress={() => { props.setdatepressed(item) }} style={[CalenderDateStyle.date, props.datepressed == item ? { backgroundColor: '#5DC983' } : {}]} key={index}>
           <Text style={[styles.fontStyle, CalenderDateStyle.dateText, props.datepressed == item ? CalenderDateStyle.dateTextSelected : {}]}>
             {item}
           </Text>

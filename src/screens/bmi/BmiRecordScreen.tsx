@@ -6,33 +6,34 @@ import {
   Image,
   ImageBackground,
   Dimensions,
-  BackHandler,
   ActivityIndicator,
   SafeAreaView,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import LoadingAnimation from '../../components/LoadingAnimation';
 import BMIPicker from './components/BMIPicker';
-import {Banner, INTERSITIAL_AD_ID} from '../../Helper/AdManager';
+import { Banner, INTERSITIAL_AD_ID } from '../../Helper/AdManager';
 import {
+  disableAds,
   // add_bmi_report,
   get_async_data,
   set_async_data,
 } from '../../Helper/AppHelper';
 import moment from 'moment';
 // import analytics from '@react-native-firebase/analytics';
-import {lang} from '../../../global';
+import { lang } from '../../../global';
 import DisplayAd from '../../components/DisplayAd';
 import SaveButton from '../../components/SaveButton';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width / 2 - 30;
 const RATIO = ITEM_WIDTH / 592;
 
 const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
-const BmiRecordScreen = ({navigation}: {navigation: any}) => {
+const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
+  const [hidead, sethidead] = useState(true);
   const [card, setcard] = useState('male');
   const [weight, setweight] = useState(70);
   const [height, setheight] = useState(172);
@@ -40,10 +41,9 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
   const [pressurelevel, setpressurelevel] = useState('Normal');
   const [chartPercentage, setchartPercentage] = useState(35);
   const [bmi, setbmi] = useState(23.66);
-  const [closeloader, setcloseloader] = useState(false);
   const [save, setsave] = useState(false);
   const [language, setlanguage] = useState({
-    dashobard: {bmi: ''},
+    dashobard: { bmi: '' },
     main: {
       male: '',
       female: '',
@@ -53,7 +53,7 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
     },
   });
   const [langstr, setlangstr] = useState({
-    dashobard: {bmi: ''},
+    dashobard: { bmi: '' },
     main: {
       male: '',
       female: '',
@@ -110,21 +110,13 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
     calculateBMI(weight, height);
   }, [weight, height]);
 
-  const backAction = () => {
-    setcloseloader(true);
-    return true;
-  };
-
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
-
   useEffect(() => {
     (async () => {
       try {
         // await analytics().logEvent('add_bmi_screen');
         let lan = await lang();
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -145,12 +137,11 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
 
   const _continue = async () => {
     try {
-      setcloseloader(false);
       if (save == true) {
         setsave(false);
         navigation.navigate('BmiResultScreen');
       } else {
-        navigation.navigate('HomeScreen', {tab: 'home'});
+        navigation.navigate('BmiResultScreen');
       }
     } catch (e) {
       console.log('catch error', e);
@@ -160,20 +151,14 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
 
   return (
     <>
-      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FFF8' }}>
         <View style={styles.header}>
-          <View style={styles.col}>
-            <TouchableOpacity
-              style={{paddingHorizontal: 20, paddingVertical: 25}}
-              onPress={() => setcloseloader(true)}
-              accessibilityLabel="Back">
-              <Image
-                style={{width: 14, height: 14}}
-                source={require('../../assets/images/dashboard_icons/navigate_back_new.png')}
-              />
-            </TouchableOpacity>
-            <Text style={styles.heading}>{langstr.dashobard.bmi}</Text>
-          </View>
+          {
+            hidead.toString() == 'false' ?
+              <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
+                <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
+              </TouchableOpacity> : <></>
+          }
         </View>
 
         <View style={styles.cardContainer}>
@@ -188,7 +173,7 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
               <Text
                 style={[
                   styles.cardText,
-                  card == 'male' ? {color: '#fff'} : {color: '#2E2E2E'},
+                  card == 'male' ? { color: '#fff' } : { color: '#5E9368' },
                 ]}>
                 {langstr.main.male}
               </Text>
@@ -205,7 +190,7 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
               <Text
                 style={[
                   styles.cardText,
-                  card == 'female' ? {color: '#fff'} : {color: '#2E2E2E'},
+                  card == 'female' ? { color: '#fff' } : { color: '#5E9368' },
                 ]}>
                 {langstr.main.female}
               </Text>
@@ -219,14 +204,14 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
           langstr={langstr}
         />
 
-        <View style={{marginVertical: 30}}>
+        <View style={{ marginVertical: 30 }}>
           <Text style={styles.pressurelevel}>{pressurelevel}</Text>
           <Image
             style={styles.scale}
             source={require('../../assets/images/bmichart.png')}
           />
           <Image
-            style={[styles.pointerIndicator, {left: `${chartPercentage}%`}]}
+            style={[styles.pointerIndicator, { left: `${chartPercentage}%` }]}
             source={require('../../assets/images/polygon.png')}
           />
         </View>
@@ -234,7 +219,7 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
           <ActivityIndicator
             size={`small`}
             color={`#000000`}
-            style={{marginTop: 40}}
+            style={{ marginTop: 40 }}
           />
         ) : (
           <SaveButton
@@ -244,21 +229,25 @@ const BmiRecordScreen = ({navigation}: {navigation: any}) => {
             langstr={langstr}
             pressurelevel={pressurelevel}
             bmi={bmi.toFixed(3)}
+            _continue={_continue}
+            hidead={hidead}
           />
         )}
       </SafeAreaView>
-      <Banner />
+      {hidead.toString() == 'false' ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
-      {closeloader == true|| save == true ? (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID}/>) : (<></>)}
+      {save == true ? (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />) : (<></>)}
     </>
   );
 };
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     verticalAlign: 'middle',
+    paddingHorizontal: 20,
+    paddingVertical: 12
   },
   col: {
     flexDirection: 'row',
@@ -286,8 +275,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   cardText: {
-    fontSize: 14,
-    fontWeight: '400',
+    fontSize: 16,
+    fontWeight: '500',
   },
   btn: {
     width: width * 0.88,
@@ -308,7 +297,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '700',
     fontSize: 18,
-    color: '#5F5F5F',
+    color: '#2A5B1B',
     marginBottom: 15,
   },
   scale: {

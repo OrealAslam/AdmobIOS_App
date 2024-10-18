@@ -19,7 +19,6 @@ function Chart(props: any) {
   useEffect(() => {
     (async () => {
       let sugarChart = await get_chart_data('sugar');
-      console.log('sugar chart data', sugarChart);
       if (sugarChart.data.length < 1) {
         let date = moment().format('YYYY-MM-DD H:mm:ss');
         useApiData({

@@ -187,7 +187,7 @@ export const historyListStyle = StyleSheet.create({
 export const addFormStyle = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F8FFF8',
   },
   header: {
     width: width,
@@ -224,7 +224,7 @@ export const addFormStyle = StyleSheet.create({
     right: -17,
   },
   datetime: {
-    width: '90%',
+    width: '80%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'center',
@@ -243,7 +243,7 @@ export const addFormStyle = StyleSheet.create({
     fontStyle: 'normal',
     fontSize: 15,
     textTransform: 'capitalize',
-    color: '#2E2E2E',
+    color: '#2A5B1B',
     marginLeft: 10,
     marginBottom: 0,
   },
@@ -278,8 +278,8 @@ export const addFormStyle = StyleSheet.create({
     padding: 12,
     borderRadius: 6,
   },
-  calanderIC: {width: 22, height: 22, transform: [{scale: 0.9}]},
-  clockIC: {width: 23, height: 23},
+  calanderIC: {width: 28, height: 28, transform: [{scale: 0.9}]},
+  clockIC: {width: 28, height: 28},
   dateTimeText: {
     color: '#515151',
     marginLeft: 10,

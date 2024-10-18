@@ -1,7 +1,8 @@
-import {View, Text, Dimensions, StyleSheet} from 'react-native';
-import React, {useMemo} from 'react';
+import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
 import WheelPicker from 'react-native-wheely';
-const {width} = Dimensions.get('window');
+import LinearGradient from 'react-native-linear-gradient';
+const { width } = Dimensions.get('window');
 const itemWidth = width / 3 - 40;
 const ratio = itemWidth / 334;
 
@@ -31,43 +32,48 @@ const BMIPicker = (props: any) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <WheelPicker
-          decelerationRate={'normal'}
-          selectedIndex={30}
-          options={weight}
-          onChange={index => {
-            props.setweight(weight[index]);
-          }}
-          itemTextStyle={{
-            color: '#FFFFFF',
-            fontSize: 19,
-            fontWeight: '800',
-            fontStyle: 'normal',
-          }}
-          containerStyle={{
-            backgroundColor: '#009f8b',
-            borderRadius: 12,
-            width: itemWidth,
-          }}
-          selectedIndicatorStyle={{
-            backgroundColor: '#00ccb1',
-            width: '90%',
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-          visibleRest={1}
-        />
+        <LinearGradient colors={['#7ADC57', '#5DC983']} style={{
+          borderRadius: 12,
+          width: itemWidth,
+        }} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }}>
+          <WheelPicker
+            decelerationRate={'normal'}
+            selectedIndex={30}
+            options={weight}
+            onChange={index => {
+              props.setweight(weight[index]);
+            }}
+            itemTextStyle={{
+              color: '#FFFFFF',
+              fontSize: 19,
+              fontWeight: '800',
+              fontStyle: 'normal',
+            }}
+            containerStyle={{
+              backgroundColor: 'transparent',
+              borderRadius: 12,
+              width: itemWidth,
+            }}
+            selectedIndicatorStyle={{
+              backgroundColor: '#2A5B1B',
+              width: '90%',
+              alignSelf: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+            visibleRest={1}
+          />
+        </LinearGradient>
         <Text
           style={{
-            color: '#2A2A2E',
-            fontSize: 16,
-            fontWeight: '600',
+            color: '#2A5B1B',
+            fontSize: 14,
+            fontFamily: 'Montserrat-Bold',
             marginTop: 5,
           }}>
           {props.langstr.main.weight}
         </Text>
-        <Text style={{color: '#9F9F9F', fontSize: 12}}>kg</Text>
+        <Text style={{ color: '#9F9F9F', fontSize: 12, fontFamily: 'Raleway-Medium' }}>kg</Text>
       </View>
 
       <View
@@ -76,44 +82,48 @@ const BMIPicker = (props: any) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <WheelPicker
-          decelerationRate={'normal'}
-          selectedIndex={131}
-          options={height}
-          onChange={index => {
-            props.setheight(height[index]);
-          }}
-          itemTextStyle={{
-            color: '#FFFFFF',
-            fontSize: 19,
-            fontWeight: '800',
-            fontStyle: 'normal',
-          }}
-          containerStyle={{
-            backgroundColor: '#009f8b',
-            // backgroundColor: '#04AA6D',
-            borderRadius: 12,
-            width: itemWidth,
-          }}
-          selectedIndicatorStyle={{
-            backgroundColor: '#00ccb1',
-            width: '90%',
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}
-          visibleRest={1}
-        />
+          <LinearGradient colors={['#7ADC57', '#5DC983']} style={{
+          borderRadius: 12,
+          width: itemWidth,
+        }} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }}>
+          <WheelPicker
+            decelerationRate={'normal'}
+            selectedIndex={131}
+            options={height}
+            onChange={index => {
+              props.setheight(height[index]);
+            }}
+            itemTextStyle={{
+              color: '#FFFFFF',
+              fontSize: 19,
+              fontWeight: '800',
+              fontStyle: 'normal',
+            }}
+            containerStyle={{
+              backgroundColor: 'transparent',
+              borderRadius: 12,
+              width: itemWidth,
+            }}
+            selectedIndicatorStyle={{
+              backgroundColor: '#2A5B1B',
+              width: '90%',
+              alignSelf: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}
+            visibleRest={1}
+          />
+        </LinearGradient>
         <Text
           style={{
-            color: '#2A2A2E',
+            color: '#2A5B1B',
             fontSize: 16,
             fontWeight: '600',
             marginTop: 5,
           }}>
           {props.langstr.main.height}
         </Text>
-        <Text style={{color: '#9F9F9F', fontSize: 12}}>cm</Text>
+        <Text style={{ color: '#5E9368', fontSize: 12 }}>cm</Text>
       </View>
     </View>
   );

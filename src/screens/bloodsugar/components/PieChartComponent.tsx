@@ -92,10 +92,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignSelf: 'center',
     alignItems: 'center',
+    justifyContent: 'center'
   },
   measure_chart: {
     width: itemWidth,
     height: 290 * ratio,
+    alignSelf: 'center',
+    marginTop: 15
   },
 });
 export default PieChartComponent;

@@ -1,6 +1,5 @@
 import {
   View,
-  BackHandler,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
@@ -10,21 +9,15 @@ import {
 import React, { useState, useEffect } from 'react';
 import QuitAppModal from './QuitAppModal';
 import { Banner } from '../Helper/AdManager';
+import { disableAds } from '../Helper/AppHelper';
 const { width } = Dimensions.get('window');
 const ICON_WIDTH = width / 5 - 40;
-const ICON_RATIO = ICON_WIDTH / 112;
+const ICON_RATIO = ICON_WIDTH / 193;
 
 const BottomMenu = (props: any) => {
   const [tab, settab] = useState('home');
   const [quit, setquit] = useState(false);
-  const backAction = () => {
-    setquit(true);
-    return true;
-  };
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
+  const [hidead, sethidead] = useState(false);
 
   useEffect(() => {
     switch (props.selectedmenu) {
@@ -48,6 +41,13 @@ const BottomMenu = (props: any) => {
     }
   }, [props.selectedmenu]);
 
+  useEffect(() => {
+    (async () => {
+      let res = await disableAds();
+      sethidead(res);
+    })()
+  },[]);
+
   const menu = () => {
     let js = (
       <View style={styles.menuContainer}>
@@ -69,7 +69,8 @@ const BottomMenu = (props: any) => {
           //onPress={() => changeTab('insight')}
           onPress={() => changeTab('tracker')}
           style={styles.column}>
-          <Image style={styles.icon} source={tab == 'insight' ? require('../assets/menu/insight_selected.png') : require('../assets/menu/insight_unselected.png')} />
+          {/* <Image style={styles.icon} source={tab == 'insight' ? require('../assets/menu/insight_selected.png') : require('../assets/menu/insight_unselected.png')} /> */}
+          <Image style={styles.icon} source={tab == 'tracker' ? require('../assets/menu/insight_selected.png') : require('../assets/menu/insight_unselected.png')} />
           <Text style={styles.menuTxt}>Insights</Text>
         </TouchableOpacity>
 
@@ -114,7 +115,7 @@ const BottomMenu = (props: any) => {
           backgroundColor: '#F4F4FE'
         }}>
         {menu()}
-        <Banner />
+        {hidead.toString() == 'false' ? <Banner /> : (<></>) }
       </View>
       {quit == true ? <QuitAppModal setquit={setquit} /> : <></>}
     </>
@@ -123,12 +124,15 @@ const BottomMenu = (props: any) => {
 
 const styles = StyleSheet.create({
   menuContainer: {
-    width: width * 0.85,
+    width: width,
     justifyContent: 'space-between',
     alignSelf: 'center',
     flexDirection: 'row',
-    backgroundColor: '#F4F4FE',
-    paddingTop: 5,
+    backgroundColor: '#ffffff',
+    paddingVertical: '2%',
+    paddingHorizontal: '5%',
+    borderTopWidth: 1,
+    borderTopColor: '#7ADC57'
   },
   column: {
     backgroundColor: 'transparent',
@@ -137,11 +141,12 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: ICON_WIDTH,
-    height: 111 * ICON_RATIO,
+    height: 176 * ICON_RATIO,
   },
   menuTxt: {
-    fontSize: 10,
+    fontSize: 16,
     fontFamily: 'Raleway-Medium',
+    color: '#5E9368'
   }
 });
 export default BottomMenu;

@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   TextInput,
   Linking,
-  BackHandler,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
@@ -18,6 +17,8 @@ import React, { useState, useEffect } from 'react';
 import { lang } from '../../global';
 import { useIsFocused } from '@react-navigation/native';
 import { Banner } from '../Helper/AdManager';
+import LinearGradient from 'react-native-linear-gradient';
+import { disableAds } from '../Helper/AppHelper';
 
 const { width } = Dimensions.get('window');
 const ITEM_WIDTH = width - 60;
@@ -25,6 +26,7 @@ const RATIO = ITEM_WIDTH / 1256;
 
 const FeedBackScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
+  const [hidead, sethidead] = useState(true);
   const [feedback, setfeedback] = useState('');
   const [language, setlanguage] = useState({
     setting: { feedback: '', suggestion: '' },
@@ -37,6 +39,8 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('feedback_screen');
         let lan = await lang();
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -49,19 +53,9 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
     setplaceholder(language?.setting.suggestion);
   }, [language]);
 
-  const backAction = () => {
-    navigation.navigate('Settings');
-    return true;
-  };
-
-  const backHandler = BackHandler.addEventListener(
-    'hardwareBackPress',
-    backAction,
-  );
-
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FFF8' }}>
         {/* KeyboardAvoidingView handles keyboard interactions */}
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -70,7 +64,7 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
         >
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.header}>
-              <View style={styles.col}>
+              {/* <View style={styles.col}>
                 <TouchableOpacity
                   style={{ paddingHorizontal: 10, paddingVertical: 5 }}
                   onPress={() => navigation.navigate('HomeScreen')}
@@ -81,8 +75,13 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
                     source={require('../assets/images/dashboard_icons/navigate_back_new.png')}
                   />
                 </TouchableOpacity>
-                <Text style={styles.heading}>{title}</Text>
-              </View>
+              </View> */}
+              <Text style={styles.heading}>{title}</Text>
+              {hidead.toString() == 'false' ?
+                <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
+                  <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../assets/images/premium.png')} />
+                </TouchableOpacity> : <></>
+              }
             </View>
 
             <View style={styles.inputContainer}>
@@ -95,23 +94,18 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
                 multiline
               />
             </View>
-
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() =>
-                Linking.openURL(
-                  'https://play.google.com/store/apps/details?id=com.healthapps.digitalhealthkit',
-                )
-              }
-            >
+            <LinearGradient onTouchEnd={() => Linking.openURL(
+              'https://play.google.com/store/apps/details?id=com.healthapps.digitalhealthkit',
+            )} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text style={styles.btntxt}>{title}</Text>
-            </TouchableOpacity>
+            </LinearGradient>
           </ScrollView>
         </KeyboardAvoidingView>
 
         {/* BANNER AD */}
         <View style={styles.bannerContainer}>
-          <Banner />
+          {hidead.toString() == 'false' ? <Banner /> : <></>}
         </View>
       </SafeAreaView>
     </>
@@ -137,8 +131,8 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   heading: {
-    color: '#2E2E2E',
-    fontSize: 20,
+    color: '#241B5B',
+    fontSize: 26,
     fontFamily: 'Montserrat-Bold',
     marginLeft: 15,
   },
@@ -150,11 +144,10 @@ const styles = StyleSheet.create({
     width: ITEM_WIDTH,
     height: 200 * RATIO,
     alignSelf: 'center',
+    top: 20,
+    borderRadius: 30,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: `rgba(0, 159,139, 1)`,
-    borderRadius: 10,
-    marginTop: 20,
+    alignItems: 'center'
   },
   btntxt: {
     color: '#fff',
@@ -165,7 +158,7 @@ const styles = StyleSheet.create({
     width: width * 0.89,
     height: width * 1.25,
     borderWidth: 2,
-    borderColor: '#009F8B',
+    borderColor: '#C9E9BC',
     borderRadius: 9,
     alignSelf: 'center',
   },

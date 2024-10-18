@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import {
   InterstitialAd,
   AdEventType,
@@ -9,6 +9,7 @@ import {
   BannerAdSize,
   AppOpenAd,
 } from 'react-native-google-mobile-ads';
+import { fetchAvailablePurchases } from './AppHelper';
 // // import analytics from '@react-native-firebase/analytics';
 
 // LIVE APPID: ca-app-pub-3781511156022357~6826036258
@@ -69,7 +70,7 @@ export const Banner = () => {
   return (
     <BannerAd
       onAdLoaded={async () => {
-       // await analytics().logEvent('banner_ad_impression');
+      //  await analytics().logEvent('banner_ad_impression');
       }}
       onAdFailedToLoad={(error) => {
         console.log('banner not loaded', error);
@@ -93,7 +94,7 @@ export const Bannerfull = () => {
       <BannerAd
         unitId={BANNER_AD_ID}
         size={BannerAdSize.FULL_BANNER}
-        requestOptions={{requestNonPersonalizedAdsOnly: true}}></BannerAd>
+        requestOptions={{ requestNonPersonalizedAdsOnly: true }}></BannerAd>
     </View>
   );
 };
@@ -103,7 +104,7 @@ export const Bannerlarge = () => {
     <BannerAd
       unitId={BANNER_AD_ID}
       size={BannerAdSize.LARGE_BANNER}
-      requestOptions={{requestNonPersonalizedAdsOnly: true}}></BannerAd>
+      requestOptions={{ requestNonPersonalizedAdsOnly: true }}></BannerAd>
   );
 };
 
@@ -118,7 +119,7 @@ export const BannerMediumRactangle = () => {
       <BannerAd
         unitId={BANNER_AD_ID}
         size={BannerAdSize.MEDIUM_RECTANGLE}
-        requestOptions={{requestNonPersonalizedAdsOnly: true}}></BannerAd>
+        requestOptions={{ requestNonPersonalizedAdsOnly: true }}></BannerAd>
     </View>
   );
 };

@@ -7,24 +7,25 @@ import {
   Text,
   Image,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   REPORT_TYPES,
   get_async_data,
   get_report,
   set_async_data,
 } from '../../../../Helper/AppHelper';
-import {useIsFocused} from '@react-navigation/native';
-import {get_chart_data} from '../../../../Helper/AppHelper';
+import { useIsFocused } from '@react-navigation/native';
+import { get_chart_data } from '../../../../Helper/AppHelper';
 // import {
 //   VictoryChart,
 //   VictoryLine,
 //   VictoryScatter,
 //   VictoryAxis,
 // } from 'victory-native';
-import {LineChart} from 'react-native-gifted-charts';
+import { LineChart } from 'react-native-gifted-charts';
 import moment from 'moment';
-const {width} = Dimensions.get('window');
+import LinearGradient from 'react-native-linear-gradient';
+const { width } = Dimensions.get('window');
 
 const adImgWidth = width - 50;
 const adImgRatio = adImgWidth / 1260;
@@ -37,12 +38,19 @@ const BloodSugarChart = (props: any) => {
   const [adSeen, setadSeen] = useState('');
   const [btnType, setbtnType] = useState('Add');
 
-  const [dataArray, setdataArray] = useState([{value: 0, label: '0'}]);
+  const [dataArray, setdataArray] = useState([{ value: 0, label: '0' }]);
 
   useEffect(() => {
     (async () => {
       try {
-        let adSeen = await get_async_data('line_chart_bs_ad');
+        if (props.hidead.toString() == 'false') {
+          let adSeen = await get_async_data('line_chart_bs_ad');
+          setadSeen(adSeen);
+        } else {
+          await set_async_data('line_chart_bs_ad', 'seen');
+          setadSeen('seen');
+        }
+
         let sugarChart = await get_chart_data('sugar');
         if (sugarChart.data.length < 1) {
           let date = moment().format('YYYY-MM-DD H:mm:ss');
@@ -61,7 +69,6 @@ const BloodSugarChart = (props: any) => {
         } else {
           useApiData(sugarChart);
         }
-        setadSeen(adSeen);
       } catch (e) {
         console.log(e);
       }
@@ -104,59 +111,14 @@ const BloodSugarChart = (props: any) => {
       {adSeen == 'seen' ? (
         <>
           <View style={styles.chartContainer}>
-            {/* <VictoryChart
-              polar={false}
-              width={width - 35}
-              height={210}
-              padding={25}>
-              <VictoryAxis
-                label=""
-                style={{
-                  axis: {stroke: 'transparent'},
-                  axisLabel: {fontSize: 9, padding: 0},
-                  grid: {stroke: ''},
-                  ticks: {stroke: '#000', size: 5},
-                  tickLabels: {fontSize: 10, padding: 0},
-                }}
-                domainPadding={25}
-              />
-              <VictoryAxis
-                label=""
-                style={{
-                  axis: {stroke: 'transparent'},
-                  axisLabel: {fontSize: 20, padding: 0},
-                  grid: {stroke: '#DCDCDC', size: 10},
-                  ticks: {stroke: 'transparent', size: 28},
-                  tickLabels: {fontSize: 10, padding: 0},
-                }}
-                offsetX={48}
-                dependentAxis
-              />
-              <VictoryLine
-                interpolation="linear"
-                data={dataArray}
-                style={{data: {stroke: '#000000', strokeWidth: 1}}}
-              />
-              <VictoryScatter
-                data={dataArray}
-                size={5}
-                style={{
-                  data: {
-                    fill: '#7CABFF',
-                    borderWidth: 2,
-                    borderColor: '#3980FF',
-                  },
-                }}
-              />
-            </VictoryChart> */}
             <LineChart
               spacing={55}
               data={dataArray}
               adjustToWidth={true}
               width={310}
-              yAxisColor="#0BA5A4"
-              xAxisColor="#0BA5A4"
-              color="#0BA5A4"
+              yAxisColor="#2A5B1B"
+              xAxisColor="#2A5B1B"
+              color="#2A5B1B"
               isAnimated
               onDataChangeAnimationDuration={400}
               initialSpacing={20}
@@ -164,17 +126,15 @@ const BloodSugarChart = (props: any) => {
               focusEnabled
               thickness={2}
               dataPointsColor={'#00b8e6'}
-              backgroundColor={'#F4F5F6'}
-              xAxisLabelTextStyle={{fontSize: 10}}
+              backgroundColor={'#F0FEF0'}
+              xAxisLabelTextStyle={{ fontSize: 9, color: '#2A5B1B' }}
+              yAxisLabelContainerStyle={{paddingHorizontial: 7,backgroundColor: '#F0FEF0'}}
             />
           </View>
-          {/* <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              props.navigation.navigate('AddNewBloodSugarScreen');
-            }}>
+          <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodSugar') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 2 }}>
             <Text style={styles.addbtnText}>{props.langstr.main.add}</Text>
-          </TouchableOpacity> */}
+          </LinearGradient>
         </>
       ) : (
         <ImageBackground
@@ -201,25 +161,25 @@ const BloodSugarChart = (props: any) => {
             )}
           </View>
           {btnType == 'Add' ? (
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => props.navigation.navigate('BloodSugar')}>
+            <LinearGradient onTouchEnd={() => props.navigation.navigate('BloodSugar')} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.btnText}>
                 {props.langstr.main.add}
               </Text>
-            </TouchableOpacity>
+            </LinearGradient>
           ) : (
-            <TouchableOpacity style={styles.btn} onPress={props.showAd}>
+            <LinearGradient onTouchEnd={props.showAd} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={styles.btnText}>
                 {props.langstr.main.unlock}
               </Text>
-            </TouchableOpacity>
+            </LinearGradient>
           )}
         </ImageBackground>
       )}
@@ -244,10 +204,10 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: btnWidth,
-    height: 176 * btnRatio,
+    height: 186 * btnRatio,
     alignSelf: 'center',
     backgroundColor: `rgba(0, 159,139, 0.7)`,
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -268,15 +228,17 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
     marginBottom: 20,
     paddingVertical: 10,
-    backgroundColor: '#f4f5f6',
+    backgroundColor: '#F0FEF0',
     borderRadius: 10,
   },
   horizontialTextStyle: {
-    fontSize: 12,
+    fontSize: 10,
+    color: '#2A5B1B',
+    display: 'none'
   },
   labeltext: {
     fontSize: 9,
-    color: '#363636',
+    color: '#2A5B1B',
   },
   xBorder: {
     borderWidth: 1,

@@ -8,20 +8,21 @@ import {
   ScrollView,
   SafeAreaView
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 // import analytics from '@react-native-firebase/analytics';
-import {lang} from '../../global';
+import { lang } from '../../global';
 import { useIsFocused } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const ITEM_WIDTH = width - 80;
 const RATIO = ITEM_WIDTH / 1256;
 
-const DisclaimerScreen = ({navigation}: {navigation: any}) => {
+const DisclaimerScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
   const [language, setlanguage] = useState({
-    setting: {discText: '', disclaimer: ''},
-    main: {okay: ''},
+    setting: { discText: '', disclaimer: '' },
+    main: { okay: '' },
   });
   const [desc, setdesc] = useState('');
   const [title, settitle] = useState('');
@@ -44,10 +45,10 @@ const DisclaimerScreen = ({navigation}: {navigation: any}) => {
   }, [language]);
 
   return (
-    <SafeAreaView style={{width: width, height: height}}>
+    <SafeAreaView style={{ width: width, height: height, backgroundColor: '#F8FFF8' }}>
       <View style={styles.header}>
         <View style={styles.col}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{paddingHorizontal: 10, paddingVertical: 5}}
             onPress={() => navigation.navigate('HomeScreen')}
             accessibilityLabel="Back">
@@ -55,7 +56,7 @@ const DisclaimerScreen = ({navigation}: {navigation: any}) => {
               style={{width: 14, height: 14}}
               source={require('../assets/images/dashboard_icons/navigate_back_new.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text style={styles.heading}>{title}</Text>
         </View>
       </View>
@@ -64,12 +65,10 @@ const DisclaimerScreen = ({navigation}: {navigation: any}) => {
           <Text style={styles.content}>{desc}</Text>
         </ScrollView>
       </View>
-
-      <TouchableOpacity
-        style={styles.btn}
-        onPress={() => navigation.navigate('HomeScreen')}>
-          <Text style={styles.btntxt}>{btntxt}</Text>
-        </TouchableOpacity>
+      <LinearGradient onTouchEnd={() => navigation.navigate('HomeScreen')} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+        end={{ x: 2, y: 2 }}>
+        <Text style={styles.btntxt}>{btntxt}</Text>
+      </LinearGradient>
     </SafeAreaView>
   );
 };
@@ -88,8 +87,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   heading: {
-    color: '#2E2E2E',
-    fontSize: 20,
+    color: '#241B5B',
+    fontSize: 26,
     fontFamily: 'Montserrat-Bold',
     marginLeft: 10,
   },
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   content: {
-    color: '#000',
+    color: '#5E9368',
     fontSize: 14,
     fontFamily: 'Raleway-Medium',
     lineHeight: 22,
@@ -112,8 +111,7 @@ const styles = StyleSheet.create({
     height: 200 * RATIO,
     alignSelf: 'center',
     top: 20,
-    backgroundColor: `rgba(0, 159,139, 0.7)`,
-    borderRadius: 6,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center'
   },

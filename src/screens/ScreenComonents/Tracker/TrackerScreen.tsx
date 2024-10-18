@@ -14,6 +14,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import ViewShot from 'react-native-view-shot';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import LinearGradient from 'react-native-linear-gradient';
 import BlobUtil from 'react-native-blob-util';
 
 import BloodPressureChart from './components/BloodPressureChart';
@@ -21,7 +22,7 @@ import BloodSugarChart from './components/BloodSugarChart';
 import BMIChart from './components/BMIChart';
 import { NativeAd150 } from '../../../Helper/NativeAd150';
 import { lang } from '../../../../global';
-import { set_async_data } from '../../../Helper/AppHelper';
+import { disableAds, generate_table_as_pdf, set_async_data } from '../../../Helper/AppHelper';
 import { NATIVE_AD_ID_ONE, NATIVE_AD_ID_TWO, REWARED_AD_ID } from '../../../Helper/AdManager';
 import DisplayRewardedAd from '../../../components/DisplayRewardedAd';
 import RateUs from '../../../components/RateUs';
@@ -35,9 +36,7 @@ const TrackerScreen = (props: any) => {
   const bpchartRef = useRef(<></>);
   const bschartRef = useRef(<></>);
   const bmichartRef = useRef(<></>);
-  // const [bpchartImage, setbpChartImage] = useState('');
-  // const [bschartImage, setbsChartImage] = useState('');
-  // const [bmichartImage, setbmiChartImage] = useState('');
+  const [hidead, sethidead] = useState(false);
   const [selectedmenu, setselectedmenu] = useState('tracker');
   const [rewardadseen, setrewardadseen] = useState(0);
   const [rate, showrate] = useState(false);
@@ -70,6 +69,8 @@ const TrackerScreen = (props: any) => {
   useEffect(() => {
     (async () => {
       let lan = await lang();
+      let res = await disableAds();
+      sethidead(res);
       setlanguage(lan);
       setselectedmenu('tracker');
     })();
@@ -99,45 +100,125 @@ const TrackerScreen = (props: any) => {
     setrewardadseen(rewardadseen + 1);
   };
 
+  // const generatePDF = async () => {
+  //   try {
+  //     // BP IMAGE CREATION
+  //     const bpuri = await bpchartRef.current.capture(); // Capture the image
+  //     const bpbase64Image = await BlobUtil.fs.readFile(bpuri, 'base64'); // Convert image to base64
+  //     const bpbase64Data = `data:image/png;base64,${bpbase64Image}`; // Prefix it with base64 data URI
+  //     // setbpChartImage(bpbase64Data); // Set the base64 chart image
+
+  //     // BS IMAGE CREATION
+  //     const bsuri = await bschartRef.current.capture(); // Capture the image
+  //     const bsbase64Image = await BlobUtil.fs.readFile(bsuri, 'base64'); // Convert image to base64
+  //     const bsbase64Data = `data:image/png;base64,${bsbase64Image}`; // Prefix it with base64 data URI
+  //     // setbsChartImage(bsbase64Data); // Set the base64 chart image
+
+  //     // BMI IMAGE CREATION
+  //     const bmiuri = await bmichartRef.current.capture(); // Capture the image
+  //     const bmibase64Image = await BlobUtil.fs.readFile(bmiuri, 'base64'); // Convert image to base64
+  //     const bmibase64Data = `data:image/png;base64,${bmibase64Image}`; // Prefix it with base64 data URI
+  //     // setbmiChartImage(bmibase64Data); // Set the base64 chart image
+
+  //     createAndSharePDF(bpbase64Data, bsbase64Data, bmibase64Data); // Pass the base64 image to the PDF function
+  //   } catch (error) {
+  //     console.error('Error capturing chart image:', error);
+  //   }
+  // };
+
   const generatePDF = async () => {
-    try {
-      // BP IMAGE CREATION
-      const bpuri = await bpchartRef.current.capture(); // Capture the image
-      const bpbase64Image = await BlobUtil.fs.readFile(bpuri, 'base64'); // Convert image to base64
-      const bpbase64Data = `data:image/png;base64,${bpbase64Image}`; // Prefix it with base64 data URI
-      // setbpChartImage(bpbase64Data); // Set the base64 chart image
+    let data = await generate_table_as_pdf();
+    createAndSharePDF(data[0], data[1], data[2]);
+  }
 
-      // BS IMAGE CREATION
-      const bsuri = await bschartRef.current.capture(); // Capture the image
-      const bsbase64Image = await BlobUtil.fs.readFile(bsuri, 'base64'); // Convert image to base64
-      const bsbase64Data = `data:image/png;base64,${bsbase64Image}`; // Prefix it with base64 data URI
-      // setbsChartImage(bsbase64Data); // Set the base64 chart image
-
-      // BMI IMAGE CREATION
-      const bmiuri = await bmichartRef.current.capture(); // Capture the image
-      const bmibase64Image = await BlobUtil.fs.readFile(bmiuri, 'base64'); // Convert image to base64
-      const bmibase64Data = `data:image/png;base64,${bmibase64Image}`; // Prefix it with base64 data URI
-      // setbmiChartImage(bmibase64Data); // Set the base64 chart image
-
-      createAndSharePDF(bpbase64Data, bsbase64Data, bmibase64Data); // Pass the base64 image to the PDF function
-    } catch (error) {
-      console.error('Error capturing chart image:', error);
-    }
-  };
-
-  const createAndSharePDF = async (bpchart:any, bschart:any, bmichart:any) => {
-    // console.log('bpchartImage inside', bpchartImage);
+  const createAndSharePDF = async (bprecord: any, sugarrecord: any, bmirecord: any) => {
     let options = {
-      html: `<div style="flex:1;align-item:'center';justify-content:'center';">
-        <h1 style="font-weight: 700; font-size: 32px; text-align: center;">Application Name Here ...</h1>
-        <p style="font-weight: 500; font-size: 22px; text-align: center;">
-          Here is the complete graphical report
-        </p>
-        <img src="${bpchart}" style="width: 500px; height: 444px; margin-top: 25px; resize-mode: contain; align-self:'center';" />
-        <img src="${bschart}" style="width: 500px; height: 444px; margin-top: 25px; resize-mode: contain;align-self:'center';" />
-        <img src="${bmichart}" style="width: 500px; height: 444px; margin-top: 25px; resize-mode: contain;align-self:'center';" />
-    </div>`,
-      fileName: 'testDownload',
+      html: `
+        <html>
+          <head>
+            <style>
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: center;
+              }
+              th {
+                background-color: #f2f2f2;
+              }
+              div {
+                margin-top: 15px;
+                margin-bottom: 15px;
+              }
+            </style>
+          </head>
+          <body>
+            <div>
+              <h2>Blood Pressure</h2>
+              <table>
+                <tr>
+                  <th>DateTime</th>
+                  <th>Diastolic Pressure</th>
+                  <th>Systolic Pressure</th>
+                  <th>Status</th>
+                </tr>
+                ${bprecord.map((record: any) => `
+                  <tr>
+                    <td>${record.datetime}</td>
+                    <td>${record.diastolic_pressure}</td>
+                    <td>${record.systolic_pressure}</td>
+                    <td>${record.status}</td>
+                  </tr>
+                `).join('')}
+              </table>
+            </div>
+
+            <div>
+              <h2>Blood Sugar</h2>
+              <table>
+                <tr>
+                  <th>DateTime</th>
+                  <th>Sugar Concentration</th>
+                  <th>Measuring Unit</th>
+                  <th>Status</th>
+                </tr>
+                ${sugarrecord.map((record: any) => `
+                  <tr>
+                    <td>${record.datetime}</td>
+                    <td>${record.sugar_concentration}</td>
+                    <td>${record.note}</td>
+                    <td>${record.status}</td>
+                  </tr>
+                `).join('')}
+              </table>
+            </div>
+
+            <div>
+              <h2>BMI Record</h2>
+              <table>
+                <tr>
+                  <th>DateTime</th>
+                  <th>BMI</th>
+                  <th>Status</th>
+                </tr>
+                ${bmirecord.map((record: any) => `
+                  <tr>
+                    <td>${record.datetime}</td>
+                    <td>${record.bmi}</td>
+                    <td>${record.status}</td>
+                  </tr>
+                `).join('')}
+              </table>
+            </div>
+
+
+          </body>
+        </html>
+      `,
+      fileName: 'report',
       directory: 'Documents',
     };
 
@@ -190,12 +271,19 @@ const TrackerScreen = (props: any) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <View style={styles.col}>
-            <Text style={styles.heading}>{langstr.main.trackerTitle}</Text>
-          </View>
-          <Button title="Generate PDF" onPress={generatePDF} />
-        </View>
+        {
+          hidead.toString() == 'false' ? (
+            <View style={[styles.header, {justifyContent: 'flex-end'}]}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
+                <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.header}>
+              <Button title="Generate PDF" onPress={generatePDF} />
+            </View>
+          )
+        }
         <ScrollView style={styles.mainContainer}>
           {/* Blood Pressure */}
           <ViewShot ref={bpchartRef} options={{ format: 'png', quality: 0.9 }}>
@@ -211,6 +299,7 @@ const TrackerScreen = (props: any) => {
                 navigation={props.navigation}
                 langstr={langstr}
                 rewardadseen={rewardadseen}
+                hidead={hidead}
                 showAd={() => {
                   showAd('bp');
                 }}
@@ -218,13 +307,10 @@ const TrackerScreen = (props: any) => {
             </View>
           </ViewShot>
           <View style={styles.btnContainer}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                props.navigation.navigate('BloodPressure'); //AddBloodPressure
-              }}>
+            {/* <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodPressure') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+              end={{ x: 2, y: 2 }}>
               <Text style={styles.addbtnText}>{langstr.main.add}</Text>
-            </TouchableOpacity>
+            </LinearGradient> */}
           </View>
           {/* <View style={styles.nativeContainer}>
             <NativeAd150 adId={NATIVE_AD_ID_ONE}/>
@@ -244,20 +330,17 @@ const TrackerScreen = (props: any) => {
                 navigation={props.navigation}
                 langstr={langstr}
                 rewardadseen={rewardadseen}
+                hidead={hidead}
                 showAd={() => {
                   showAd('bs');
                 }}
               />
             </View>
           </ViewShot>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => {
-              props.navigation.navigate('AddNewBloodSugarScreen');
-            }}>
+          {/* <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodSugar') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 2 }}>
             <Text style={styles.addbtnText}>{langstr.main.add}</Text>
-          </TouchableOpacity>
-
+          </LinearGradient> */}
 
           {/* <View style={styles.nativeContainer}>
             <NativeAd150 adId={NATIVE_AD_ID_TWO}/>
@@ -265,7 +348,7 @@ const TrackerScreen = (props: any) => {
 
           {/* BMI Chart */}
           <ViewShot ref={bmichartRef} options={{ format: 'png', quality: 0.9 }}>
-            <View style={[styles.box, { marginVertical: '5%' }]}>
+            <View style={[styles.box, { marginBottom: 30 }]}>
               <View style={styles.head}>
                 <Image
                   style={{ width: 14, height: 17.95, marginRight: 8 }}
@@ -277,20 +360,15 @@ const TrackerScreen = (props: any) => {
                 navigation={props.navigation}
                 langstr={langstr}
                 rewardadseen={rewardadseen}
+                hidead={hidead}
                 showAd={() => {
                   showAd('bmi');
                 }}
               />
             </View>
           </ViewShot>
-          <View style={[styles.btnContainer, {marginBottom: '15%'}]}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                props.navigation.navigate('BmiRecordScreen');
-              }}>
-              <Text style={styles.addbtnText}>{langstr.main.add}</Text>
-            </TouchableOpacity>
+          <View style={[styles.btnContainer, { marginBottom: '12%' }]}>
+
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -304,7 +382,7 @@ const TrackerScreen = (props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F4F4FE',
+    backgroundColor: '#F8FFF8',
   },
   nativeContainer: {
     width: width * 0.91,
@@ -338,7 +416,7 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 16,
     maxHeight: 1.70 * width,
-    backgroundColor: '#F4F4FE',
+    backgroundColor: '#F0FEF0',
   },
   box: {
     flexDirection: 'column',
@@ -357,7 +435,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   title: {
-    color: '#2E2E2E',
+    color: '#5E9368',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -366,10 +444,10 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: btnWidth,
-    height: 176 * btnRatio,
+    height: 186 * btnRatio,
     alignSelf: 'center',
     backgroundColor: `rgba(0, 159,139, 1)`,
-    borderRadius: 10,
+    borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
     verticalAlign: 'bottom',

@@ -7,16 +7,16 @@ import {
   Image,
   Text,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from './Chart';
 import {
   REPORT_TYPES,
   get_async_data,
   set_async_data,
 } from '../../../Helper/AppHelper';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const adImgWidth = width - 50;
 const adImgRatio = adImgWidth / 1260;
@@ -31,9 +31,13 @@ const LineChartAdComponent = (props: any) => {
   useEffect(() => {
     (async () => {
       try {
-        if (props.loader == false) {
-          let adSeen = await get_async_data('line_chart_bp_ad');
-          setadSeen(adSeen);
+        if (props.hidead.toString() == 'false') {
+          if (props.loader == false) {
+            let adSeen = await get_async_data('line_chart_bp_ad');
+            setadSeen(adSeen);
+          } else {
+            setadSeen('seen');
+          }
         }
       } catch (e) {
         console.log(e);
@@ -49,16 +53,7 @@ const LineChartAdComponent = (props: any) => {
             <Chart />
           </View>
           <TouchableOpacity
-            style={[
-              styles.btn,
-              {
-                backgroundColor: '#009F8B',
-                marginBottom: 10,
-                borderRadius: 8,
-                justifyContent: 'center',
-                alignItems: 'center',
-              },
-            ]}
+            style={[styles.btn, { backgroundColor: '#7ADC57', marginBottom: 10, borderRadius: 32, justifyContent: 'center', alignItems: 'center' }]}
             onPress={() => {
               props.navigation.navigate('BloodPressure');
             }}>
@@ -81,17 +76,17 @@ const LineChartAdComponent = (props: any) => {
             />
           </View>
           <TouchableOpacity
-            onPress={()=>props.showAd('line')}
+            onPress={() => props.showAd('line')}
             style={[
               styles.btn,
               {
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#009F8B',
-                borderRadius: 6,
+                backgroundColor: '#ffffff',
+                borderRadius: 32,
               },
             ]}>
-            <Text style={{color: '#fff', fontSize: 15, fontFamily: 'Raleway-Medium',}}>
+            <Text style={{ color: '#5E9368', fontSize: 16, fontFamily: 'Raleway-Medium', fontWeight: '600' }}>
               {props.langstr.main.unlock}
             </Text>
           </TouchableOpacity>
@@ -111,8 +106,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   NativeAd: {
-    width: 323,
-    height: 245,
+    width: adImgWidth,
+    height: 848 * adImgRatio,
     backgroundColor: `rgba(0,0,0,0.3)`,
     alignSelf: 'center',
   },
@@ -123,7 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   descriptionContainer: {
-    maxWidth: '80%',
+    maxWidth: '60%',
     alignSelf: 'center',
   },
   lockImg: {
@@ -131,10 +126,11 @@ const styles = StyleSheet.create({
     height: 70.02,
     alignSelf: 'center',
   },
-  btn: {width: btnWidth, height: 176 * btnRatio, alignSelf: 'center'},
+  btn: { width: '80%', height: 176 * btnRatio, alignSelf: 'center' },
   btnText: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: 'Montserrat-Bold',
+    lineHeight: 22,
     color: '#fff',
   },
   chartContainer: {
@@ -143,7 +139,7 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
     marginBottom: 20,
     paddingVertical: 10,
-    backgroundColor: '#f4f5f6',
+    backgroundColor: '#F0FEF0',
     borderRadius: 10,
   },
 });
