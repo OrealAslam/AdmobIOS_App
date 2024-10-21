@@ -314,6 +314,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
               _continue={_continue}
               hidead={hidead}
               setsave={setsave}
+              setloader={setloader}
               status={message}
             />
           </ScrollView>

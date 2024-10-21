@@ -230,6 +230,7 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
             pressurelevel={pressurelevel}
             bmi={bmi.toFixed(3)}
             _continue={_continue}
+            setloader={setloader}
             hidead={hidead}
           />
         )}

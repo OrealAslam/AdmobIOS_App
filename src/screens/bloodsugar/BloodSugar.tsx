@@ -361,6 +361,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
           result={result}
           disablesavebtn={disablesavebtn}
           langstr={langstr}
+          setloader={setloader}
         />
       </SafeAreaView>
       {hidead.toString() == 'false' ? <Banner /> : <></>}
