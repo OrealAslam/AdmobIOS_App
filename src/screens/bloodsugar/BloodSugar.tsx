@@ -56,7 +56,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
   const [message, setmessage] = useState(false);
   const [result, setresult] = useState('Normal');
   const [chartPercentage, setchartPercentage] = useState(36);
-  // const [loader, setloader] = useState(false);
+  const [loader, setloader] = useState(false);
   const [disablesavebtn, setdisablesavebtn] = useState(false);
   const [show, setshow] = useState(false);
   const [save, setsave] = useState(false);
@@ -218,6 +218,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
 
   const _continue = async () => {
     try {
+      setloader(false);
       if(save == true) {
         setsave(false);
         navigation.navigate('ResultScreen');
@@ -375,7 +376,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
         />
       )}
 
-      {save == true ? (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID}/>) : (<></>)}
+      {save == true ? (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID}/>) : (<></>)}
     </>
   );
 }

@@ -236,7 +236,7 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
       </SafeAreaView>
       {hidead.toString() == 'false' ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
-      {save == true ? (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />) : (<></>)}
+      {save == true ? (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />) : (<></>)}
     </>
   );
 };

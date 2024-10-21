@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useInterstitialAd } from 'react-native-google-mobile-ads';
+import { INTERSITIAL_AD_ID } from './AdManager';
 
 export default function InterstitialFlooring(props: any) {
   const [errorStatus, seterrorStatus] = useState(false);
 
   const { isLoaded, isClosed, load, show, error } = useInterstitialAd(
-    props.AD_ID,
+    INTERSITIAL_AD_ID,
     {
       requestNonPersonalizedAdsOnly: true,
     },

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Dimensions, Text} from 'react-native';
+import {View, Dimensions, Text, Alert} from 'react-native';
 import InterstitialFlooring from '../Helper/InterstitialFlooring';
 import ZoomAnimation from './ZoomAnimation';
 // import analytics from '@react-native-firebase/analytics';
@@ -32,6 +32,10 @@ const DisplayAd = (props: any) => {
       setadLoadStatus(true);
     } else {
       console.log('AD not available move to next');
+      setTimeout(() => {
+        props.setloader(false);
+        Alert.alert('Unable to unlock try again later')
+      }, 2000);
     }
   };
 

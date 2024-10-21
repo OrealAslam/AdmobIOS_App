@@ -38,7 +38,6 @@ const TrackerScreen = (props: any) => {
   const bmichartRef = useRef(<></>);
   const [hidead, sethidead] = useState(false);
   const [selectedmenu, setselectedmenu] = useState('tracker');
-  const [rewardadseen, setrewardadseen] = useState(0);
   const [rate, showrate] = useState(false);
   const [language, setlanguage] = useState({
     main: { trackerTitle: '', add: '', unlock: '' },
@@ -74,7 +73,7 @@ const TrackerScreen = (props: any) => {
       setlanguage(lan);
       setselectedmenu('tracker');
     })();
-  }, [isFocused, rewardadseen]);
+  }, [isFocused]);
 
   useEffect(() => {
     setlangstr(language);
@@ -82,22 +81,8 @@ const TrackerScreen = (props: any) => {
 
   const showAd = async (type: any) => {
     await set_async_data('hide_ad', 'hide'); // purposly to hide tary ad
+    props.setopengraph(type);
     props.setloader(true);
-    if (type == 'bp') {
-      await set_async_data('line_chart_bp_ad', 'seen');
-    }
-    if (type == 'bs') {
-      await set_async_data('line_chart_bs_ad', 'seen');
-    }
-    if (type == 'bmi') {
-      await set_async_data('line_chart_bmi_ad', 'seen');
-    }
-  };
-
-  const _continue = async () => {
-    props.setloader(false);
-    showrate(true);
-    setrewardadseen(rewardadseen + 1);
   };
 
   // const generatePDF = async () => {
@@ -298,8 +283,8 @@ const TrackerScreen = (props: any) => {
               <BloodPressureChart
                 navigation={props.navigation}
                 langstr={langstr}
-                rewardadseen={rewardadseen}
                 hidead={hidead}
+                loader={props.loader}
                 showAd={() => {
                   showAd('bp');
                 }}
@@ -329,8 +314,8 @@ const TrackerScreen = (props: any) => {
               <BloodSugarChart
                 navigation={props.navigation}
                 langstr={langstr}
-                rewardadseen={rewardadseen}
                 hidead={hidead}
+                loader={props.loader}
                 showAd={() => {
                   showAd('bs');
                 }}
@@ -359,8 +344,8 @@ const TrackerScreen = (props: any) => {
               <BMIChart
                 navigation={props.navigation}
                 langstr={langstr}
-                rewardadseen={rewardadseen}
                 hidead={hidead}
+                loader={props.loader}
                 showAd={() => {
                   showAd('bmi');
                 }}
@@ -373,7 +358,6 @@ const TrackerScreen = (props: any) => {
         </ScrollView>
       </SafeAreaView>
 
-      {props.loader && (<DisplayRewardedAd _continue={_continue} adId={REWARED_AD_ID} />)}
       {rate && <RateUs showrate={showrate} />}
     </>
   );

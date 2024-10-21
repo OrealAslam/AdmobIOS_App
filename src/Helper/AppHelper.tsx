@@ -251,8 +251,6 @@ const arrange_data_for_graph = (record: any, reportType: any) => {
   let temperature: any = [];
   let heart_rate: any = [];
 
-  console.log(record);
-
   if (reportType == 'bp') {
     record.forEach((entry: any) => {
       if (entry.report_type == 'bp') {

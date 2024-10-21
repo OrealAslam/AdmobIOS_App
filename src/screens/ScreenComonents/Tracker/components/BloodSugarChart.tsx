@@ -73,7 +73,7 @@ const BloodSugarChart = (props: any) => {
         console.log(e);
       }
     })();
-  }, [isFocused, adSeen]);
+  }, [isFocused, adSeen, props.loader]);
 
   useEffect(() => {
     (async () => {

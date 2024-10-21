@@ -45,7 +45,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
   const [pressurelevel, setpressurelevel] = useState('Normal');
   const [note, setnote] = useState('');
   const [showremarksmodal, setshowremarksmodal] = useState(false);
-  // const [loader, setloader] = useState(false);
+  const [loader, setloader] = useState(false);
   const [save, setsave] = useState(false);
   const [hidead, sethidead] = useState(true);
   const [language, setlanguage] = useState({
@@ -173,6 +173,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
 
   const _continue = async () => {
     try {
+      setloader(false);
       if (save == true) {
         setsave(false);
         navigation.navigate('BpResultScreen');
@@ -275,6 +276,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
           _continue={_continue}
           hidead={hidead}
           setsave={setsave}
+          setloader={setloader}
           langstr={langstr}
         />
       </SafeAreaView>
@@ -289,7 +291,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
         />
       )}
 
-      {save && (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />)}
+      {save && (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />)}
       {/* {closeloader && (<ExitModel setcloseloader={setcloseloader} navigation={navigation} />)} */}
     </>
   );

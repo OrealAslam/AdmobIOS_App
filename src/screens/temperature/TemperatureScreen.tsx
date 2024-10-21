@@ -61,6 +61,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
   const [chartPercentage, setchartPercentage] = useState(26);
   const [save, setsave] = useState(false);
   const [hidead, sethidead] = useState(true);
+  const [loader, setloader] = useState(false);
   const today = moment(new Date()).format('YYYY-MM-DD');
   useEffect(() => {
     (async () => {
@@ -319,7 +320,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
         </KeyboardAvoidingView>
       </SafeAreaView>
       {hidead.toString() == 'false' ? <Banner /> : <></>}
-      {save == true ? (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />) : (<></>)}
+      {save == true ? (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />) : (<></>)}
     </>
   );
 };

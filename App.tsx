@@ -43,16 +43,21 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      if (isLoaded && adDisable != false) {
-        console.log('Ad Loaded inside App.js');
-        show();
-        setsplashClosed(true);
-      } else {
-        console.log('Ad not Loaded inside App.js', error);
+      if (isLoaded) {
         if(adDisable) {
           setsplashClosed(true);
           SplashScreen.hide();
+        } else{
+          console.log('Ad Loaded inside App.js');
+          show();
+          setsplashClosed(true);
         }
+      } else {
+        console.log('Ad not Loaded inside App.js', error);
+        // if(adDisable) {
+        //   setsplashClosed(true);
+        //   SplashScreen.hide();
+        // }
         if (error != undefined && loadAttempts >= 2) {
           setsplashClosed(true);
           SplashScreen.hide();
@@ -75,7 +80,10 @@ const App = () => {
 
       // CHECK FOR SUBSCRIPTION HERE
       let purchaseHistory = await fetchAvailablePurchases(isConnected);
-      
+      console.log('purchaseHistory :', purchaseHistory, purchaseHistory.length);
+      if(purchaseHistory.length > 0) {
+        setadDisable(true);
+      }
       // crashlytics().log('App crashes');
       let onboard = await get_async_data('on_board');
       let rate = await get_async_data('alreadyrate');

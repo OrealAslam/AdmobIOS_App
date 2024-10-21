@@ -20,6 +20,7 @@ const LandingScreen = ({ navigation }: { navigation: any }) => {
   const [selectedmenu, setselectedmenu] = useState('home');
   const [loader, setloader] = useState(false);
   const [temperature, settemperature] = useState('');
+  const [opengraph, setopengraph] = useState('');
   const [trayad, settrayad] = useState(false);
   const navigateScreen = (screenName: any, menu: any) => {
     try {
@@ -80,6 +81,7 @@ const LandingScreen = ({ navigation }: { navigation: any }) => {
             navigation={navigation}
             setloader={setloader}
             loader={loader}
+            setopengraph={setopengraph}
           />
         );
         break;
@@ -111,6 +113,15 @@ const LandingScreen = ({ navigation }: { navigation: any }) => {
 
   const _continue = async () => {
     setloader(false);
+    if (opengraph == 'bp') {
+      await set_async_data('line_chart_bp_ad', 'seen');
+    }
+    if (opengraph == 'bs') {
+      await set_async_data('line_chart_bs_ad', 'seen');
+    }
+    if (opengraph == 'bmi') {
+      await set_async_data('line_chart_bmi_ad', 'seen');
+    }
     navigation.navigate('HomeScreen', { tab: 'tracker' });
   };
 
@@ -124,6 +135,8 @@ const LandingScreen = ({ navigation }: { navigation: any }) => {
       />
     </SafeAreaView>
     {loader && <DisplayAd setloader={setloader} _continue={_continue} />}
+
+
     {/* {trayad && (
       <DisplayAd _continue={() => settrayad(false)} adId={INTERSITIAL_AD_ID} />
     )} */}

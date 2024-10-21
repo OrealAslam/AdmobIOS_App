@@ -103,6 +103,7 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
   const [hidead, sethidead] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [heartRate, setheartRate] = useState('65');
+  const [loader, setloader] = useState(false);
   const { container, form, label } = addFormStyle;
 
   useEffect(() => {
@@ -248,7 +249,7 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
           langstr={langstr}
         />
       )}
-      {save && (<DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />)}
+      {save && (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />)}
     </>
   );
 };

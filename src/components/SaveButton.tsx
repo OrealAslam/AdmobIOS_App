@@ -32,6 +32,7 @@ export default function SaveButton(props: any) {
   const saveRecord = async () => {
 
     setloader(true);
+    props.setloader(true);
     if (props.screenname == 'BloodPressure') {
       // if ((props.systolicpressure < props.diastolicpressure) || (props.systolicpressure == props.diastolicpressure)) {
       //   Vibration.vibrate();

@@ -129,7 +129,7 @@ const BloodPressureChart = (props: any) => {
         console.log('error', e);
       }
     })();
-  }, [isFocused]);
+  }, [isFocused, props.loader]);
 
   // Capture the chart as an image
   const captureChart = async () => {
