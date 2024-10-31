@@ -96,7 +96,7 @@ const TemperatureResultScreen = ({ navigation }: { navigation: any }) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          {hidead.toString() == 'false' ?
+          {!hidead ?
             <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
               <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
             </TouchableOpacity> : <></>
@@ -111,7 +111,7 @@ const TemperatureResultScreen = ({ navigation }: { navigation: any }) => {
             hidead={hidead}
           />
           <View style={styles.NativeAd}>
-            {hidead.toString() == 'false' ? <NativeAd150 /> : <></>}
+            {!hidead ? <NativeAd150 /> : <></>}
           </View>
           <PieChartAdComponent
             navigation={navigation}

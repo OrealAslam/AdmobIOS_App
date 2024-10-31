@@ -27,7 +27,7 @@ import {
     useEffect(() => {
       (async () => {
         try {
-          if(props.hidead.toString() == 'false') {
+          if(!props.hidead) {
             if (props.loader == false) {
               let adSeen = await get_async_data('pie_chart_heart_ad');
               setadSeen(adSeen);
@@ -43,7 +43,7 @@ import {
   
     return (
       <>
-        {adSeen == 'seen' ? (
+        {adSeen == 'seen' || props.hidead ? (
           <>
             <View style={styles.chartContainer}>
               <PieChartComponent />

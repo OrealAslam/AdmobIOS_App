@@ -82,12 +82,12 @@ const BoardingDesclaimer = ({ navigation }: { navigation: any }) => {
         <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
           end={{ x: 2, y: 2 }}>
           <TouchableOpacity onPress={() => {
-            if(hidead.toString() == 'false') {
+            if(!hidead) {
+              console.log('yahan tha', hidead)
               setloader(true);
             } else{
               _continue(); 
             }
-            console.log(hidead)
           }}>
             <Text style={styles.text}>{route.params?.lang.boarding.letsgo}</Text>
           </TouchableOpacity>

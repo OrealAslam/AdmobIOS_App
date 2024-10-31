@@ -43,7 +43,7 @@ const PieChartAdComponent = (props: any) => {
 
   return (
     <>
-      {adSeen == 'seen' ? (
+      {adSeen == 'seen' || props.hidead ? (
         <>
           <View style={styles.chartContainer}>
             <PieChartComponent />

@@ -232,13 +232,14 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
               setsave={setsave}
               result={result}
               disablesavebtn={disablesavebtn}
+              setloader={setloader}
               langstr={langstr}
             />
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
 
-      {hidead.toString() == 'false' ? <Banner /> : <></>}
+      {!hidead ? <Banner /> : <></>}
 
       {show && (
         <StateModal

@@ -53,7 +53,7 @@ const BloodPressureChart = (props: any) => {
           // record added already
           setbtnType('Unlock');
         }
-        if (props.hidead.toString() == 'false') {
+        if (!props.hidead) {
           let adSeen = await get_async_data('line_chart_bp_ad');
           setadSeen(adSeen);
         } else {
@@ -129,7 +129,7 @@ const BloodPressureChart = (props: any) => {
         console.log('error', e);
       }
     })();
-  }, [isFocused, props.loader]);
+  }, [isFocused, props.loader, props.hidead]);
 
   // Capture the chart as an image
   const captureChart = async () => {
@@ -169,7 +169,7 @@ const BloodPressureChart = (props: any) => {
             />
           </View>
           <View style={styles.btnContainer}>
-            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodPressure') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}>
+            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodPressure') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}>
               <Text style={styles.addbtnText}>{props.langstr.main.add}</Text>
             </LinearGradient>
           </View>

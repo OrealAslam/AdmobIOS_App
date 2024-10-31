@@ -67,7 +67,7 @@ export default function SaveButton(props: any) {
         let saveData = sys + `/` + dis;
         await set_async_data('record_bp', saveData.toString());
         setloader(false);
-        if (props.hidead.toString() == 'false') {
+        if (!props.hidead) {
           props.setsave(true);
         } else {
           props.setsave(false);
@@ -95,7 +95,7 @@ export default function SaveButton(props: any) {
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_bs', props.sugarconcentration.toString());
         setloader(false);
-        if (props.hidead.toString() == 'false') {
+        if (!props.hidead) {
           props.setsave(true);
         } else {
           props.setsave(false);
@@ -136,7 +136,7 @@ export default function SaveButton(props: any) {
               let e = props.temperature + props.tempunit;
               await set_async_data('record_temp', e.toString());
               setloader(false);
-              if (props.hidead.toString() == 'false') {
+              if (!props.hidead) {
                 props.setsave(true);
               } else {
                 props.setsave(false);
@@ -172,7 +172,7 @@ export default function SaveButton(props: any) {
               let e = props.temperature + props.tempunit;
               await set_async_data('record_temp', e.toString());
               setloader(false);
-              if (props.hidead.toString() == 'false') {
+              if (!props.hidead) {
                 props.setsave(true);
               } else {
                 props.setsave(false);
@@ -200,7 +200,7 @@ export default function SaveButton(props: any) {
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_bmi', props.bmi.toString());
         setloader(false);
-        if (props.hidead.toString() == 'false') {
+        if (!props.hidead) {
           props.setsave(true);
         } else {
           props.setsave(false);
@@ -226,7 +226,7 @@ export default function SaveButton(props: any) {
         setloader(false);
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_heart_rate', props.heartRate.toString());
-        if (props.hidead.toString() == 'false') {
+        if (!props.hidead) {
           props.setsave(true);
         } else {
           props.setsave(false);

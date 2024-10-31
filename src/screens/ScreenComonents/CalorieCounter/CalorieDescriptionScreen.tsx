@@ -107,7 +107,7 @@ const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params 
                     backgroundColor: '#F4F4FE'
                 }}>
 
-                {hidead.toString() == 'false' ? <Banner /> : <></>}
+                {!hidead ? <Banner /> : <></>}
             </View>
         </SafeAreaView>
     )

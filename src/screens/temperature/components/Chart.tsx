@@ -68,10 +68,12 @@ const Chart = () => {
       initialSpacing={20}
       dashGap={2}
       focusEnabled
-      thickness={2}
-      dataPointsColor={'#00b8e6'}
-      backgroundColor={'#F4F5F6'}
-      xAxisLabelTextStyle={{ fontSize: 10 }}
+      thickness={3}
+      yAxisTextStyle={{fontSize: 10, color: '#2A5B1B'}}
+      dataPointsColor={'#2A5B1B'}
+      backgroundColor={'#F0FEF0'}
+      xAxisLabelTextStyle={{ fontSize: 9, color: '#2A5B1B' }}
+      yAxisLabelContainerStyle={{paddingHorizontial: 7,backgroundColor: '#F0FEF0'}}
     />
   );
 }

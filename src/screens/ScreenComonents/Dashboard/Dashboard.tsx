@@ -54,7 +54,7 @@ const Dashboard = (props: any) => {
       <View style={styles.header}>
         <Text style={styles.heading}>{langstr?.main.homeTitle}</Text>
         {
-          hidead.toString() == 'false' ? 
+          !hidead ? 
         <TouchableOpacity onPress={() => props.navigateScreen('Subscription')}>
           <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
         </TouchableOpacity> : (<></>)

@@ -81,7 +81,7 @@ const ChangeLanguageScreen = ({ navigation }: { navigation: any }) => {
       <ScrollView style={{ width: width, height: width, overflow: 'scroll' }}>
         <View style={styles.languageContainer}>{displayLanguages()}</View>
       </ScrollView>
-      {hidead.toString() == 'false' ? <View style={styles.nativeAd}>
+      {!hidead ? <View style={styles.nativeAd}>
         <NativeAd150 />
       </View> : (<></>)}
     </SafeAreaView>

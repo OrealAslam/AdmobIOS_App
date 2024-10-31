@@ -200,7 +200,7 @@ const BmiResultScreen = ({ navigation }: { navigation: any }) => {
             hidead={hidead}
           />
           <View style={styles.NativeAd}>
-            {hidead.toString() == 'false' ? <NativeAd150 /> : <></>}
+            {!hidead ? <NativeAd150 /> : <></>}
           </View>
           <PieChartAdComponent
             navigation={navigation}

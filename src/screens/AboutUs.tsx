@@ -13,6 +13,7 @@ import React, { useState, useEffect } from 'react';
 // import analytics from '@react-native-firebase/analytics';
 import { lang } from '../../global';
 import { useIsFocused } from '@react-navigation/native';
+import { get_async_data } from '../Helper/AppHelper';
 const { width, height } = Dimensions.get('window');
 const ITEM_WIDTH = width - 150;
 const RATIO = ITEM_WIDTH / 192;
@@ -26,10 +27,13 @@ const AboutUs = ({ navigation }: { navigation: any }) => {
   const [title, settitle] = useState('');
   const [term, setterm] = useState('');
   const [priv, setpriv] = useState('');
+  const [prembtn, setprembtn] = useState(false);
   useEffect(() => {
     (async () => {
       try {
         let lan = await lang();
+        let subscription = await get_async_data('subscription');
+        setprembtn(subscription.length > 0 ? false : true)
         // await analytics().logEvent('about_screen');
         setlanguage(lan);
       } catch (e) {
@@ -69,9 +73,9 @@ const AboutUs = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         </View> */}
           <Text style={styles.heading}>{title}</Text>
-          <TouchableOpacity onPress={()=>navigation.navigate('Subscription')}>
+          {prembtn && (<TouchableOpacity onPress={()=>navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../assets/images/premium.png')} />
-          </TouchableOpacity>
+          </TouchableOpacity>)}
       </View>
       <View style={styles.inputContainer}>
         <Image

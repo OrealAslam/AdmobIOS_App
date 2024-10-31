@@ -589,38 +589,35 @@ export const generate_table_as_pdf = async () => {
 
 //---------------------------------------------- AVAILABLE PURCHASE ---------------------------------------------
 
-export const fetchAvailablePurchases = async (isConnected:any) => {
-  if(!isConnected) {
-    let subscription = [];
-    subscription = await get_async_data('subscription');
-    if(subscription == null || subscription == undefined) {
-      await set_async_data('subscription', []);
-    }
-    return subscription;
-  } else {
-    try {
+export const fetchAvailablePurchases = async () => {
+  let purchases:any = false;
+  try {  
       // Initialize the IAP connection
       await RNIap.initConnection();
       // Get all available purchases
-      const availablePurchases = await RNIap.getAvailablePurchases();
-      set_async_data('subscription', availablePurchases);
+      let check = await RNIap.getAvailablePurchases();
+      if (check && Object.keys(check).length > 0) {
+        set_async_data('subscription', check);
+      }
       await RNIap.endConnection();
-      return availablePurchases;
-    } catch (error) {
-      console.error('Error fetching available purchases:', error);
-      Alert.alert('Error', 'Could not retrieve available purchases');
-    } finally {
-      // End the IAP connection after completing the process
-      console.log('ending connection here');
-      await RNIap.endConnection();
-    }
+      purchases = true;
+      return true;
+  } catch (error) {
+    console.error('Error fetching available purchases:', error);
+    Alert.alert('Error', 'Could not retrieve available purchases');
+
+  } finally {
+    // End the IAP connection after completing the process
+    console.log('ending connection here');
+    await RNIap.endConnection();
+    return purchases;
   }
-};
+}
 
 export const disableAds = async () => {
   let purchase = await get_async_data('subscription');
-  console.log(purchase);
-  if(parseInt(purchase.length) > 0) {
+
+  if(purchase && parseInt(purchase.length) > 0) {
     return true;
   } else {
     return false;

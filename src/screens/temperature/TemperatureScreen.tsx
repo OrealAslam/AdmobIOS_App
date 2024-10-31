@@ -320,7 +320,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
-      {hidead.toString() == 'false' ? <Banner /> : <></>}
+      {!hidead && <Banner />}
       {save == true ? (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />) : (<></>)}
     </>
   );
@@ -333,7 +333,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 20
   },
   input: {
     color: '#2A5B1B',

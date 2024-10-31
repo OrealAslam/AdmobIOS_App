@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import { disableAds, errorMessage, get_async_data } from '../../Helper/AppHelper';
@@ -124,10 +124,6 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
   }, [isFocused]);
 
   useEffect(() => {
-    adjustBar();
-  }, [systolicpressure, diastolicpressure]);
-
-  useEffect(() => {
     setlangstr(language);
   }, [language]);
 
@@ -146,7 +142,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
     }, 700);
   };
 
-  const adjustBar = () => {
+  const adjustBar = useMemo(() => {
     let sys = parseInt(systolicpressure);
     let dis = parseInt(diastolicpressure);
     // Perfect Matched
@@ -169,7 +165,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
       setpressurelevel('Hypotension');
       setchartPercentage(0);
     }
-  };
+  }, [systolicpressure, diastolicpressure]);
 
   const _continue = async () => {
     try {
@@ -191,6 +187,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
         <PageHeader
           screenTitle={langstr.dashobard.bp}
           navigation={navigation}
+          hidead={hidead}
         />
 
         <DateTimeComponent
@@ -280,7 +277,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
           langstr={langstr}
         />
       </SafeAreaView>
-      {hidead.toString() == 'false' ? <Banner /> : <></>}
+      {!hidead ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
 
       {showremarksmodal && (

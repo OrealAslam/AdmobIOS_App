@@ -44,7 +44,7 @@ const BMIChart = (props: any) => {
     (async () => {
       try {
         // let adSeen = await get_async_data('line_chart_bmi_ad');
-        if (props.hidead.toString() == 'false') {
+        if (!props.hidead) {
           let adSeen = await get_async_data('line_chart_bmi_ad');
           setadSeen(adSeen);
         } else {
@@ -85,7 +85,7 @@ const BMIChart = (props: any) => {
         console.log(e);
       }
     })();
-  }, [isFocused, adSeen, props.loader]);
+  }, [isFocused, adSeen, props.loader, props.hidead]);
 
   useEffect(() => {
     (async () => {
@@ -130,7 +130,7 @@ const BMIChart = (props: any) => {
             />
           </View>
           <View style={styles.btnContainer}>
-            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BmiRecordScreen') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}>
+            <LinearGradient onTouchEnd={() => { props.navigation.navigate('BmiRecordScreen') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}>
               <Text style={styles.addbtnText}>{props.langstr.main.add}</Text>
             </LinearGradient>
           </View>

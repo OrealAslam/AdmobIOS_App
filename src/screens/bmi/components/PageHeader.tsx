@@ -17,8 +17,9 @@ export default function PageHeader(props: any) {
 
   return (
     <View style={styles.headerContainer}>
+      <Text style={styles.heading}>{props.screenTitle}</Text>
       {
-        props.hidead.toString() == 'false' ?
+        !props.hidead ?
           <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
           </TouchableOpacity> : <></>
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 13,
     paddingVertical: 20,
   },

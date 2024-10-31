@@ -24,13 +24,14 @@ import TemperatureScreen from '../screens/temperature/TemperatureScreen';
 import TemperatureResultScreen from '../screens/temperature/TemperatureResultScreen';
 import CalorieDescriptionScreen from '../screens/ScreenComonents/CalorieCounter/CalorieDescriptionScreen';
 import Subscription from '../screens/subscription/Subscription';
+import CheckSubscription from '../screens/subscription/CheckSubscription';
 import ResultHeartRate from '../screens/HeartRate/ResultHeartRate';
 import { StatusBar } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 StatusBar.setHidden(true);
 
-export default function MainRoute(props) {
+export default function MainRoute() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -112,6 +113,11 @@ export default function MainRoute(props) {
       <Stack.Screen
         name="Subscription"
         component={Subscription}
+        options={{ headerShown: false, animationenabled: false }}
+      />
+      <Stack.Screen
+        name="CheckSubscription"
+        component={CheckSubscription}
         options={{ headerShown: false, animationenabled: false }}
       />
       <Stack.Screen

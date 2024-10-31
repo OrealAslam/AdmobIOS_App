@@ -980,6 +980,8 @@ PODS:
     - React-Core
   - react-native-blob-util (0.19.11):
     - React-Core
+  - react-native-date-picker (5.0.7):
+    - React-Core
   - react-native-html-to-pdf (0.12.0):
     - React-Core
   - react-native-netinfo (11.4.1):
@@ -1460,6 +1462,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - react-native-admob-native-ads (from `../node_modules/react-native-admob-native-ads`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-html-to-pdf (from `../node_modules/react-native-html-to-pdf`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1584,6 +1587,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-admob-native-ads"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-html-to-pdf:
     :path: "../node_modules/react-native-html-to-pdf"
   react-native-netinfo:
@@ -1710,6 +1715,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 766bb4d8f655d816913325b353d800debbde7209
   react-native-admob-native-ads: 97b6667c5d4d3e5a75baf264450dbb54ba53a181
   react-native-blob-util: 39a20f2ef11556d958dc4beb0aa07d1ef2690745
+  react-native-date-picker: 06a4d96ab525a163c7a90bccd68833d136b0bb13
   react-native-html-to-pdf: 4c5c6e26819fe202971061594058877aa9b25265
   react-native-netinfo: f0a9899081c185db1de5bb2fdc1c88c202a059ac
   react-native-safe-area-context: 851c62c48dce80ccaa5637b6aa5991a1bc36eca9

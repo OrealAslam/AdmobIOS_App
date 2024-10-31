@@ -97,18 +97,20 @@ function Chart(props: any) {
       data={dataArray}
       adjustToWidth={true}
       width={310}
-      yAxisColor="#0BA5A4"
-      xAxisColor="#0BA5A4"
-      color="#0BA5A4"
+      yAxisColor="#2A5B1B"
+      xAxisColor="#2A5B1B"
+      color="#2A5B1B"
       isAnimated
       onDataChangeAnimationDuration={400}
       initialSpacing={20}
       dashGap={2}
       focusEnabled
       thickness={2}
-      dataPointsColor={'#00b8e6'}
-      backgroundColor={'#F4F5F6'}
-      xAxisLabelTextStyle={{fontSize: 10}}
+      yAxisTextStyle={{fontSize: 10, color: '#2A5B1B'}}
+      dataPointsColor={'#2A5B1B'}
+      backgroundColor={'#F0FEF0'}
+      xAxisLabelTextStyle={{ fontSize: 9, color: '#2A5B1B' }}
+      yAxisLabelContainerStyle={{paddingHorizontial: 7,backgroundColor: '#F0FEF0'}}
     />
   );
 }

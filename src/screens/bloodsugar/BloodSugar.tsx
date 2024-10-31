@@ -364,7 +364,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
           setloader={setloader}
         />
       </SafeAreaView>
-      {hidead.toString() == 'false' ? <Banner /> : <></>}
+      {!hidead ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
 
       {show && (

@@ -43,7 +43,7 @@ const BloodSugarChart = (props: any) => {
   useEffect(() => {
     (async () => {
       try {
-        if (props.hidead.toString() == 'false') {
+        if (!props.hidead) {
           let adSeen = await get_async_data('line_chart_bs_ad');
           setadSeen(adSeen);
         } else {
@@ -73,7 +73,7 @@ const BloodSugarChart = (props: any) => {
         console.log(e);
       }
     })();
-  }, [isFocused, adSeen, props.loader]);
+  }, [isFocused, adSeen, props.loader, props.hidead]);
 
   useEffect(() => {
     (async () => {
@@ -125,10 +125,11 @@ const BloodSugarChart = (props: any) => {
               dashGap={2}
               focusEnabled
               thickness={2}
-              dataPointsColor={'#00b8e6'}
+              yAxisTextStyle={{ fontSize: 10, color: '#2A5B1B' }}
+              dataPointsColor={'#2A5B1B'}
               backgroundColor={'#F0FEF0'}
               xAxisLabelTextStyle={{ fontSize: 9, color: '#2A5B1B' }}
-              yAxisLabelContainerStyle={{paddingHorizontial: 7,backgroundColor: '#F0FEF0'}}
+              yAxisLabelContainerStyle={{ paddingHorizontial: 7, backgroundColor: '#F0FEF0' }}
             />
           </View>
           <LinearGradient onTouchEnd={() => { props.navigation.navigate('BloodSugar') }} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}

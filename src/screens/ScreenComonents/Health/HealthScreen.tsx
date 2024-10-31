@@ -137,7 +137,7 @@ const HealthScreen = (props: any) => {
         <View style={styles.header}>
           <Text style={styles.heading}>{language.main.healthTitle}</Text>
           {
-            hidead.toString() == 'false' ?
+            !hidead ?
               <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
                 <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
               </TouchableOpacity> : <></>

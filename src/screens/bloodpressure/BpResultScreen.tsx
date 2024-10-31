@@ -10,7 +10,7 @@ import {
   Linking,
   SafeAreaView,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import LineChartAdComponent from './components/LineChartAdComponent';
 import PieChartAdComponent from './components/PieChartAdComponent';
 import Recomandations from '../../components/Recomandations';
@@ -68,7 +68,7 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
     article: { articledata: {} },
   });
 
-  const adjustBar = () => {
+  const adjustBar = useMemo(() => {
     let sys = parseInt(data[0]);
     let dis = parseInt(data[1]);
 
@@ -97,11 +97,8 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
       setchartPercentage(3);
       return;
     }
-  };
-
-  useEffect(() => {
-    adjustBar();
   }, [data]);
+
 
   useEffect(() => {
     (async () => {
@@ -161,9 +158,9 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
+          {!hidead && (<TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
-          </TouchableOpacity>
+          </TouchableOpacity>)}
         </View>
         <ScrollView style={{ flex: 1 }}>
           <View style={styles.colouredBg}>
@@ -220,7 +217,7 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
             rate={rate}
           />
           <View style={styles.NativeAd}>
-            {hidead.toString() == 'false' ? <NativeAd150 /> : <></>}
+            {!hidead && <NativeAd150 />}
           </View>
           <PieChartAdComponent
             navigation={navigation}

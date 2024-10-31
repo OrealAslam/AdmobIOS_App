@@ -94,7 +94,7 @@ const CalorieTab = (props: any) => {
             <View style={styles.headerContainer}>
                 <Text style={styles.heading}>{language.main.calorieTitle}</Text>
                 {
-                    hidead.toString() == 'false' ?
+                    !hidead ?
                         <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
                             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
                         </TouchableOpacity> : <></>

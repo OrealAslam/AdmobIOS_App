@@ -90,3 +90,35 @@ com.pulsetracker.caloriecounter.bloodpressure.sugartracker
 
 // Created By Hassan Bhai
 com.pulsetracker.caloriecounter.bloodpressure
+
+
+<!-- IN LIVE BUILD -->
+<!-- export const fetchAvailablePurchases = async (isConnected:any) => {
+  if(!isConnected) {
+    let subscription = [];
+    subscription = await get_async_data('subscription');
+    if(subscription == null || subscription == undefined || subscription.length < 1) {
+      await set_async_data('subscription', []);
+    }
+    return subscription;
+  } else {
+    try {
+      // Initialize the IAP connection
+      await RNIap.initConnection();
+      // Get all available purchases
+      const purchases = await RNIap.getAvailablePurchases();
+      if (purchases && purchases[0].transactionDate) {
+        set_async_data('subscription', purchases);
+      }
+      await RNIap.endConnection();
+      return purchases;
+    } catch (error) {
+      console.error('Error fetching available purchases:', error);
+      Alert.alert('Error', 'Could not retrieve available purchases');
+    } finally {
+      // End the IAP connection after completing the process
+      console.log('ending connection here');
+      await RNIap.endConnection();
+    }
+  }
+}; -->

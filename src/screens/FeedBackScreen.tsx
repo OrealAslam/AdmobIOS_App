@@ -77,7 +77,7 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
                 </TouchableOpacity>
               </View> */}
               <Text style={styles.heading}>{title}</Text>
-              {hidead.toString() == 'false' ?
+              {!hidead ?
                 <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
                   <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../assets/images/premium.png')} />
                 </TouchableOpacity> : <></>
@@ -105,7 +105,7 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
 
         {/* BANNER AD */}
         <View style={styles.bannerContainer}>
-          {hidead.toString() == 'false' ? <Banner /> : <></>}
+          {!hidead ? <Banner /> : <></>}
         </View>
       </SafeAreaView>
     </>

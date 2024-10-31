@@ -257,7 +257,7 @@ const TrackerScreen = (props: any) => {
     <>
       <SafeAreaView style={styles.container}>
         {
-          hidead.toString() == 'false' ? (
+          !hidead ? (
             <View style={[styles.header, {justifyContent: 'flex-end'}]}>
               <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
                 <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />

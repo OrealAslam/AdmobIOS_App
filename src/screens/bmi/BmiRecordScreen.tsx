@@ -153,8 +153,9 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FFF8' }}>
         <View style={styles.header}>
+        <Text style={styles.heading}>{langstr.dashobard.bmi}</Text>
           {
-            hidead.toString() == 'false' ?
+            !hidead ?
               <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
                 <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
               </TouchableOpacity> : <></>
@@ -235,7 +236,7 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
           />
         )}
       </SafeAreaView>
-      {hidead.toString() == 'false' ? <Banner /> : <></>}
+      {!hidead ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
       {save == true ? (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />) : (<></>)}
     </>
@@ -244,7 +245,7 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     verticalAlign: 'middle',
     paddingHorizontal: 20,
@@ -257,8 +258,9 @@ const styles = StyleSheet.create({
   heading: {
     color: '#2E2E2E',
     fontSize: 20,
-    fontWeight: '700',
-    marginLeft: 10,
+    fontStyle: 'normal',
+    fontFamily: 'Montserrat-Bold',
+    marginLeft: 15,
   },
   cardContainer: {
     flexDirection: 'row',

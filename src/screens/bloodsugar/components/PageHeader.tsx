@@ -13,6 +13,7 @@ export default function PageHeader(props: any) {
 
   return (
     <View style={styles.headerContainer}>
+      <Text style={styles.heading}>{props.screenTitle}</Text>
       {
         props.hidead.toString() == 'false' ? (
           <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
@@ -29,8 +30,15 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 25,
-  }
+  },
+  heading: {
+    color: '#2E2E2E',
+    fontSize: 20,
+    fontStyle: 'normal',
+    fontFamily: 'Montserrat-Bold',
+    marginLeft: 15,
+  },
 });

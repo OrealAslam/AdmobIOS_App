@@ -1,5 +1,4 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import DatePicker from 'react-native-modern-datepicker';
 import {getMonthName} from '../Helper/AppHelper';
 import {View, Image, Text, TouchableOpacity, Modal} from 'react-native';
 import React from 'react';
@@ -135,7 +134,7 @@ const DateTimeComponent = (props: any) => {
             }}>
             <Text> </Text>
           </View>
-          <Text
+          {!props.timePicker && (<><Text
             style={{
               color: '#5E9368',
               marginLeft: 10,
@@ -152,13 +151,12 @@ const DateTimeComponent = (props: any) => {
               alignSelf: 'center',
               marginLeft: 'auto',
             }}
-          />
+          /></>)}
           {props.timePicker && (
             <DateTimePicker
               value={props.time}
               mode="time"
               display={'default'}
-              headerStyle={{backgroundColor: '#5F45FE'}}
               is24Hour={false}
               onChange={props.onChangeTime}
             />

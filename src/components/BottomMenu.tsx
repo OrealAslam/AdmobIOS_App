@@ -115,7 +115,7 @@ const BottomMenu = (props: any) => {
           backgroundColor: '#F4F4FE'
         }}>
         {menu()}
-        {hidead.toString() == 'false' ? <Banner /> : (<></>) }
+        {!hidead && <Banner /> }
       </View>
       {quit == true ? <QuitAppModal setquit={setquit} /> : <></>}
     </>

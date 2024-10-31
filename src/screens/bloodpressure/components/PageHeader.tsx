@@ -20,11 +20,11 @@ export default function PageHeader(props: any) {
           style={{width: 14, height: 14}}
           source={require('../../../assets/images/dashboard_icons/navigate_back_new.png')}
         />
-      </TouchableOpacity>
-      <Text style={styles.heading}>{props.screenTitle}</Text> */}
-      <TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
+      </TouchableOpacity> */}
+      <Text style={styles.heading}>{props.screenTitle}</Text>
+      {!props.hidead && (<TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
         <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
-      </TouchableOpacity>
+      </TouchableOpacity>)}
     </View>
   );
 }
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 25,
   },

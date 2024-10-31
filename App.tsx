@@ -12,116 +12,91 @@ import { lang } from './global';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import { useNetInfo } from '@react-native-community/netinfo';
 
-
 const App = () => {
   const { isConnected } = useNetInfo();
-  const [firstTime, setfirstTime] = useState(true);
-  const [splashClosed, setsplashClosed] = useState(false);
-  const [adDisable, setadDisable] = useState(false);
+  const [firstTime, setFirstTime] = useState(true);
+  const [splashClosed, setSplashClosed] = useState(false);
+  const [loadAttempts, setLoadAttempts] = useState(0);
+  const [adDisable, setAdDisable] = useState(false);
+
   const { isLoaded, isClosed, load, show, error } = useAppOpenAd(APPOPEN_AD_ID, {
     requestNonPersonalizedAdsOnly: true,
   });
-  const [loadAttempts, setLoadAttempts] = useState(0);
 
-  useEffect(() => {
-    if (!isLoaded && loadAttempts < 2) {
-      load();
-      console.log('loadAttempts', loadAttempts);
-      setLoadAttempts(loadAttempts + 1);
-      console.log(error)
+  const myFunc = async () => {
+    let onboard = await get_async_data('on_board');
+    let rate = await get_async_data('alreadyrate');
+    if (rate === '' || rate == null) {
+      await set_async_data('alreadyrate', '');
     }
-  }, [load, isLoaded, loadAttempts]);
-  
-  useEffect(() => {
-    (async () => {
-      if (isClosed) {
-        setsplashClosed(true);
+    if (onboard != null) {
+      setFirstTime(false);
+    }
+
+    if (!isConnected) {
+      setTimeout(() => {
+        setSplashClosed(true);
         SplashScreen.hide();
-      }
-    })();
-  }, [isClosed]);
-
-  useEffect(() => {
-    (async () => {
-      if (isLoaded) {
-        if(adDisable) {
-          setsplashClosed(true);
-          SplashScreen.hide();
-        } else{
-          console.log('Ad Loaded inside App.js');
-          show();
-          setsplashClosed(true);
-        }
+      }, 3000);
+    } else {
+      let purchaseHistory = await fetchAvailablePurchases();
+      console.log('purchaseHistory 123:', purchaseHistory);
+      if (purchaseHistory) {
+        setAdDisable(true);
+        setSplashClosed(true);
+        SplashScreen.hide();
       } else {
-        console.log('Ad not Loaded inside App.js', error);
-        // if(adDisable) {
-        //   setsplashClosed(true);
-        //   SplashScreen.hide();
-        // }
-        if (error != undefined && loadAttempts >= 2) {
-          setsplashClosed(true);
-          SplashScreen.hide();
-        }
+        // USER NOT BUY ANY SUBSCRIPTION LOAD APP_OPEN AD
+        load();
+        setLoadAttempts((prev) => prev + 1);
       }
-    })();
-  }, [isLoaded]);
-
-  useEffect(() => {
-    if (error != undefined && loadAttempts >= 2) {
-      console.log('app opn error', error);
-      SplashScreen.hide();
-      setsplashClosed(true);
     }
-  }, [error]);
+  };
 
   useEffect(() => {
     (async () => {
-      SystemNavigationBar.stickyImmersive();
-
-      // CHECK FOR SUBSCRIPTION HERE
-      let purchaseHistory = await fetchAvailablePurchases(isConnected);
-      console.log('purchaseHistory :', purchaseHistory, purchaseHistory.length);
-      if(purchaseHistory.length > 0) {
-        setadDisable(true);
-      }
-      // crashlytics().log('App crashes');
-      let onboard = await get_async_data('on_board');
-      let rate = await get_async_data('alreadyrate');
-      if (rate && rate == 'rated') {
-        await set_async_data('alreadyrate', 'rated');
-      } else {
-        await set_async_data('alreadyrate', '');
-      }
-      if (onboard != null) {
-        setfirstTime(false);
-      }
+      await myFunc();
     })();
-
   }, []);
 
-  useEffect(() => {
-    displayContent();
-  }, [splashClosed]);
-
   const displayContent = () => {
-    if (splashClosed == true) {
-      if (firstTime == false) {
-        return <MainRoute></MainRoute>;
-      } else {
-        return <Route></Route>;
-      }
+    if (splashClosed) {
+      return firstTime ? <Route /> : <MainRoute />;
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: '#F8FFF8', justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size={'large'} />
-        </View>);
+        </View>
+      );
     }
   };
 
+  useEffect(() => {
+    if (error && loadAttempts >= 3) {
+      setSplashClosed(true);
+      SplashScreen.hide();
+    }
+
+    if (adDisable) {
+      setSplashClosed(true);
+      SplashScreen.hide();
+    }
+
+    if (isLoaded) {
+      show();
+    }
+
+  }, [isLoaded, adDisable, error, loadAttempts]);
+
+  useEffect(() => {
+    if (isClosed) {
+      SplashScreen.hide();
+      setSplashClosed(true);
+    }
+  }, [isClosed]);
+
   return (
-    <>
-      <NavigationContainer>{displayContent()}</NavigationContainer>
-    </>
+    <NavigationContainer>{displayContent()}</NavigationContainer>
   );
 };
 

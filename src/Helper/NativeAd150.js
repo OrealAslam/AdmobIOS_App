@@ -17,7 +17,6 @@ import NativeAdView, {
   AdBadge,
   TestIds
 } from 'react-native-admob-native-ads';
-import { fetchAvailablePurchases } from './AppHelper';
 
 export const NativeAd150 = React.memo(props => {
   const nativeAdViewRef = useRef(NativeAdView);
