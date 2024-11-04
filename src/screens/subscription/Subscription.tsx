@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, Dimensions, Image, Text, ScrollView, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Dimensions, Image, Text, ScrollView, Alert, ActivityIndicator, TouchableOpacity, NativeModules } from 'react-native';
 import * as RNIap from 'react-native-iap';
 import Packages from './component/Packages';
 import LinearGradient from 'react-native-linear-gradient';
@@ -43,25 +43,38 @@ export default function Subscription({ navigation }: { navigation: any }) {
 
     // Make the purchase
     const purchaseSubscription = async (productId: any) => {
+        console.log(productId);
         try {
+            // Initialize the connection
+            const connected = await RNIap.initConnection();
+            if (!connected) {
+                Alert.alert('Connection Error', 'Unable to connect to the store.');
+                return;
+            }
             setpurchaseLoader(true);
+    
+            // Request the subscription
             const purchase = await RNIap.requestSubscription({ sku: productId });
-            // console.log('Subscription successful: ', purchase);
-            if(purchase) {
+            
+            // Handle successful purchase
+            if (purchase) {
+                console.log(purchase)
                 Alert.alert('Purchase Successful', `You have subscribed to ${productId}`);
-                setpurchaseLoader(false);
                 await set_async_data('subscription', purchase);
             }
         } catch (err) {
-            // Check if `err` is an object and has the `code` property to safely handle it
+            // Handle errors more gracefully
             if (err && typeof err === 'object' && 'code' in err) {
                 console.log(`Error code: ${err.code}, Message: ${err}`);
             } else {
                 console.warn('Unexpected error format:', err);
             }
-            console.warn('Error while purchasing subscription', err);
+            console.log(err)
+            Alert.alert('Purchase Failed', 'Something went wrong', err);
+        } finally {
+            // Close the connection and reset loader
             setpurchaseLoader(false);
-            Alert.alert('Purchase Failed', 'Something went wrong');
+            await RNIap.endConnection();
         }
     };
 

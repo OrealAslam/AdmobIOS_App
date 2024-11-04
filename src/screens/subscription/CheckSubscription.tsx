@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, Dimensions, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import * as RNIap from 'react-native-iap';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { ActivityIndicator, Alert, Button, Dimensions, SafeAreaView, StyleSheet, Text, View, NativeModules } from 'react-native';
 import DatePicker from 'react-native-date-picker'
+import { get_async_data } from '../../Helper/AppHelper';
 
 const { width, height } = Dimensions.get('window');
 
 export default function CheckSubscription({ navigation }: { navigation: any }) {
-    const [availablePurchase, setavailablePurchase] = useState([]);
     const [loader, setloader] = useState(true);
-    const [text, settext] = useState('');
+    const [text, settext] = useState('Loading...');
 
     const [date, setDate] = useState(new Date())
 
@@ -17,19 +15,14 @@ export default function CheckSubscription({ navigation }: { navigation: any }) {
     useEffect(() => {
         setloader(false);
         (async () => {
-            const purchases = await RNIap.getAvailablePurchases();
-            console.log('array length', purchases.length);
-            if (purchases && purchases[0].transactionDate) {
-                settext('Purchased');
-                console.log(purchases[0].transactionDate);
-                console.log(purchases[0].productId);
-                console.log(purchases[0].transactionId);
-                console.log(purchases[0].transactionReceipt);
-
-                setloader(false);
-            } else {
-                settext('not purchased yet')
-            }
+           let purchase = await get_async_data('subscription_active');
+           if(purchase) {
+            setloader(false);
+            settext('Subscription is active');
+           } else{
+            setloader(false);
+            settext('Subscription not available or may be expired');
+           }
         })();
     }, []);
 
@@ -38,12 +31,14 @@ export default function CheckSubscription({ navigation }: { navigation: any }) {
             <Text style={{ textAlign: 'center', fontSize: 24, fontWeight: '600', textDecorationLine: 'underline', marginBottom: 50 }}>Available Purchase</Text>
             <View style={{ paddingHorizontal: 15 }}>
                 {
-                    loader == true ? (<ActivityIndicator size={'large'} />) : (<Text>{text}</Text>)
+                    loader == true ? (<ActivityIndicator size={'large'} />) : (<Text style={{color:'red',fontSize: 24}}>{text}</Text>)
                 }
             </View>
 
             <DatePicker date={date} onDateChange={setDate} />
-            
+
+            <Button title='Reload the Application' onPress={()=>NativeModules.DevSettings.reload()}/>
+
         </SafeAreaView>
     )
 }

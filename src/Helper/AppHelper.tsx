@@ -1,4 +1,5 @@
 import { View, Text, Alert } from 'react-native';
+import { Buffer } from 'buffer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as RNIap from 'react-native-iap';
 //import messaging from '@react-native-firebase/messaging';
@@ -8,9 +9,12 @@ export const API_KEY = '98b51cbe28734a39b7e104101241005';
 export const BASE_URL = 'https://mrlapps.care20.com/api/sugar_app/'; // live server
 // export const BASE_URL = 'http://192.168.10.43/MRL-Apps/MRL-Apps/public/api/sugar_app/'; // local server
 
+const RECIPT_URL = 'https://sandbox.itunes.apple.com/verifyReceipt' // for debug mode
+// const RECIPT_URL = 'https://buy.itunes.apple.com/verifyReceipt' // for live mode
+
 // NINJA'S API
 const apiKey = 'uc22NmzobKOLStlCCKCyiA==0c21y6wx3jBfgtHd'; // Replace with your API key
-
+const APP_SHARED_SECRET = '503c8ddb49ca46198f8c4f1be8bb0ddf';
 export const IMG_BASE_URL = 'https://mrlapps.care20.com/uploads/'; // live server
 export const MEAL_IMG_URL = 'https://mrlapps.care20.com/uploads/'; // local server
 export const ADD_USER = BASE_URL + 'add-user';
@@ -590,63 +594,103 @@ export const generate_table_as_pdf = async () => {
 //---------------------------------------------- AVAILABLE PURCHASE ---------------------------------------------
 
 export const fetchAvailablePurchases = async () => {
-  let purchases:any = false;
-  try {  
-      // Initialize the IAP connection
-      await RNIap.initConnection();
-      // Get all available purchases
-      let check = await RNIap.getAvailablePurchases();
-      if (check && Object.keys(check).length > 0) {
-        set_async_data('subscription', check);
-      }
-      await RNIap.endConnection();
-      purchases = true;
-      return true;
+  let purchases: any = false;
+  let history: any = [];
+  try {
+    // Initialize the IAP connection
+    await RNIap.initConnection();
+    // Get all available purchases
+    let check = await RNIap.getAvailablePurchases({
+      onlyIncludeActiveItems: true,
+    });
+    history = check;
+    if (check && check[0].transactionDate) {
+      set_async_data('subscription', check);
+    }
+    await RNIap.endConnection();
+    purchases = true;
+    return true;
   } catch (error) {
+    return false;
     console.error('Error fetching available purchases:', error);
     Alert.alert('Error', 'Could not retrieve available purchases');
 
   } finally {
     // End the IAP connection after completing the process
     console.log('ending connection here');
+    const receipt = await RNIap.getReceiptIOS({ forceRefresh: true });
+    // console.log('LATEST',receipt);
+    // let recipt = history[0].transactionReceipt;
+    // recipt = Buffer.from(recipt, 'utf-8').toString('base64')
+    // console.log('converted', recipt);
+    const receiptBody = {
+      'receipt-data': receipt,
+      'password': APP_SHARED_SECRET
+    };
+
+    let response = await validateReceipt(receiptBody);
+    console.log('purchase validation', response);
     await RNIap.endConnection();
-    return purchases;
+    return response;
+    // return purchases; old
   }
 }
 
 export const disableAds = async () => {
   let purchase = await get_async_data('subscription');
-
-  if(purchase && parseInt(purchase.length) > 0) {
-    return true;
+  let subscriptionActive = await get_async_data('subscription_active');
+  if (purchase && parseInt(purchase.length) > 0) {
+    if(subscriptionActive) {
+      return true;
+    }
+    return false;
   } else {
     return false;
   }
 }
 
-// const checkSubscriptionStatus = async () => {
-//   const { isConnected } = useNetInfo();
-//   if (!isConnected) {
-//     // Device is offline, check the stored subscription data
-//     const subscription = await get_async_data('subscription');
-//     if (subscription && subscription.expiryDate) {
-//       const currentDate = new Date();
-//       const expiryDate = new Date(subscription.expiryDate);
-      
-//       if (expiryDate > currentDate) {
-//         console.log('Subscription is active.');
-//         return true; // Subscription is active
-//       } else {
-//         console.log('Subscription has expired.');
-//         return false; // Subscription has expired
-//       }
-//     } else {
-//       console.log('No subscription data found.');
-//       return false; // No subscription data found
-//     }
-//   } else {
-//     console.log('Device is online. Perform normal subscription validation.');
-//     // Device is online, perform usual subscription validation with react-native-iap
-//     // For example, fetch available purchases
-//   }
-// };
+const validateReceipt = async (receiptBody: any) => {
+  try {
+    const request = await fetch(RECIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(receiptBody),
+    });
+    const response = await request.json();
+    if (response.status === 0) {
+      // now check for expiration date
+      const latestReceiptInfo = response.latest_receipt_info || response.receipt.in_app;
+      const currentDate = new Date();
+
+      // Find the most recent subscription
+      const latestSubscription = latestReceiptInfo.reduce((latest:any, item:any) => {
+        const expiresDate = new Date(parseInt(item.expires_date_ms, 10));
+        return expiresDate > (latest ? new Date(parseInt(latest.expires_date_ms, 10)) : 0) ? item : latest;
+      }, null);
+
+      if (latestSubscription) {
+        const expirationDate = new Date(parseInt(latestSubscription.expires_date_ms, 10));
+
+        if (expirationDate > currentDate) {
+          console.log("Subscription is active");
+          await set_async_data('subscription_active', true);
+          return true; // Subscription is active
+        } else {
+          console.log("Subscription has expired");
+          await set_async_data('subscription_active', false);
+          return false; // Subscription has expired
+        }
+      }
+      await set_async_data('subscription_active', false);
+      console.warn("No valid subscription found in receipt");
+      return false; // No subscription info found
+
+    }
+  } catch (error) {
+    console.error('Receipt validation error:', error);
+    await set_async_data('subscription_active', false);
+    return false;
+  }
+};

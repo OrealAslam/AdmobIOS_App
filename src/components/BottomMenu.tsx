@@ -44,6 +44,7 @@ const BottomMenu = (props: any) => {
   useEffect(() => {
     (async () => {
       let res = await disableAds();
+     
       sethidead(res);
     })()
   },[]);

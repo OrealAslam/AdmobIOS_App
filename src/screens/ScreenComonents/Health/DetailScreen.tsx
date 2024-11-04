@@ -167,7 +167,6 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
       try {
         let lan = await lang();
         let subscription = await get_async_data('subscription');
-        console.log('subscription sbs :', subscription);
         setshownative(subscription.length > 0 ? false : true);
         setlanguage(lan);
       } catch (e) {

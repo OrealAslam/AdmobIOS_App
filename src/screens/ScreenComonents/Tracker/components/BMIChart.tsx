@@ -102,7 +102,7 @@ const BMIChart = (props: any) => {
 
   return (
     <>
-      {adSeen == 'seen' ? (
+      {adSeen == 'seen' || props.hidead ? (
         <>
           <View style={styles.chartContainer}>
             <BarChart
