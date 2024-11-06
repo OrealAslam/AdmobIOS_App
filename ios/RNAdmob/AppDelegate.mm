@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
-
 #import <React/RCTBundleURLProvider.h>
+#import <React/RCTLinkingManager.h> // Import Linking Manager
 
 @implementation AppDelegate
 
@@ -26,6 +26,12 @@
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+// Add this method to handle in-app purchase URLs
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+    return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 @end

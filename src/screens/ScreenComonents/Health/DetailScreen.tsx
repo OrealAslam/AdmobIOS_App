@@ -166,7 +166,7 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
     (async () => {
       try {
         let lan = await lang();
-        let subscription = await get_async_data('subscription');
+        let subscription = await get_async_data('subscription_active');
         setshownative(subscription.length > 0 ? false : true);
         setlanguage(lan);
       } catch (e) {

@@ -13,7 +13,7 @@ export default function Packages(props: any) {
             let duration = item.title.split("Pulse - ").pop();
             duration = duration.split(" ");
             return (
-                <TouchableOpacity onPress={() => choosepackage(item)} style={styles.pkgBtn} key={index}>
+                <TouchableOpacity disabled={props.checkdisable()} onPress={() => choosepackage(item)} style={styles.pkgBtn} key={index}>
                     <Text style={styles.cutText}>$5.99/{duration[0]}</Text>
                     <Text style={styles.origText}>{item.localizedPrice}/{duration[0]}</Text>
                     <Image style={{ width: 24, height: 24, marginTop: 20 }} source={duration[0] == checked ? require('../../../assets/icons/radio_checked.png') : require('../../../assets/icons/radio_unchecked.png')} />
@@ -28,7 +28,6 @@ export default function Packages(props: any) {
     }
 
     const choosepackage = (pkg: any) => {
-        // console.log(pkg)
         let duration = pkg.title.split("Pulse - ").pop();
         duration = duration.split(" ");
         setchecked(duration[0]);

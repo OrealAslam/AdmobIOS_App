@@ -48,7 +48,7 @@ const LandingScreen = ({ navigation }: { navigation: any }) => {
 
   useEffect(() => {
     component();
-  }, [selectedmenu, loader]);
+  }, [selectedmenu, loader, opengraph]);
 
   const handleAppStateChange = async (nextAppState: any) => {
     // let adStatus = await get_async_data('hide_ad');

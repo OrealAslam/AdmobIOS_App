@@ -14,7 +14,7 @@ const MAX_LOAD_ATTEMPTS = 2; // Maximum ad loading attempts
 const App = () => {
   const [firstTime, setFirstTime] = useState(true);
   const [splashClosed, setSplashClosed] = useState(false);
-  const [subscribe, setsubscribe] = useState(false);
+  const [subscribed, setsubscribed] = useState(false);
   const [loadAttempts, setLoadAttempts] = useState(0);
   const [adDisable, setAdDisable] = useState(false);
 
@@ -27,8 +27,7 @@ const App = () => {
     let onboard = await get_async_data('on_board');
     let rate = await get_async_data('alreadyrate');
     let activeSubscription = await get_async_data('subscription_active');
-    setsubscribe(activeSubscription);
-    // console.log('activeSubscription', activeSubscription);
+    setsubscribed(activeSubscription);
     if (rate === '' || rate == null) {
       await set_async_data('alreadyrate', '');
     }
@@ -36,32 +35,25 @@ const App = () => {
       setFirstTime(false);
     }
     
-    if (!state.isConnected) {
+    if (!state.isConnected || subscribed == true) {
       setSplashClosed(true);
-      setAdDisable(true); // purposly
       SplashScreen.hide();
     } else {
-      if(activeSubscription) {
-        setAdDisable(true);
-        setSplashClosed(true);
-        SplashScreen.hide();
-      } else {
-        let purchaseHistory = await fetchAvailablePurchases();
-        setTimeout(() => {
-          if (purchaseHistory) {
-            setAdDisable(true);
-            setSplashClosed(true);
-            SplashScreen.hide();
-          } else {
-            loadAdWithRetry(); // Attempt to load the ad
-          }
-        }, 4000);
-      }
+      let purchaseHistory = await fetchAvailablePurchases();
+      setTimeout(() => {
+        if (purchaseHistory) {
+          setAdDisable(true);
+          setSplashClosed(true);
+          SplashScreen.hide();
+        } else {
+          loadAdWithRetry(); // Attempt to load the ad
+        }
+      }, 4000);
     }
   };
 
   const loadAdWithRetry = () => {
-    if (isLoaded && subscribe == false) {
+    if (isLoaded) {
       show();
     } else {
       if (!isLoaded && loadAttempts < MAX_LOAD_ATTEMPTS) {
@@ -69,7 +61,7 @@ const App = () => {
         load();
         console.log(`loading again`);
       }
-      if (error || error == undefined && loadAttempts > MAX_LOAD_ATTEMPTS || subscribe == true) {
+      if (error || error == undefined && loadAttempts > MAX_LOAD_ATTEMPTS) {
         setSplashClosed(true);
         SplashScreen.hide();
       }

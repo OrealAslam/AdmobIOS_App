@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import RNRestart from 'react-native-restart';
 import { ActivityIndicator, Alert, Button, Dimensions, SafeAreaView, StyleSheet, Text, View, NativeModules } from 'react-native';
 import DatePicker from 'react-native-date-picker'
 import { get_async_data } from '../../Helper/AppHelper';
@@ -37,7 +38,8 @@ export default function CheckSubscription({ navigation }: { navigation: any }) {
 
             <DatePicker date={date} onDateChange={setDate} />
 
-            <Button title='Reload the Application' onPress={()=>NativeModules.DevSettings.reload()}/>
+            <Button title='Reload the Application' onPress={()=>RNRestart.restart()}/>
+            {/* <Button title='Reload the Application' onPress={()=>NativeModules.DevSettings.reload()}/> */}
 
         </SafeAreaView>
     )

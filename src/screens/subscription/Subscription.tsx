@@ -3,7 +3,7 @@ import { View, StyleSheet, SafeAreaView, Dimensions, Image, Text, ScrollView, Al
 import * as RNIap from 'react-native-iap';
 import Packages from './component/Packages';
 import LinearGradient from 'react-native-linear-gradient';
-import { set_async_data } from '../../Helper/AppHelper';
+import { fetchAvailablePurchases, set_async_data } from '../../Helper/AppHelper';
 const { width, height } = Dimensions.get('window');
 
 const IMG_WIDTH = width - 15;
@@ -17,7 +17,7 @@ export default function Subscription({ navigation }: { navigation: any }) {
     // const [availablePurchase, setavailablePurchase] = useState([]);
     const [loading, setLoading] = useState(true);
     const [purchaseLoader, setpurchaseLoader] = useState(false);
-    const [purchases, setPurchases] = useState([]);
+    const [purchases, setPurchases] = useState(false);
     const [packageId, setpackageId] = useState('pulse_yearly_subscription');
 
     // Fetch products from the App Store
@@ -34,16 +34,19 @@ export default function Subscription({ navigation }: { navigation: any }) {
         }
     };
     useEffect(() => {
-        fetchProducts();
-        return () => {
-            RNIap.endConnection();
-            setpurchaseLoader(false);
-        };
+        (async () => {
+            fetchProducts();
+            let alreadyPurchase = await fetchAvailablePurchases();
+            setPurchases(alreadyPurchase);
+            return () => {
+                RNIap.endConnection();
+                setpurchaseLoader(false);
+            };
+        })()
     }, []);
 
     // Make the purchase
     const purchaseSubscription = async (productId: any) => {
-        console.log(productId);
         try {
             // Initialize the connection
             const connected = await RNIap.initConnection();
@@ -52,10 +55,10 @@ export default function Subscription({ navigation }: { navigation: any }) {
                 return;
             }
             setpurchaseLoader(true);
-    
+
             // Request the subscription
             const purchase = await RNIap.requestSubscription({ sku: productId });
-            
+
             // Handle successful purchase
             if (purchase) {
                 console.log(purchase)
@@ -78,12 +81,17 @@ export default function Subscription({ navigation }: { navigation: any }) {
         }
     };
 
-
+    const checkdisable = () => {
+        if (purchases) {
+            return true;
+        }
+        return false;
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={()=>navigation.navigate('CheckSubscription')}>
+                <TouchableOpacity onPress={() => navigation.navigate('CheckSubscription')}>
                     <Text style={styles.heading}>Subscription</Text>
                 </TouchableOpacity>
             </View>
@@ -93,9 +101,9 @@ export default function Subscription({ navigation }: { navigation: any }) {
                     loading ? <ActivityIndicator size={'large'} /> : (
                         <>
                             <View style={styles.pkgListContainer}>
-                                <Packages products={products} setpackageId={setpackageId} />
+                                <Packages products={products} setpackageId={setpackageId} checkdisable={checkdisable} />
                             </View>
-                            {products.length > 0 && purchaseLoader != true ? (<LinearGradient onTouchEnd={() => { purchaseSubscription(packageId) }} colors={['#FF9C55', '#FF9B20']} style={styles.btn} start={{ x: 0, y: 0 }}
+                            {products.length > 0 && purchaseLoader != true ? (<LinearGradient onTouchEnd={() => { checkdisable() ? NativeModules.DevSettings.reload() : purchaseSubscription(packageId) }} colors={['#FF9C55', '#FF9B20']} style={styles.btn} start={{ x: 0, y: 0 }}
                                 end={{ x: 2, y: 2 }}>
                                 <Text style={styles.buttonText}>Continue</Text>
                             </LinearGradient>) : (<ActivityIndicator size={'large'} />)}
