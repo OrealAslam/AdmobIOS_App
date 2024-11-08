@@ -58,6 +58,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RNAdmob/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = RNAdmob/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		14B4AA4EF0AB4FFBA066C0EF /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
+		180A82762CDE2B58008B40A9 /* libreact-native-splash-screen.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-splash-screen.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1817DA022CAC0C7E00892A90 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1F69986E4C78F9E103417885 /* libPods-RNAdmob-RNAdmobTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RNAdmob-RNAdmobTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		26FD261E0FC180DC9C4EEC11 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = RNAdmob/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -143,6 +144,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				180A82762CDE2B58008B40A9 /* libreact-native-splash-screen.a */,
 				1817DA022CAC0C7E00892A90 /* StoreKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				81A3E9777E4A0C6CB3E192E9 /* libPods-RNAdmob.a */,
@@ -573,7 +575,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = T2RW4YJTUF;
 				ENABLE_BITCODE = NO;
 				GCC_WARN_PEDANTIC = NO;
@@ -583,7 +585,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -593,6 +595,10 @@
 				PRODUCT_NAME = RNAdmob;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				USER_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/libwebp/src",
+				);
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -604,7 +610,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = T2RW4YJTUF;
 				GCC_WARN_PEDANTIC = NO;
 				INFOPLIST_FILE = RNAdmob/Info.plist;
@@ -613,7 +619,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.8;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -623,6 +629,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pulsetracker.caloriecounter.bloodpressure;
 				PRODUCT_NAME = RNAdmob;
 				SWIFT_VERSION = 5.0;
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/../node_modules/react-native-splash-screen/ios";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -27,7 +27,7 @@ const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
 const ResultScreen = ({ navigation }: { navigation: any }) => {
-  const [hidead, sethidead] = useState(true);
+  // const [hidead, sethidead] = useState(true);
   const [chartPercentage, setchartPercentage] = useState(72);
   const [pressurelevel, setpressurelevel] = useState('Normal');
   const [data, setdata] = useState(['', '']);
@@ -95,6 +95,7 @@ const ResultScreen = ({ navigation }: { navigation: any }) => {
   };
 
   useEffect(() => {
+    console.log(data)
     adjustBar(data[0], data[1]);
   }, [data]);
 
@@ -103,8 +104,8 @@ const ResultScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('bs_result_screen');
         let lan = await lang();
-        let res = await disableAds();
-        sethidead(res);
+        // let res = await disableAds();
+        // sethidead(res);
         setlanguage(lan);
         let response = await get_report(REPORT_TYPES.sugar);
         if (response) {
@@ -155,12 +156,12 @@ const ResultScreen = ({ navigation }: { navigation: any }) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          {
+          {/* {
             !hidead ?
               <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
                 <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
               </TouchableOpacity> : <></>
-          }
+          } */}
         </View>
 
         <ScrollView
@@ -217,18 +218,18 @@ const ResultScreen = ({ navigation }: { navigation: any }) => {
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            hidead={hidead}
+            // hidead={hidead}
             rate={rate}
           />
           <View style={styles.NativeAd}>
-            {!hidead ? <NativeAd150 /> : <></>}
+            {/* {!hidead ? <NativeAd150 /> : <></>} */}
           </View>
           <PieChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            hidead={hidead}
+            // hidead={hidead}
             rate={rate}
           />
 

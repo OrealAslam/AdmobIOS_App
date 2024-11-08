@@ -100,7 +100,7 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
   const [disablesavebtn, setdisablesavebtn] = useState(false);
   const [show, setshow] = useState(false);
   const [save, setsave] = useState(false);
-  const [hidead, sethidead] = useState(true);
+  // const [hidead, sethidead] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [heartRate, setheartRate] = useState('65');
   const [loader, setloader] = useState(false);
@@ -112,8 +112,8 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
         // await analytics().logEvent('add_blood_sugar_screen');
         let lan = await lang();
         setlanguage(lan);
-        let res = await disableAds();
-        sethidead(res);
+        // let res = await disableAds();
+        // sethidead(res);
       } catch (e) {
         console.log(e);
       }
@@ -164,7 +164,7 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
             <PageHeader
               screenTitle={langstr.dashobard.heartRate}
               navigation={navigation}
-              hidead={hidead}
+              // hidead={hidead}
             />
 
             <DateTimeComponent
@@ -228,7 +228,7 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
               today={today}
               time={time}
               _continue={_continue}
-              hidead={hidead}
+              // hidead={hidead}
               setsave={setsave}
               result={result}
               disablesavebtn={disablesavebtn}
@@ -239,7 +239,7 @@ const RecordHeartRate = ({ navigation }: { navigation: any }) => {
         </KeyboardAvoidingView>
       </SafeAreaView>
 
-      {!hidead ? <Banner /> : <></>}
+      {/* {!hidead ? <Banner /> : <></>} */}
 
       {show && (
         <StateModal

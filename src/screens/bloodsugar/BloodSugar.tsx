@@ -39,7 +39,7 @@ const iconWidth = width - width * 0.7;
 const iconRatio = iconWidth / 372;
 
 export default function BloodSugar({navigation}: {navigation: any}) {
-  const [hidead, sethidead] = useState(true);
+  // const [hidead, sethidead] = useState(true);
   const today = moment(new Date()).format('YYYY-MM-DD');
   const {container, form, label} = addFormStyle;
   const [selectedDate, setSelectedDate] = useState('');
@@ -128,8 +128,8 @@ export default function BloodSugar({navigation}: {navigation: any}) {
       try {
         // await analytics().logEvent('add_blood_sugar_screen');
         let lan = await lang();
-        let res = await disableAds();
-        sethidead(res);
+        // let res = await disableAds();
+        // sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -237,7 +237,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
         <PageHeader
           screenTitle={langstr.dashobard.bs}
           navigation={navigation}   
-          hidead={hidead} 
+          // hidead={hidead} 
         />
     
         <DateTimeComponent
@@ -356,7 +356,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
           today={today}
           time={time}
           _continue={_continue}
-          hidead={hidead}
+          // hidead={hidead}
           setsave={setsave}
           result={result}
           disablesavebtn={disablesavebtn}
@@ -364,7 +364,7 @@ export default function BloodSugar({navigation}: {navigation: any}) {
           setloader={setloader}
         />
       </SafeAreaView>
-      {!hidead ? <Banner /> : <></>}
+      {/* {!hidead ? <Banner /> : <></>} */}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
 
       {show && (

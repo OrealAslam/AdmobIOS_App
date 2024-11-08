@@ -11,7 +11,6 @@ import HealthScreen from './ScreenComonents/Health/HealthScreen';
 import Settings from './ScreenComonents/Settings/Settings';
 import DisplayAd from '../components/DisplayAd';
 import { get_async_data, set_async_data } from '../Helper/AppHelper';
-import { INTERSITIAL_AD_ID } from '../Helper/AdManager';
 
 const LandingScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
@@ -135,11 +134,6 @@ const LandingScreen = ({ navigation }: { navigation: any }) => {
       />
     </SafeAreaView>
     {loader && <DisplayAd setloader={setloader} _continue={_continue} />}
-
-
-    {/* {trayad && (
-      <DisplayAd _continue={() => settrayad(false)} adId={INTERSITIAL_AD_ID} />
-    )} */}
   </>;
 };
 export default LandingScreen;

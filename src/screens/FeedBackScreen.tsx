@@ -26,7 +26,7 @@ const RATIO = ITEM_WIDTH / 1256;
 
 const FeedBackScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
-  const [hidead, sethidead] = useState(true);
+  // const [hidead, sethidead] = useState(true);
   const [feedback, setfeedback] = useState('');
   const [language, setlanguage] = useState({
     setting: { feedback: '', suggestion: '' },
@@ -39,8 +39,8 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('feedback_screen');
         let lan = await lang();
-        let res = await disableAds();
-        sethidead(res);
+        // let res = await disableAds();
+        // sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -77,11 +77,11 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
                 </TouchableOpacity>
               </View> */}
               <Text style={styles.heading}>{title}</Text>
-              {!hidead ?
+              {/* {!hidead ?
                 <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
                   <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../assets/images/premium.png')} />
                 </TouchableOpacity> : <></>
-              }
+              } */}
             </View>
 
             <View style={styles.inputContainer}>
@@ -104,9 +104,9 @@ const FeedBackScreen = ({ navigation }: { navigation: any }) => {
         </KeyboardAvoidingView>
 
         {/* BANNER AD */}
-        <View style={styles.bannerContainer}>
+        {/* <View style={styles.bannerContainer}>
           {!hidead ? <Banner /> : <></>}
-        </View>
+        </View> */}
       </SafeAreaView>
     </>
   );

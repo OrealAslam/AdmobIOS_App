@@ -53,13 +53,13 @@ const BloodPressureChart = (props: any) => {
           // record added already
           setbtnType('Unlock');
         }
-        if (!props.hidead) {
-          let adSeen = await get_async_data('line_chart_bp_ad');
-          setadSeen(adSeen);
-        } else {
+        // if (!props.hidead) {
+        //   let adSeen = await get_async_data('line_chart_bp_ad');
+        //   setadSeen(adSeen);
+        // } else {
           await set_async_data('line_chart_bp_ad', 'seen');
           setadSeen('seen');
-        }
+        // }
         let chartData = await get_chart_data('bp');
         let dataArr = [];
         let limit =

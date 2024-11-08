@@ -22,9 +22,9 @@ export default function PageHeader(props: any) {
         />
       </TouchableOpacity> */}
       <Text style={styles.heading}>{props.screenTitle}</Text>
-      {!props.hidead && (<TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
+      {/* {!props.hidead && (<TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
         <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
-      </TouchableOpacity>)}
+      </TouchableOpacity>)} */}
     </View>
   );
 }

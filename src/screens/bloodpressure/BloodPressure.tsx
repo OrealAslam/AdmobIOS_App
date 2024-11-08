@@ -47,7 +47,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
   const [showremarksmodal, setshowremarksmodal] = useState(false);
   const [loader, setloader] = useState(false);
   const [save, setsave] = useState(false);
-  const [hidead, sethidead] = useState(true);
+  // const [hidead, sethidead] = useState(true);
   const [language, setlanguage] = useState({
     dashobard: { bp: '' },
     main: {
@@ -114,8 +114,6 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
       try {
         // await analytics().logEvent('add_bp_screen');
         let lan = await lang();
-        let res = await disableAds();
-        sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -170,12 +168,12 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
   const _continue = async () => {
     try {
       setloader(false);
-      if (save == true) {
-        setsave(false);
+      // if (save == true) {
+      //   setsave(false);
+      //   navigation.navigate('BpResultScreen');
+      // } else {
         navigation.navigate('BpResultScreen');
-      } else {
-        navigation.navigate('BpResultScreen');
-      }
+      // }
     } catch (e) {
       console.log('catch error', e);
       return;
@@ -187,7 +185,7 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
         <PageHeader
           screenTitle={langstr.dashobard.bp}
           navigation={navigation}
-          hidead={hidead}
+          // hidead={hidead}
         />
 
         <DateTimeComponent
@@ -271,13 +269,12 @@ export default function BloodPressure({ navigation }: { navigation: any }) {
           note={note}
           pressurelevel={pressurelevel}
           _continue={_continue}
-          hidead={hidead}
+          // hidead={hidead}
           setsave={setsave}
           setloader={setloader}
           langstr={langstr}
         />
       </SafeAreaView>
-      {!hidead ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
 
       {showremarksmodal && (

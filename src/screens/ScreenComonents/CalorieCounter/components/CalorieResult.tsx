@@ -81,9 +81,9 @@ const CalorieResult = (props: any) => {
     return (
         <View>
             <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
+                {/* <TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
                     <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../../assets/images/premium.png')} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
             <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical>
                 <View style={styles.pieChartContainer}>

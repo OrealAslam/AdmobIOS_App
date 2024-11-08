@@ -8,8 +8,6 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import QuitAppModal from './QuitAppModal';
-import { Banner } from '../Helper/AdManager';
-import { disableAds } from '../Helper/AppHelper';
 const { width } = Dimensions.get('window');
 const ICON_WIDTH = width / 5 - 40;
 const ICON_RATIO = ICON_WIDTH / 193;
@@ -17,7 +15,6 @@ const ICON_RATIO = ICON_WIDTH / 193;
 const BottomMenu = (props: any) => {
   const [tab, settab] = useState('home');
   const [quit, setquit] = useState(false);
-  const [hidead, sethidead] = useState(false);
 
   useEffect(() => {
     switch (props.selectedmenu) {
@@ -40,14 +37,6 @@ const BottomMenu = (props: any) => {
         settab('home');
     }
   }, [props.selectedmenu]);
-
-  useEffect(() => {
-    (async () => {
-      let res = await disableAds();
-     
-      sethidead(res);
-    })()
-  },[]);
 
   const menu = () => {
     let js = (
@@ -113,10 +102,10 @@ const BottomMenu = (props: any) => {
           width: width,
           position: 'absolute',
           bottom: 0,
-          backgroundColor: '#F4F4FE'
+          backgroundColor: '#ffffff',
+          paddingBottom: 15
         }}>
         {menu()}
-        {!hidead && <Banner /> }
       </View>
       {quit == true ? <QuitAppModal setquit={setquit} /> : <></>}
     </>

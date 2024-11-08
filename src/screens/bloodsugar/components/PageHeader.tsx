@@ -14,13 +14,13 @@ export default function PageHeader(props: any) {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.heading}>{props.screenTitle}</Text>
-      {
+      {/* {
         props.hidead.toString() == 'false' ? (
           <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
           </TouchableOpacity>
         ) : (<></>)
-      }
+      } */}
     </View>
   );
 }

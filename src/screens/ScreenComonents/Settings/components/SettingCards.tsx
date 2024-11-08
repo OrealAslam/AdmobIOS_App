@@ -140,7 +140,7 @@ const SettingCards = (props: any) => {
       </TouchableOpacity>
 
       {/* SUBSCRIPTION TAB */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.card}
         activeOpacity={0.9}
         onPress={() => navigateScreen('Subscription')}>
@@ -148,7 +148,7 @@ const SettingCards = (props: any) => {
           style={styles.img}
           source={require('../../../../assets/settings/subscription.png')} />
         <Text style={styles.cardText}>Subscription</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </>
   );
 };

@@ -18,15 +18,15 @@ const { width } = Dimensions.get('screen');
 
 const ChangeLanguageScreen = ({ navigation }: { navigation: any }) => {
   const [selectedLang, setselectedLang] = useState('en');
-  const [hidead, sethidead] = useState(true);
+  // const [hidead, sethidead] = useState(true);
   const [title, settitle] = useState('Language');
   const [language, setlanguage] = useState({ setting: { language: '' } });
 
   useEffect(() => {
     (async () => {
       let lan = await lang();
-      let res = await disableAds();
-      sethidead(res);
+      // let res = await disableAds();
+      // sethidead(res);
       setlanguage(lan);
     })();
   }, []);
@@ -81,9 +81,9 @@ const ChangeLanguageScreen = ({ navigation }: { navigation: any }) => {
       <ScrollView style={{ width: width, height: width, overflow: 'scroll' }}>
         <View style={styles.languageContainer}>{displayLanguages()}</View>
       </ScrollView>
-      {!hidead ? <View style={styles.nativeAd}>
+      {/* {!hidead ? <View style={styles.nativeAd}>
         <NativeAd150 />
-      </View> : (<></>)}
+      </View> : (<></>)} */}
     </SafeAreaView>
   );
 };

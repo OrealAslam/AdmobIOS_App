@@ -16,7 +16,7 @@ const btnRatio = btnWidth / 1256;
 const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params }: { params: any }) => {
     const route = useRoute();
     const [click, setclick] = useState(false);
-    const [hidead, sethidead] = useState(true);
+    // const [hidead, sethidead] = useState(true);
     const [resultview, setresultview] = useState(false);
     const [description, setdescription] = useState('');
     const [data, setdata] = useState({});
@@ -33,8 +33,8 @@ const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params 
     useEffect(() => {
         (async () => {
             let lan = await lang();
-            let res = await disableAds();
-            sethidead(res);
+            // let res = await disableAds();
+            // sethidead(res);
             setlanguage(lan);
         })();
     }, [language]);
@@ -66,7 +66,7 @@ const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params 
             {
                 resultview ? (<CalorieResult title={route.params?.type} setresultview={setresultview} dataset={data} apires={apires} />) : (
                     <>
-                        <PageHeader screenTitle={language.calDesc.title} navigation={navigation} hidead={hidead}/>
+                        <PageHeader screenTitle={language.calDesc.title} navigation={navigation} />
                         <KeyboardAvoidingView
                             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                             style={styles.keyboardAvoidingView}
@@ -85,7 +85,8 @@ const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params 
                                                 numberOfLines={1}
                                                 ellipsizeMode="tail"
                                                 style={{ color: '#fff', fontSize: 16, fontFamily: 'Raleway-ExtraBold' }}>
-                                                {language.calDesc.submit}
+                                                {/* {language.calDesc.submit} */}
+                                                Calculate Calorie
                                             </Text>
                                         </LinearGradient>
                                     )}
@@ -107,7 +108,7 @@ const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params 
                     backgroundColor: '#F4F4FE'
                 }}>
 
-                {!hidead ? <Banner /> : <></>}
+                {/* {!hidead ? <Banner /> : <></>} */}
             </View>
         </SafeAreaView>
     )

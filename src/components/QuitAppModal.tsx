@@ -9,8 +9,8 @@ import {
 import {useState, useEffect} from 'react';
 const {width, height} = Dimensions.get('screen');
 import NativeAdView from 'react-native-admob-native-ads';
-import {ARTICLE_AD_ID, NATIVE_AD_ID} from '../Helper/AdManager';
-import {NativeAd150} from '../Helper/NativeAd150';
+// import {ARTICLE_AD_ID, NATIVE_AD_ID} from '../Helper/AdManager';
+// import {NativeAd150} from '../Helper/NativeAd150';
 import {lang} from '../../global';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -53,9 +53,9 @@ const QuitAppModal = (props: any) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.nativeAd}>
+        {/* <View style={styles.nativeAd}>
           <NativeAd150 adId={ARTICLE_AD_ID} />
-        </View>
+        </View> */}
       </View>
     </View>
   );

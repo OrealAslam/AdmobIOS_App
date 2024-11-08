@@ -20,7 +20,7 @@ import { disableAds } from '../../../Helper/AppHelper';
 
 const Dashboard = (props: any) => {
   const isFocused = useIsFocused();
-  const [hidead, sethidead] = useState(false);
+  // const [hidead, sethidead] = useState(false);
   const [selectedmenu, setselectedmenu] = useState('home');
   const [language, setlanguage] = useState({ main: { homeTitle: '' } });
   const [langstr, setlangstr] = useState({ main: { homeTitle: '' } });
@@ -30,8 +30,8 @@ const Dashboard = (props: any) => {
       try {
         // await analytics().logEvent('home_tab');
         let lan = await lang();
-        let res = await disableAds();
-        sethidead(res);
+        // let res = await disableAds();
+        // sethidead(res);
         setlanguage(lan);
         setselectedmenu('home');
       } catch (e) {
@@ -53,12 +53,12 @@ const Dashboard = (props: any) => {
       showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
         <Text style={styles.heading}>{langstr?.main.homeTitle}</Text>
-        {
+        {/* {
           !hidead ? 
         <TouchableOpacity onPress={() => props.navigateScreen('Subscription')}>
           <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
         </TouchableOpacity> : (<></>)
-        }
+        } */}
       </View>
       <DashboardContent navigate={props.navigateScreen} />
       <Recomandations setselectedmenu={props.setselectedmenu} putScreen={''} />

@@ -18,6 +18,7 @@ import { lang } from '../../../../global';
 import { useIsFocused } from '@react-navigation/native';
 import { ARTICLE_AD_ID } from '../../../Helper/AdManager';
 import { get_async_data } from '../../../Helper/AppHelper';
+import LinearGradient from 'react-native-linear-gradient';
 const { width, height } = Dimensions.get('window');
 const ITEM_WIDTH = width;
 const ITEM_RATIO = ITEM_WIDTH / 1440;
@@ -30,7 +31,7 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
   const scrollRef = useRef(null);
   const [quesid, setquesid] = useState(null);
-  const [shownative, setshownative] = useState(false);
+  // const [shownative, setshownative] = useState(false);
   const [category, setcategory] = useState('');
   const [background, setbackground] = useState(
     require('../../../assets/blogImages/backgroundImages/bp1.png'),
@@ -166,8 +167,8 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
     (async () => {
       try {
         let lan = await lang();
-        let subscription = await get_async_data('subscription_active');
-        setshownative(subscription.length > 0 ? false : true);
+        // let subscription = await get_async_data('subscription_active');
+        // setshownative(subscription.length > 0 ? false : true);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -257,9 +258,9 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
           ref={scrollRef}
           style={{ paddingBottom: 20, maxHeight: '75%' }}
           showsVerticalScrollIndicator={false}>
-          {shownative && (<View style={styles.nativeContainer}>
+          {/* {shownative && (<View style={styles.nativeContainer}>
             <NativeAd150 />
-          </View>)}
+          </View>)} */}
           <Text style={styles.description}>{subtitle}</Text>
           <View style={styles.subDescriptionContainer}>
             {showSubDescription()}
@@ -272,20 +273,10 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
             </View>
           </View>
           {customLoop()}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('HomeScreen', { tab: 'insight' })}
-            style={{
-              alignSelf: 'center',
-              marginVertical: 20,
-              width: btnWidth,
-              height: 176 * btnRatio,
-              backgroundColor: `rgba(0, 159,139, 0.7)`,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 10,
-            }}>
+          <LinearGradient onTouchEnd={() => navigation.navigate('HomeScreen', { tab: 'insight' })} colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+            end={{ x: 2, y: 2 }}>
             <Text style={styles.btntxt}>{btntxt}</Text>
-          </TouchableOpacity>
+          </LinearGradient>
         </ScrollView>
       </View>
     </View>
@@ -416,6 +407,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#0000e6',
     textDecorationLine: 'underline',
+  },
+  btn: {
+    width: btnWidth,
+    height: 186 * btnRatio,
+    alignSelf: 'center',
+    backgroundColor: `rgba(0, 159,139, 0.7)`,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
   },
 });
 export default DetailScreen;

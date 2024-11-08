@@ -14,7 +14,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import LineChartAdComponent from './components/LineChartAdComponent';
 import PieChartAdComponent from './components/PieChartAdComponent';
 import Recomandations from '../../components/Recomandations';
-import { NativeAd150 } from '../../Helper/NativeAd150';
+// import { NativeAd150 } from '../../Helper/NativeAd150';
 import { REPORT_TYPES, disableAds, get_report, set_async_data } from '../../Helper/AppHelper';
 // import analytics from '@react-native-firebase/analytics';
 import { lang } from '../../../global';
@@ -33,7 +33,7 @@ const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
 const BpResultScreen = ({ navigation }: { navigation: any }) => {
-  const [hidead, sethidead] = useState(true);
+  // const [hidead, sethidead] = useState(true);
   const [chartPercentage, setchartPercentage] = useState(8);
   const [pressurelevel, setpressurelevel] = useState('Normal');
   const [data, setdata] = useState(['', '']);
@@ -105,8 +105,8 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('bp_result_screen');
         let lan = await lang();
-        let res = await disableAds();
-        sethidead(res);
+        // let res = await disableAds();
+        // sethidead(res);
         setlanguage(lan);
         let response = await get_report(REPORT_TYPES.bp);
         if (response) {
@@ -158,9 +158,9 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          {!hidead && (<TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
+          {/* {!hidead && (<TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
-          </TouchableOpacity>)}
+          </TouchableOpacity>)} */}
         </View>
         <ScrollView style={{ flex: 1 }}>
           <View style={styles.colouredBg}>
@@ -213,18 +213,18 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            hidead={hidead}
+            // hidead={hidead}
             rate={rate}
           />
           <View style={styles.NativeAd}>
-            {!hidead && <NativeAd150 />}
+            {/* {!hidead && <NativeAd150 />} */}
           </View>
           <PieChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            hidead={hidead}
+            // hidead={hidead}
             rate={rate}
           />
 
