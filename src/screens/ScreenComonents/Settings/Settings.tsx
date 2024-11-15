@@ -54,9 +54,9 @@ const Settings = (props: any) => {
           </TouchableOpacity> */}
         </View>
         <ScrollView style={styles.scrollContainer}>
-          <ImageBackground style={{width: IMG_WIDTH, height: 576 * IMG_RATIO, alignSelf: 'center'}} source={require('../../../assets/images/premium_ubscribe.png')}>
+          {/* <ImageBackground style={{width: IMG_WIDTH, height: 576 * IMG_RATIO, alignSelf: 'center'}} source={require('../../../assets/images/premium_ubscribe.png')}>
 
-          </ImageBackground>
+          </ImageBackground> */}
 
           <SettingCards navigation={props.navigateScreen} showrate={showrate} />
         </ScrollView>
