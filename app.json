@@ -1,9 +1,9 @@
 {
-  "name": "RNAdmob",
-  "displayName": "RNAdmob",
+  "name": "PulseTracker",
+  "displayName": "PulseTracker",
   "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-3940256099942544~3347511713",
     "ios_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx"
   },
-  "plugins": ["react-native-iap"]
+  "plugins": ["react-native-iap", "react-native-admob-native-ads"]
 }
