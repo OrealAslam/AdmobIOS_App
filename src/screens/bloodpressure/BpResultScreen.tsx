@@ -72,17 +72,17 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
     let sys = parseInt(data[0]);
     let dis = parseInt(data[1]);
 
-    if ((sys >= 140 && sys <= 180) || (dis >= 90 && dis <= 120)) {
+    if (sys > 180 || dis > 120) {
+      setpressurelevel('Hypertensive');
+      setchartPercentage(78);
+      return;
+    }else if ((sys >= 140 && sys <= 180) || (dis >= 90 && dis <= 120)) {
       setpressurelevel('Hypertension-Stage 2');
       setchartPercentage(63);
       return;
     } else if ((sys >= 130 && sys <= 139) || (dis >= 80 && dis <= 89)) {
       setpressurelevel('Hypertension-Stage 1');
       setchartPercentage(49);
-      return;
-    } else if (sys > 180 || dis > 120) {
-      setpressurelevel('Hypertension');
-      setchartPercentage(78);
       return;
     } else if (sys >= 120 && sys <= 129 && dis >= 60 && dis <= 79) {
       setpressurelevel('Elevated');
@@ -112,8 +112,8 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
         if (response) {
           if (response.length > 0) {
             setdata([
-              response[0].systolic_pressure,
-              response[0].diastolic_pressure,
+              response[response.length - 1].systolic_pressure,
+              response[response.length - 1].diastolic_pressure,
             ]);
           }
         }

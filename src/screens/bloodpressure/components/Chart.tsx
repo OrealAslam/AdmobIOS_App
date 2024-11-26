@@ -30,38 +30,37 @@ function Chart(props: any) {
       for (let index = 0; index < limit; index++) {
         let color = '#F13F07';
         if (
-          (chartData.systolic_pressure[index] >= 140 &&
-            chartData.systolic_pressure[index] <= 180) ||
-          (chartData.diastolic_pressure[index] >= 90 &&
-            chartData.diastolic_pressure[index] <= 120)
+          (parseInt(chartData.systolic_pressure[index]) > 180 || parseInt(chartData.diastolic_pressure[index]) > 120)
+        ) {
+          color = '#F13F07'; // Hypertensive
+        }else if (
+          (parseInt(chartData.systolic_pressure[index]) >= 140 &&
+            parseInt(chartData.systolic_pressure[index]) <= 180) ||
+          (parseInt(chartData.diastolic_pressure[index]) >= 90 &&
+            parseInt(chartData.diastolic_pressure[index]) <= 120)
         ) {
           color = '#EC7F00'; // Hyper. Stage-2
         } else if (
-          (chartData.systolic_pressure[index] >= 130 &&
-            chartData.systolic_pressure[index] <= 139) ||
-          (chartData.diastolic_pressure[index] >= 80 &&
-            chartData.diastolic_pressure[index] <= 89)
+          (parseInt(chartData.systolic_pressure[index]) >= 130 &&
+            parseInt(chartData.systolic_pressure[index]) <= 139) ||
+          (parseInt(chartData.diastolic_pressure[index]) >= 80 &&
+            parseInt(chartData.diastolic_pressure[index]) <= 89)
         ) {
           color = '#FF9A24'; // Hyper. Stage-1
         } else if (
-          chartData.systolic_pressure[index] >= 120 &&
-          chartData.systolic_pressure[index] <= 129 &&
-          chartData.diastolic_pressure[index] >= 60 &&
-          chartData.diastolic_pressure[index] <= 79
+          parseInt(chartData.systolic_pressure[index]) >= 120 &&
+          parseInt(chartData.systolic_pressure[index]) <= 129 &&
+          parseInt(chartData.diastolic_pressure[index]) >= 60 &&
+          parseInt(chartData.diastolic_pressure[index]) <= 79
         ) {
           color = '#FEB056'; // Elevated
         } else if (
-          (chartData.systolic_pressure[index] >= 90 &&
-          chartData.systolic_pressure[index] <= 119 )&&
-          (chartData.diastolic_pressure[index] >= 60 &&
-          chartData.diastolic_pressure[index] <= 79)
+          (parseInt(chartData.systolic_pressure[index]) >= 90 &&
+          parseInt(chartData.systolic_pressure[index]) <= 119 )&&
+          (parseInt(chartData.diastolic_pressure[index]) >= 60 &&
+          parseInt(chartData.diastolic_pressure[index]) <= 79)
         ) {
           color = '#2EB100'; // Normal
-        } else if (
-          chartData.systolic_pressure[index] > 80 ||
-          chartData.diastolic_pressure[index] > 120
-        ) {
-          color = '#3980FF'; //Hypertension
         } else {
           // color = '#F13F07'
           color = '#3980FF'; //Hypotension

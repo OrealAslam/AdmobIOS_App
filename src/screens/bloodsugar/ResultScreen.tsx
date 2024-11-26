@@ -95,7 +95,6 @@ const ResultScreen = ({ navigation }: { navigation: any }) => {
   };
 
   useEffect(() => {
-    console.log(data)
     adjustBar(data[0], data[1]);
   }, [data]);
 

@@ -11,7 +11,7 @@ const App = () => {
   const [splashClosed, setSplashClosed] = useState(false);
 
   useEffect(() => {
-    let timeoutId:any;
+    let timeoutId: any;
 
     (async () => {
       // Retrieve data asynchronously

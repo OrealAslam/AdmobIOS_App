@@ -55,6 +55,7 @@ const PieChartComponent = () => {
     ];
     setrecord(finalChartData);
   };
+
   
   return (
     <View style={styles.pieChartContainer}>
