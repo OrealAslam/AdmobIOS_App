@@ -16,7 +16,7 @@ const btnRatio = btnWidth / 1256;
 const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params }: { params: any }) => {
     const route = useRoute();
     const [click, setclick] = useState(false);
-    // const [hidead, sethidead] = useState(true);
+    const [hidead, sethidead] = useState(true);
     const [resultview, setresultview] = useState(false);
     const [description, setdescription] = useState('');
     const [data, setdata] = useState({});
@@ -33,8 +33,8 @@ const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params 
     useEffect(() => {
         (async () => {
             let lan = await lang();
-            // let res = await disableAds();
-            // sethidead(res);
+            let res = await disableAds();
+            sethidead(res);
             setlanguage(lan);
         })();
     }, [language]);
@@ -108,7 +108,7 @@ const CalorieDescriptionScreen = ({ navigation }: { navigation: any }, { params 
                     backgroundColor: '#F4F4FE'
                 }}>
 
-                {/* {!hidead ? <Banner /> : <></>} */}
+                {!hidead ? <Banner /> : <></>}
             </View>
         </SafeAreaView>
     )

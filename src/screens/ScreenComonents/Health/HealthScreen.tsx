@@ -26,12 +26,12 @@ const ITEM_RATIO = ITEM_WIDTH / 1440;
 
 const HealthScreen = (props: any) => {
   const route = useRoute();
-  // const [hidead, sethidead] = useState(true);
+  const [hidead, sethidead] = useState(true);
   const [category, setcategory] = useState('bp');
   const [selectedmenu, setselectedmenu] = useState('health');
   const [cards, setcards] = useState(<></>);
   const [quit, setquit] = useState(false);
-  // const [showad, setshowad] = useState(false);
+  const [showad, setshowad] = useState(false);
   const [language, setlanguage] = useState({
     main: { healthTitle: '' },
     article: {
@@ -76,8 +76,8 @@ const HealthScreen = (props: any) => {
       try {
         // await analytics().logEvent('article_tab');
         let lan = await lang();
-        // let res = await disableAds();
-        // sethidead(res);
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
         setselectedmenu('health');
       } catch (e) {
@@ -136,12 +136,12 @@ const HealthScreen = (props: any) => {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.heading}>{language.main.healthTitle}</Text>
-          {/* {
+          {
             !hidead ?
               <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
                 <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
               </TouchableOpacity> : <></>
-          } */}
+          }
         </View>
 
         <View style={styles.tabMenu}>
@@ -157,7 +157,7 @@ const HealthScreen = (props: any) => {
         </ScrollView>
       </SafeAreaView>
 
-      {/* {showad == true ? (<DisplayAd _continue={()=>{setshowad(false)}} adId={INTERSITIAL_AD_ID}/>) : (<></>)} */}
+      {showad == true ? (<DisplayAd _continue={()=>{setshowad(false)}} adId={INTERSITIAL_AD_ID}/>) : (<></>)}
     </>
   );
 };

@@ -43,14 +43,14 @@ const BMIChart = (props: any) => {
   useEffect(() => {
     (async () => {
       try {
-        // let adSeen = await get_async_data('line_chart_bmi_ad');
-        // if (!props.hidead) {
-        //   let adSeen = await get_async_data('line_chart_bmi_ad');
-        //   setadSeen(adSeen);
-        // } else {
+        let adSeen = await get_async_data('line_chart_bmi_ad');
+        if (!props.hidead) {
+          let adSeen = await get_async_data('line_chart_bmi_ad');
+          setadSeen(adSeen);
+        } else {
           await set_async_data('line_chart_bmi_ad', 'seen');
           setadSeen('seen');
-        // }
+        }
 
         let chartData = await get_chart_data('bmi');
         let dataArr = [];

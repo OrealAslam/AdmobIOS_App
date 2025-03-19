@@ -12,19 +12,13 @@ const { width } = Dimensions.get('screen');
 export default function PageHeader(props: any) {
   return (
     <View style={styles.headerContainer}>
-      {/* <TouchableOpacity
-        style={{paddingHorizontal: 5}}
-        accessibilityLabel="Back"
-        onPress={()=>props.setcloseloader(true)}>
-        <Image
-          style={{width: 14, height: 14}}
-          source={require('../../../assets/images/dashboard_icons/navigate_back_new.png')}
-        />
-      </TouchableOpacity> */}
-      <Text style={styles.heading}>{props.screenTitle}</Text>
-      {/* {!props.hidead && (<TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
+      <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>props.navigation.navigate('HomeScreen', {tab: 'home'})}>
+        <Image style={{width: 7.25, height: 14}} source={require('../../../assets/images/navigateback.png')}/>
+        <Text style={styles.heading}>{props.screenTitle}</Text>
+      </TouchableOpacity>
+      {!props.hidead && (<TouchableOpacity onPress={()=>props.navigation.navigate('Subscription')}>
         <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
-      </TouchableOpacity>)} */}
+      </TouchableOpacity>)}
     </View>
   );
 }
@@ -36,7 +30,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 25,
+    paddingVertical: 10,
   },
   heading: {
     color: '#2E2E2E',

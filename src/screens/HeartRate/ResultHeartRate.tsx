@@ -117,8 +117,8 @@ export default function ResultHeartRate({ navigation }: { navigation: any }) {
             try {
                 // await analytics().logEvent('add_blood_sugar_screen');
                 let lan = await lang();
-                // let res = await disableAds();
-                // sethidead(res);
+                let res = await disableAds();
+                sethidead(res);
                 setlanguage(lan);
             } catch (e) {
                 console.log(e);
@@ -134,16 +134,16 @@ export default function ResultHeartRate({ navigation }: { navigation: any }) {
         <>
             <SafeAreaView style={styles.container}>
                 <View style={styles.headerContainer}>
-                    {/* {
+                    {
                         !hidead ?
                             <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
                                 <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
                             </TouchableOpacity> : (<></>)
-                    } */}
+                    }
                 </View>
 
                 <ScrollView style={{ flex: 1 }}>
-                    {/* <View style={styles.colouredBg}>
+                    <View style={styles.colouredBg}>
                         <TouchableOpacity
                             style={styles.ibutton}
                             onPress={() =>
@@ -186,24 +186,24 @@ export default function ResultHeartRate({ navigation }: { navigation: any }) {
                                 source={require('../../assets/icons/pointer.png')}
                             />
                         </View>
-                    </View> */}
+                    </View>
 
                     <LineChartAdComponent
                         navigation={navigation}
                         langstr={langstr}
                         showAd={showAd}
                         loader={loader}
-                        // hidead={hidead}
+                        hidead={hidead}
                     />
                     <View style={styles.NativeAd}>
-                        {/* {!hidead ? <NativeAd150 /> : <></>} */}
+                        {!hidead ? <NativeAd150 /> : <></>}
                     </View>
                     <PieChartAdComponent
                         navigation={navigation}
                         langstr={langstr}
                         showAd={showAd}
                         loader={loader}
-                        // hidead={hidead}
+                        hidead={hidead}
                     />
 
                     <View style={styles.recomandation}>

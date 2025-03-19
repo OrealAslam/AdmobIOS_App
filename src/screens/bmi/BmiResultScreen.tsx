@@ -35,7 +35,7 @@ const ratio = itemWidth / 1140;
 
 const BmiResultScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
-  // const [hidead, sethidead] = useState(true);
+  const [hidead, sethidead] = useState(true);
   const [chartPercentage, setchartPercentage] = useState(72);
   const [pressurelevel, setpressurelevel] = useState('Normal');
   const [data, setdata] = useState(77.9);
@@ -88,8 +88,8 @@ const BmiResultScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('bmi_result_screen');
         let lan = await lang();
-        // let res = await disableAds();
-        // sethidead(res);
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
         let response = await get_report(REPORT_TYPES.bmi);
         if (response) {
@@ -144,7 +144,7 @@ const BmiResultScreen = ({ navigation }: { navigation: any }) => {
           screenname={'HomeScreen'}
           screenTitle={langstr.dashobard.bmi}
           navigation={navigation}
-          // hidead={hidead}
+          hidead={hidead}
         />
         <ScrollView style={{ flex: 1 }}>
           <View style={styles.colouredBg}>
@@ -197,17 +197,17 @@ const BmiResultScreen = ({ navigation }: { navigation: any }) => {
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            // hidead={hidead}
+            hidead={hidead}
           />
           <View style={styles.NativeAd}>
-            {/* {!hidead ? <NativeAd150 /> : <></>} */}
+            {!hidead ? <NativeAd150 /> : <></>}
           </View>
           <PieChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            // hidead={hidead}
+            hidead={hidead}
           />
 
           <View style={styles.recomandation}>

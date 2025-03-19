@@ -36,7 +36,7 @@ const TrackerScreen = (props: any) => {
   const bpchartRef = useRef(<></>);
   const bschartRef = useRef(<></>);
   const bmichartRef = useRef(<></>);
-  // const [hidead, sethidead] = useState(false);
+  const [hidead, sethidead] = useState(false);
   const [selectedmenu, setselectedmenu] = useState('tracker');
   const [rate, showrate] = useState(false);
   const [language, setlanguage] = useState({
@@ -68,8 +68,8 @@ const TrackerScreen = (props: any) => {
   useEffect(() => {
     (async () => {
       let lan = await lang();
-      // let res = await disableAds();
-      // sethidead(res);
+      let res = await disableAds();
+      sethidead(res);
       setlanguage(lan);
       setselectedmenu('tracker');
     })();
@@ -257,17 +257,17 @@ const TrackerScreen = (props: any) => {
     <>
       <SafeAreaView style={styles.container}>
         {
-          // !hidead ? (
-          //   <View style={[styles.header, {justifyContent: 'flex-end'}]}>
-          //     <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
-          //       <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
-          //     </TouchableOpacity>
-          //   </View>
-          // ) : (
+          !hidead ? (
+            <View style={[styles.header, {justifyContent: 'flex-end'}]}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
+                <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
+              </TouchableOpacity>
+            </View>
+          ) : (
             <View style={styles.header}>
               <Button title="Generate PDF" onPress={generatePDF} />
             </View>
-          // )
+          )
         }
         <ScrollView style={styles.mainContainer}>
           {/* Blood Pressure */}
@@ -283,7 +283,7 @@ const TrackerScreen = (props: any) => {
               <BloodPressureChart
                 navigation={props.navigation}
                 langstr={langstr}
-                // hidead={hidead}
+                hidead={hidead}
                 loader={props.loader}
                 showAd={() => {
                   showAd('bp');
@@ -314,7 +314,7 @@ const TrackerScreen = (props: any) => {
               <BloodSugarChart
                 navigation={props.navigation}
                 langstr={langstr}
-                // hidead={hidead}
+                hidead={hidead}
                 loader={props.loader}
                 showAd={() => {
                   showAd('bs');
@@ -344,7 +344,7 @@ const TrackerScreen = (props: any) => {
               <BMIChart
                 navigation={props.navigation}
                 langstr={langstr}
-                // hidead={hidead}
+                hidead={hidead}
                 loader={props.loader}
                 showAd={() => {
                   showAd('bmi');

@@ -638,6 +638,7 @@ export const fetchAvailablePurchases = async () => {
 
 export const disableAds = async () => {
   let purchase = await get_async_data('subscription');
+  
   let subscriptionActive = await get_async_data('subscription_active');
   if (purchase && parseInt(purchase.length) > 0) {
     if(subscriptionActive) {

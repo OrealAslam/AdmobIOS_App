@@ -60,7 +60,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
   const [unit, setunit] = useState('°F');
   const [chartPercentage, setchartPercentage] = useState(26);
   const [save, setsave] = useState(false);
-  // const [hidead, sethidead] = useState(true);
+  const [hidead, sethidead] = useState(true);
   const [loader, setloader] = useState(false);
   const today = moment(new Date()).format('YYYY-MM-DD');
   useEffect(() => {
@@ -68,8 +68,8 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('add_blood_sugar');
         let lan = await lang();
-        // let res = await disableAds();
-        // sethidead(res);
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -174,7 +174,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
             <PageHeader
               screenTitle={langstr.dashobard.temperature}
               navigation={navigation}
-              // hidead={hidead}
+              hidead={hidead}
             />
 
             <DateTimeComponent
@@ -312,7 +312,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
               disablesavebtn={disablesavebtn}
               langstr={langstr}
               _continue={_continue}
-              // hidead={hidead}
+              hidead={hidead}
               setsave={setsave}
               setloader={setloader}
               status={message}
@@ -320,7 +320,7 @@ const TemperatureScreen = ({ navigation }: { navigation: any }) => {
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
-      {/* {!hidead && <Banner />} */}
+      {!hidead && <Banner />}
       {save == true ? (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />) : (<></>)}
     </>
   );

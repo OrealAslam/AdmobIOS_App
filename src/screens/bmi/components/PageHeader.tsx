@@ -17,13 +17,16 @@ export default function PageHeader(props: any) {
 
   return (
     <View style={styles.headerContainer}>
-      <Text style={styles.heading}>{props.screenTitle}</Text>
-      {/* {
+      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => props.navigation.navigate('HomeScreen', { tab: 'tracker' })}>
+        <Image style={{ width: 7.25, height: 14 }} source={require('../../../assets/images/navigateback.png')} />
+        <Text style={styles.heading}>{props.screenTitle}</Text>
+      </TouchableOpacity>
+      {
         !props.hidead ?
           <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
           </TouchableOpacity> : <></>
-      } */}
+      }
     </View>
   );
 }

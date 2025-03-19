@@ -72,7 +72,7 @@ const AboutUs = ({ navigation }: { navigation: any }) => {
             />
           </TouchableOpacity>
         </View> */}
-          <Text style={styles.heading}>{title}</Text>
+          {/* <Text style={styles.heading}>{title}</Text> */}
           {prembtn && (<TouchableOpacity onPress={()=>navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../assets/images/premium.png')} />
           </TouchableOpacity>)}

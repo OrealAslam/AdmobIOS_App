@@ -67,18 +67,18 @@ export default function SaveButton(props: any) {
         let saveData = sys + `/` + dis;
         await set_async_data('record_bp', saveData.toString());
         setloader(false);
-        // if (!props.hidead) {
-        //   props.setsave(true);
-        // } else {
-        //   props.setsave(false);
+        if (!props.hidead) {
+          props.setsave(true);
+        } else {
+          props.setsave(false);
           await props._continue();
-        // }
+        }
       }
       // }
     }
     if (props.screenname == 'BloodSugar') {
       props.setmessage(false);
-      // props.setloader(true);
+      props.setloader(true);
       let choosenDate =
         props.selectedDate == '' ? props.today : props.selectedDate;
       let datetime = choosenDate + ' ' + moment(props.time).format('HH:mm:ss');
@@ -95,12 +95,12 @@ export default function SaveButton(props: any) {
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_bs', props.sugarconcentration.toString());
         setloader(false);
-        // if (!props.hidead) {
-        //   props.setsave(true);
-        // } else {
-        //   props.setsave(false);
+        if (!props.hidead) {
+          props.setsave(true);
+        } else {
+          props.setsave(false);
           await props._continue();
-        // }
+        }
       }
     }
     if (props.screenname == 'Temperature') {
@@ -110,13 +110,13 @@ export default function SaveButton(props: any) {
         setloader(false);
       } else {
         props.setmessage(false);
-        // props.setloader(true);
+        props.setloader(true);
         if (props.tempunit == '°C') {
           if (props.temperature > 38 || props.temperature < 36) {
             Alert.alert(
               'Must be within 36.1 ~ 38',
             );
-            // props.setloader(false);
+            props.setloader(false);
             setloader(false);
           } else {
             let choosenDate =
@@ -136,12 +136,12 @@ export default function SaveButton(props: any) {
               let e = props.temperature + props.tempunit;
               await set_async_data('record_temp', e.toString());
               setloader(false);
-              // if (!props.hidead) {
-              //   props.setsave(true);
-              // } else {
-              //   props.setsave(false);
+              if (!props.hidead) {
+                props.setsave(true);
+              } else {
+                props.setsave(false);
                 await props._continue();
-              // }
+              }
             }
           }
         }
@@ -150,7 +150,7 @@ export default function SaveButton(props: any) {
             Alert.alert(
               'Must be within 96 ~ 104'
             );
-            // props.setloader(false);
+            props.setloader(false);
             setloader(false);
           } else {
             let choosenDate =
@@ -166,24 +166,24 @@ export default function SaveButton(props: any) {
             };
             let response = await add_report(data);
             if (response) {
-              // props.setloader(false);
+              props.setloader(false);
               setloader(false);
               let e = props.temperature + props.tempunit;
               await set_async_data('record_temp', e.toString());
               setloader(false);
-              // if (!props.hidead) {
-              //   props.setsave(true);
-              // } else {
-                // props.setsave(false);
+              if (!props.hidead) {
+                props.setsave(true);
+              } else {
+                props.setsave(false);
                 await props._continue();
-              // }
+              }
             }
           }
         }
       }
     }
     if (props.screenname == 'Bmi') {
-      // props.setloader(true);
+      props.setloader(true);
       let data = {
         report_type: REPORT_TYPES.bmi,
         sugar_concentration: '',
@@ -198,17 +198,17 @@ export default function SaveButton(props: any) {
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_bmi', props.bmi.toString());
         setloader(false);
-        // if (!props.hidead) {
-        //   props.setsave(true);
-        // } else {
-        //   props.setsave(false);
+        if (!props.hidead) {
+          props.setsave(true);
+        } else {
+          props.setsave(false);
           await props._continue();
-        // }
+        }
       }
     }
     if (props.screenname == 'HeartRate') {
       props.setmessage(false);
-      // props.setloader(true);
+      props.setloader(true);
       let choosenDate =
         props.selectedDate == '' ? props.today : props.selectedDate;
       let datetime = choosenDate + ' ' + moment(props.time).format('HH:mm:ss');
@@ -224,12 +224,12 @@ export default function SaveButton(props: any) {
         setloader(false);
         await set_async_data('record_entry', 'record_entered');
         await set_async_data('record_heart_rate', props.heartRate.toString());
-        // if (!props.hidead) {
-          // props.setsave(true);
-        // } else {
-          // props.setsave(false);
+        if (!props.hidead) {
+          props.setsave(true);
+        } else {
+          props.setsave(false);
           await props._continue();
-        // }
+        }
       }
     }
   };

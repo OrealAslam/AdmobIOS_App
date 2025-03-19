@@ -25,39 +25,39 @@ const LineChartAdComponent = (props: any) => {
   const [adSeen, setadSeen] = useState('');
 
   useEffect(() => {
-    // (async () => {
-    //   try {
-    //     if (!props.hidead) {
-    //       if (props.loader == false) {
-    //         let adSeen = await get_async_data('line_chart_temp_ad');
-    //         console.log('ÄAAAA', adSeen);
-    //         setadSeen(adSeen);
-    //       }
-    //     } else {
+    (async () => {
+      try {
+        if (!props.hidead) {
+          if (props.loader == false) {
+            let adSeen = await get_async_data('line_chart_temp_ad');
+            console.log('ÄAAAA', adSeen);
+            setadSeen(adSeen);
+          }
+        } else {
           setadSeen('seen');
-    //     }
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // })();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    })();
   }, [isFocused, adSeen, props.loader]);
 
   return (
     <>
-      {/* {adSeen == 'seen' || props.hidead ? ( */}
+      {adSeen == 'seen' || props.hidead ? (
         <>
           <View style={styles.chartContainer}>
             <Chart />
           </View>
           <TouchableOpacity
-            style={[styles.btn, { backgroundColor: '#7ADC57', marginBottom: 10, borderRadius:32, justifyContent: 'center', alignItems: 'center' }]}
+            style={[styles.btn, { backgroundColor: '#7ADC57', marginBottom: 10, borderRadius: 32, justifyContent: 'center', alignItems: 'center' }]}
             onPress={() => {
               props.navigation.navigate('TemperatureScreen');
             }}>
             <Text style={styles.btnText}>{props.langstr.main.add}</Text>
           </TouchableOpacity>
         </>
-      {/* ) : (
+      ) : (
         <ImageBackground
           style={styles.adImage}
           source={require('../../../assets/icons/line_chart_ad.png')}>
@@ -89,7 +89,7 @@ const LineChartAdComponent = (props: any) => {
             </Text>
           </TouchableOpacity>
         </ImageBackground>
-      )} */}
+      )}
     </>
   );
 };

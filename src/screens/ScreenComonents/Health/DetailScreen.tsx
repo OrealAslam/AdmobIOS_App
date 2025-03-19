@@ -31,7 +31,7 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
   const isFocused = useIsFocused();
   const scrollRef = useRef(null);
   const [quesid, setquesid] = useState(null);
-  // const [shownative, setshownative] = useState(false);
+  const [shownative, setshownative] = useState(false);
   const [category, setcategory] = useState('');
   const [background, setbackground] = useState(
     require('../../../assets/blogImages/backgroundImages/bp1.png'),
@@ -167,8 +167,8 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
     (async () => {
       try {
         let lan = await lang();
-        // let subscription = await get_async_data('subscription_active');
-        // setshownative(subscription.length > 0 ? false : true);
+        let subscription = await get_async_data('subscription_active');
+        setshownative(subscription.length > 0 ? false : true);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -258,9 +258,9 @@ const DetailScreen = ({ navigation }: { navigation: any }) => {
           ref={scrollRef}
           style={{ paddingBottom: 20, maxHeight: '75%' }}
           showsVerticalScrollIndicator={false}>
-          {/* {shownative && (<View style={styles.nativeContainer}>
+          {shownative && (<View style={styles.nativeContainer}>
             <NativeAd150 />
-          </View>)} */}
+          </View>)}
           <Text style={styles.description}>{subtitle}</Text>
           <View style={styles.subDescriptionContainer}>
             {showSubDescription()}

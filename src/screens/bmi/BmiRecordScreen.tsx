@@ -33,7 +33,7 @@ const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
 const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
-  // const [hidead, sethidead] = useState(true);
+  const [hidead, sethidead] = useState(true);
   const [card, setcard] = useState('male');
   const [weight, setweight] = useState(70);
   const [height, setheight] = useState(172);
@@ -115,8 +115,9 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('add_bmi_screen');
         let lan = await lang();
-        // let res = await disableAds();
-        // sethidead(res);
+        let res = await disableAds();
+
+        sethidead(res);
         setlanguage(lan);
       } catch (e) {
         console.log(e);
@@ -152,14 +153,14 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
   return (
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FFF8' }}>
-        <View style={styles.header}>
-        <Text style={styles.heading}>{langstr.dashobard.bmi}</Text>
-          {/* {
-            !hidead ?
-              <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
-                <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
-              </TouchableOpacity> : <></>
-          } */}
+        <View style={styles.headerContainer}>
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate('HomeScreen', { tab: 'home' })}>
+            <Image style={{ width: 7.25, height: 14 }} source={require('../../assets/images/navigateback.png')} />
+            <Text style={styles.heading}>{langstr.dashobard.bmi}</Text>
+          </TouchableOpacity>
+          {!hidead && (<TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
+            <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
+          </TouchableOpacity>)}
         </View>
 
         <View style={styles.cardContainer}>
@@ -232,24 +233,31 @@ const BmiRecordScreen = ({ navigation }: { navigation: any }) => {
             bmi={bmi.toFixed(3)}
             _continue={_continue}
             setloader={setloader}
-            // hidead={hidead}
+            hidead={hidead}
           />
         )}
       </SafeAreaView>
-      {/* {!hidead ? <Banner /> : <></>} */}
+      {!hidead ? <Banner /> : <></>}
       {/* {loader && <LoadingAnimation iconType={'tick'} />} */}
       {save == true ? (<DisplayAd _continue={_continue} setloader={setloader} adId={INTERSITIAL_AD_ID} />) : (<></>)}
     </>
   );
 };
 const styles = StyleSheet.create({
-  header: {
+  headerContainer: {
+    width: width,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    verticalAlign: 'middle',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 12
+    paddingVertical: 10,
+  },
+  heading: {
+    color: '#2E2E2E',
+    fontSize: 20,
+    fontStyle: 'normal',
+    fontFamily: 'Montserrat-Bold',
+    marginLeft: 15,
   },
   col: {
     flexDirection: 'row',

@@ -5,13 +5,16 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  ActivityIndicator
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { generateFCM, set_async_data } from '../Helper/AppHelper';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
+import DisplayAd from '../components/DisplayAd';
+import { INTERSITIAL_AD_ID } from '../Helper/AdManager';
 // import analytics from '@react-native-firebase/analytics';
 
 const { width, height } = Dimensions.get('screen');
@@ -21,6 +24,7 @@ const VECTOR_RATIO = VECTOR_WIDTH / 1064;
 
 const BoardingDesclaimer = ({ navigation }: { navigation: any }) => {
   const route = useRoute();
+  const [loader, setloader] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +38,7 @@ const BoardingDesclaimer = ({ navigation }: { navigation: any }) => {
 
   const _continue = async () => {
     await createUser();
+    setloader(false);
     await set_async_data('report', []);
     await set_async_data('diet_report', [{
       carbohydrates_total_g: 0,
@@ -65,13 +70,23 @@ const BoardingDesclaimer = ({ navigation }: { navigation: any }) => {
         {route.params?.lang.boarding.boarding2subtitle}
       </Text>
 
-      <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
-        end={{ x: 2, y: 2 }}>
-        <TouchableOpacity onPress={_continue}>
-          <Text style={styles.text}>{route.params?.lang.boarding.letsgo}</Text>
-        </TouchableOpacity>
-      </LinearGradient>
+      {loader == true ? (
+        <ActivityIndicator
+          size={'large'}
+          color={'#f4e1e1'}
+          style={{ alignSelf: 'center', top: 15 }}
+        />
+      ) : (
+        <LinearGradient colors={['#7ADC57', '#5DC983']} style={styles.btn} start={{ x: 0, y: 0 }}
+          end={{ x: 2, y: 2 }}>
+          <TouchableOpacity onPress={() => setloader(true)}>
+            <Text style={styles.text}>{route.params?.lang.boarding.letsgo}</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      )}
 
+
+      {loader && <DisplayAd _continue={_continue} adId={INTERSITIAL_AD_ID} />}
     </SafeAreaView>
   );
 };

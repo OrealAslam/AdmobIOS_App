@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import QuitAppModal from './QuitAppModal';
+import { Banner } from '../Helper/AdManager';
 const { width } = Dimensions.get('window');
 const ICON_WIDTH = width / 5 - 40;
 const ICON_RATIO = ICON_WIDTH / 193;
@@ -106,6 +107,7 @@ const BottomMenu = (props: any) => {
           paddingBottom: 15
         }}>
         {menu()}
+        <Banner />
       </View>
       {quit == true ? <QuitAppModal setquit={setquit} /> : <></>}
     </>

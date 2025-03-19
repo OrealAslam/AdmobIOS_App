@@ -30,24 +30,24 @@ const LineChartAdComponent = (props: any) => {
 
   useEffect(() => {
     (async () => {
-      // try {
-      //   if (!props.hidead) {
-      //     if (props.loader == false) {
-      //       let adSeen = await get_async_data('line_chart_bp_ad');
-      //       setadSeen(adSeen);
-      //     } else {
+      try {
+        if (!props.hidead) {
+          if (props.loader == false) {
+            let adSeen = await get_async_data('line_chart_bp_ad');
+            setadSeen(adSeen);
+          } else {
             setadSeen('seen');
-      //     }
-      //   }
-      // } catch (e) {
-      //   console.log(e);
-      // }
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
     })();
   }, [isFocused, adSeen, props.loader, props.rate]);
 
   return (
     <>
-      {/* {adSeen == 'seen' || props.hidead ? ( */}
+      {adSeen == 'seen' || props.hidead ? (
         <>
           <View style={styles.chartContainer}>
             <Chart />
@@ -60,7 +60,7 @@ const LineChartAdComponent = (props: any) => {
             <Text style={styles.btnText}>{props.langstr.main.add}</Text>
           </TouchableOpacity>
         </>
-      {/* ) : (
+      ) : (
         <ImageBackground
           style={styles.adImage}
           source={require('../../../assets/icons/bp_line_chart.png')}>
@@ -91,7 +91,7 @@ const LineChartAdComponent = (props: any) => {
             </Text>
           </TouchableOpacity>
         </ImageBackground>
-      )} */}
+      )}
     </>
   );
 };

@@ -53,13 +53,13 @@ const BloodPressureChart = (props: any) => {
           // record added already
           setbtnType('Unlock');
         }
-        // if (!props.hidead) {
-        //   let adSeen = await get_async_data('line_chart_bp_ad');
-        //   setadSeen(adSeen);
-        // } else {
+        if (!props.hidead) {
+          let adSeen = await get_async_data('line_chart_bp_ad');
+          setadSeen(adSeen);
+        } else {
           await set_async_data('line_chart_bp_ad', 'seen');
           setadSeen('seen');
-        // }
+        }
         let chartData = await get_chart_data('bp');
         let dataArr = [];
         let limit =
@@ -132,7 +132,7 @@ const BloodPressureChart = (props: any) => {
 
   // Capture the chart as an image
   const captureChart = async () => {
-    chartRef.current.capture().then((uri) => {
+    chartRef.current.capture().then((uri:any) => {
       setChartImage(uri); // Set the captured image URI
       console.log('Captured chart image URI:', uri);
     });

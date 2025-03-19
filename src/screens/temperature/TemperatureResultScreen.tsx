@@ -52,8 +52,8 @@ const TemperatureResultScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('temperature_result_screen');
         let lan = await lang();
-        // let res = await disableAds();
-        // sethidead(res);
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
         let response = await get_report(REPORT_TYPES.temperature);
         if (response) {
@@ -96,11 +96,15 @@ const TemperatureResultScreen = ({ navigation }: { navigation: any }) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          {/* {!hidead ?
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.navigate('HomeScreen', { tab: 'tracker' })}>
+            <Image style={{ width: 7.25, height: 14 }} source={require('../../assets/images/navigateback.png')} />
+            <Text style={styles.heading}>{langstr.dashobard.temperature}</Text>
+          </TouchableOpacity>
+          {!hidead ?
             <TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
               <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
             </TouchableOpacity> : <></>
-          } */}
+          }
         </View>
         <ScrollView style={{ flex: 1 }}>
           <LineChartAdComponent
@@ -108,17 +112,17 @@ const TemperatureResultScreen = ({ navigation }: { navigation: any }) => {
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            // hidead={hidead}
+            hidead={hidead}
           />
           <View style={styles.NativeAd}>
-            {/* {!hidead ? <NativeAd150 /> : <></>} */}
+            {!hidead ? <NativeAd150 /> : <></>}
           </View>
           <PieChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            // hidead={hidead}
+            hidead={hidead}
           />
           {/* <View style={[styles.NativeAd, { marginTop: 20 }]}>
             <NativeAd150 adId={NATIVE_AD_ID_TWO} />
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
     width: width,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 25,
   },

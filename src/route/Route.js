@@ -25,7 +25,7 @@ export default function Route(props) {
       <Stack.Screen
         name="BoardingDesclaimer"
         component={BoardingDesclaimer}
-        options={{headerShown: false,animationenabled: false}}
+        options={{headerShown: true,animationenabled: false, headerBackButtonDisplayMode: 'generic'}}
       />
       <Stack.Screen
         name="AdLoading"

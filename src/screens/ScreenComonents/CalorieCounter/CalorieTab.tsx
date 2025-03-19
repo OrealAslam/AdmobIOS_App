@@ -7,7 +7,7 @@ import { lang } from '../../../../global';
 const { width, height } = Dimensions.get('screen');
 
 const CalorieTab = (props: any) => {
-    // const [hidead, sethidead] = useState(true);
+    const [hidead, sethidead] = useState(true);
     const [language, setlanguage] = useState({
         calDesc: {
             title: '',
@@ -26,8 +26,8 @@ const CalorieTab = (props: any) => {
     useEffect(() => {
         (async () => {
             let lan = await lang();
-            // let res = await disableAds();
-            // sethidead(res);
+            let res = await disableAds();
+            sethidead(res);
             setlanguage(lan);
             let record = await get_async_data('diet_report');
             let newCalories = total_calorie_data(record);
@@ -93,12 +93,12 @@ const CalorieTab = (props: any) => {
             {/* HEADER */}
             <View style={styles.headerContainer}>
                 <Text style={styles.heading}>{language.main.calorieTitle}</Text>
-                {/* {
+                {
                     !hidead ?
                         <TouchableOpacity onPress={() => props.navigation.navigate('Subscription')}>
                             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../../assets/images/premium.png')} />
                         </TouchableOpacity> : <></>
-                } */}
+                }
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>

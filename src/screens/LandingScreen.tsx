@@ -125,14 +125,14 @@ const LandingScreen = ({ navigation }: { navigation: any }) => {
   };
 
   return <>
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F8FFF8' }}>
+    <View style={{ flex: 1, backgroundColor: '#F8FFF8', paddingTop: 15 }}>
       {component()}
       <BottomMenu
         subscribe_flag={route.params}
         setselectedmenu={setselectedmenu}
         selectedmenu={selectedmenu}
       />
-    </SafeAreaView>
+    </View>
     {loader && <DisplayAd setloader={setloader} _continue={_continue} />}
   </>;
 };

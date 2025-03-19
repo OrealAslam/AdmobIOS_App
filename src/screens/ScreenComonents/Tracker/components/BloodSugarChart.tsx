@@ -43,13 +43,13 @@ const BloodSugarChart = (props: any) => {
   useEffect(() => {
     (async () => {
       try {
-        // if (!props.hidead) {
-        //   let adSeen = await get_async_data('line_chart_bs_ad');
-        //   setadSeen(adSeen);
-        // } else {
+        if (!props.hidead) {
+          let adSeen = await get_async_data('line_chart_bs_ad');
+          setadSeen(adSeen);
+        } else {
           await set_async_data('line_chart_bs_ad', 'seen');
           setadSeen('seen');
-        // }
+        }
 
         let sugarChart = await get_chart_data('sugar');
         if (sugarChart.data.length < 1) {

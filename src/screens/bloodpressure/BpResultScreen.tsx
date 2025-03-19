@@ -14,8 +14,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import LineChartAdComponent from './components/LineChartAdComponent';
 import PieChartAdComponent from './components/PieChartAdComponent';
 import Recomandations from '../../components/Recomandations';
-// import { NativeAd150 } from '../../Helper/NativeAd150';
-import { REPORT_TYPES, disableAds, get_report, set_async_data } from '../../Helper/AppHelper';
+import { NativeAd150 } from '../../Helper/NativeAd150';
+import { REPORT_TYPES, disableAds, get_async_data, get_report, set_async_data } from '../../Helper/AppHelper';
 // import analytics from '@react-native-firebase/analytics';
 import { lang } from '../../../global';
 import {
@@ -33,12 +33,13 @@ const itemWidth = width - 80;
 const ratio = itemWidth / 1140;
 
 const BpResultScreen = ({ navigation }: { navigation: any }) => {
-  // const [hidead, sethidead] = useState(true);
+  const [hidead, sethidead] = useState(true);
   const [chartPercentage, setchartPercentage] = useState(8);
   const [pressurelevel, setpressurelevel] = useState('Normal');
   const [data, setdata] = useState(['', '']);
   const [loader, setloader] = useState(false);
   const [unlockadtype, setunlockadtype] = useState('');
+  const [appopenloader, setappopenloader] = useState(false);
   const [back, setback] = useState(false);
   const [rate, showrate] = useState(false);
   const [language, setlanguage] = useState({
@@ -68,6 +69,16 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
     article: { articledata: {} },
   });
 
+  const backAction = () => {
+    setback(true);
+    return true;
+  };
+
+  const backHandler = BackHandler.addEventListener(
+    'hardwareBackPress',
+    backAction,
+  );
+
   const adjustBar = useMemo(() => {
     let sys = parseInt(data[0]);
     let dis = parseInt(data[1]);
@@ -76,7 +87,7 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
       setpressurelevel('Hypertensive');
       setchartPercentage(78);
       return;
-    }else if ((sys >= 140 && sys <= 180) || (dis >= 90 && dis <= 120)) {
+    } else if ((sys >= 140 && sys <= 180) || (dis >= 90 && dis <= 120)) {
       setpressurelevel('Hypertension-Stage 2');
       setchartPercentage(63);
       return;
@@ -105,8 +116,8 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
       try {
         // await analytics().logEvent('bp_result_screen');
         let lan = await lang();
-        // let res = await disableAds();
-        // sethidead(res);
+        let res = await disableAds();
+        sethidead(res);
         setlanguage(lan);
         let response = await get_report(REPORT_TYPES.bp);
         if (response) {
@@ -158,9 +169,10 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.headerContainer}>
-          {/* {!hidead && (<TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
+          {/* <Text style={styles.heading}>{langstr.dashobard.bp}</Text> */}
+          {!hidead && (<TouchableOpacity onPress={() => navigation.navigate('Subscription')}>
             <Image style={{ width: 128, height: 42, resizeMode: 'contain' }} source={require('../../assets/images/premium.png')} />
-          </TouchableOpacity>)} */}
+          </TouchableOpacity>)}
         </View>
         <ScrollView style={{ flex: 1 }}>
           <View style={styles.colouredBg}>
@@ -213,18 +225,18 @@ const BpResultScreen = ({ navigation }: { navigation: any }) => {
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            // hidead={hidead}
+            hidead={hidead}
             rate={rate}
           />
           <View style={styles.NativeAd}>
-            {/* {!hidead && <NativeAd150 />} */}
+            {!hidead && <NativeAd150 />}
           </View>
           <PieChartAdComponent
             navigation={navigation}
             langstr={langstr}
             showAd={showAd}
             loader={loader}
-            // hidead={hidead}
+            hidead={hidead}
             rate={rate}
           />
 
@@ -256,7 +268,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingVertical: 25,
+    paddingBottom: 25,
   },
   heading: {
     color: '#2E2E2E',

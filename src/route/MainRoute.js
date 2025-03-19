@@ -67,7 +67,7 @@ export default function MainRoute() {
       <Stack.Screen
         name="BloodPressure"
         component={BloodPressure}
-        options={{ headerShown: false, animationenabled: false }}
+        options={{ headerShown: false, headerTitle: '', animationenabled: false }}
       />
       <Stack.Screen
         name="BpBridgeScreen"
@@ -77,7 +77,7 @@ export default function MainRoute() {
       <Stack.Screen
         name="AddNewBloodPressureScreen"
         component={AddNewBloodPressureScreen}
-        options={{ headerShown: false, animationenabled: false }}
+        options={{ headerShown: true, animationenabled: false }}
       />
       <Stack.Screen
         name="AddNewBloodSugarScreen"
@@ -87,7 +87,7 @@ export default function MainRoute() {
       <Stack.Screen
         name="BpResultScreen"
         component={BpResultScreen}
-        options={{ headerShown: false, animationenabled: false }}
+        options={{ headerShown: false, headerTitle: '', animationenabled: false }}
       />
 
       <Stack.Screen
@@ -123,12 +123,12 @@ export default function MainRoute() {
       <Stack.Screen
         name="RecordHeartRate"
         component={RecordHeartRate}
-        options={{ headerShown: false, animationenabled: false }}
+        options={{ headerShown: true, headerTitle:'', animationenabled: false }}
       />
       <Stack.Screen
         name="ResultHeartRate"
         component={ResultHeartRate}
-        options={{ headerShown: false, animationenabled: false }}
+        options={{ headerShown: true, animationenabled: false }}
       />
       <Stack.Screen
         name="BmiRecordScreen"
